@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nihongo Dojo - Belajar Bahasa Jepang N5 & N4</title>
+<style>
+:root{--bg:#fff5f8;--card:#fff;--tx:#3b2a33;--mut:#8a7580;--ac:#e8638b;--bd:#f3cfdb;--ok:#2fa36b;--no:#d9473f;--r:18px;--bt:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+[data-t=neon]{--bg:#0d0b1e;--card:#171433;--tx:#eaf0ff;--mut:#8f93c9;--ac:#00e5ff;--bd:#322a6b;--ok:#39ff88;--no:#ff4d8d;--bt:#06121a}
+[data-t=washi]{--bg:#f4efe6;--card:#fbf8f2;--tx:#2b2b2b;--mut:#7a7468;--ac:#b23a2e;--bd:#d9ceba;--ok:#4a7a4f;--no:#b23a2e;--r:4px}
+[data-t=pop]{--bg:#f1fbea;--card:#fff;--tx:#25301f;--mut:#6b7d60;--ac:#58cc02;--bd:#b9e88f;--ok:#58cc02;--no:#ff4b4b;--r:20px}
+[data-t=pop] .card,[data-t=pop] .btn,[data-t=pop] .opt{border-bottom-width:5px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif}
+header,nav,main{max-width:900px;margin:0 auto;padding-left:16px;padding-right:16px}
+header{display:flex;justify-content:space-between;align-items:center;padding-top:12px;padding-bottom:8px}
+header b{font-size:19px;color:var(--ac)}
+.dots{display:flex;gap:8px}.dot{width:26px;height:26px;border-radius:50%;border:3px solid var(--bd);cursor:pointer;padding:0}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+nav button,.tab,.chip{font:inherit;border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap}
+nav button{flex:1}
+nav button.on,.tab.on,.chip.on{background:var(--ac);border-color:var(--ac);color:var(--bt);font-weight:700}
+main{padding-top:8px;padding-bottom:40px}
+h1{margin:0;font-size:30px;color:var(--ac)}h2{margin:26px 0 8px}h3{margin:20px 0 8px}h3 small{color:var(--mut);margin-left:6px}
+h3 em{display:block;font-size:13px;font-weight:400;color:var(--mut);font-style:normal}
+.tabs,.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chip{padding:4px 12px;font-size:14px}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:var(--r);padding:16px}
+.c{text-align:center}.mut{color:var(--mut);font-size:14px}.rv{font-size:14px;color:var(--mut)}
+.big{font-size:clamp(32px,9vw,56px);font-weight:700;color:var(--ac);line-height:1.2}.sub{color:var(--mut);margin-top:6px}
+.fc{min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;margin-top:8px}
+.btn{font:inherit;font-weight:700;background:var(--ac);color:var(--bt);border:2px solid var(--ac);border-radius:var(--r);padding:10px 20px;cursor:pointer;margin-top:12px}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.no{background:var(--no);border-color:var(--no);color:#fff}
+.row{display:flex;gap:10px}.row .btn{flex:1}
+.kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
+.k{background:var(--card);border:2px solid var(--bd);border-radius:var(--r);text-align:center;padding:8px 2px}
+.k b{font-size:26px;display:block;color:var(--ac)}.k span{font-size:12px;color:var(--mut)}
+.w{display:grid;grid-template-columns:1.2fr 1fr 1.4fr;gap:8px;padding:8px 10px;border-bottom:1px solid var(--bd)}
+.w b{color:var(--ac)}.w span{color:var(--mut)}.w i{font-style:normal}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.opt{font:inherit;font-size:17px;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:var(--r);padding:14px 8px;cursor:pointer}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}.opt.no{background:var(--no);border-color:var(--no);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.st{font:inherit;color:var(--tx);cursor:pointer;text-align:center;display:flex;flex-direction:column;gap:2px}.st b{font-size:24px;color:var(--ac)}.st i{font-style:normal;font-size:13px;color:var(--mut)}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.pg .card{padding:12px}.pc{font-size:30px;font-weight:700;color:var(--ac)}.pc small{font-size:14px;color:var(--mut);margin-left:6px}
+.ex{background:var(--bg);border-radius:8px;padding:6px 10px;margin-top:6px;font-size:14px}
+.sn{margin-bottom:10px}.sn code{display:block;background:var(--bg);border-radius:8px;padding:8px 10px;margin:6px 0;font-size:14px;white-space:normal}
+@media(max-width:520px){.w{grid-template-columns:1fr 1fr}.w i{grid-column:1/3}}
+</style></head><body>
+<header><b>日本語 道場 · Nihongo Dojo</b><div class="dots" id="dots"></div></header>
+<nav><button data-p="dash" onclick="go('dash')">Dashboard</button><button data-p="hira" onclick="go('hira')">ひらがな</button><button data-p="kata" onclick="go('kata')">カタカナ</button><button data-p="koto" onclick="go('koto')">ことば</button></nav>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),sp=s=>s.includes(' ')?s.split(' '):[...s],kt=s=>[...s].map(c=>String.fromCharCode(c.charCodeAt(0)+96)).join(''),sh=a=>[...a].sort(()=>Math.random()-.5);
+const KG={
+Seion:['あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん','a i u e o ka ki ku ke ko sa shi su se so ta chi tsu te to na ni nu ne no ha hi fu he ho ma mi mu me mo ya yu yo ra ri ru re ro wa wo n'],
+Dakuon:['がぎぐげござじずぜぞだぢづでどばびぶべぼ','ga gi gu ge go za ji zu ze zo da ji zu de do ba bi bu be bo'],
+Handakuon:['ぱぴぷぺぽ','pa pi pu pe po'],
+Youon:['きゃ きゅ きょ しゃ しゅ しょ ちゃ ちゅ ちょ にゃ にゅ にょ ひゃ ひゅ ひょ みゃ みゅ みょ りゃ りゅ りょ ぎゃ ぎゅ ぎょ じゃ じゅ じょ びゃ びゅ びょ ぴゃ ぴゅ ぴょ','kya kyu kyo sha shu sho cha chu cho nya nyu nyo hya hyu hyo mya myu myo rya ryu ryo gya gyu gyo ja ju jo bya byu byo pya pyu pyo']};
+const NOTE={Seion:'Huruf dasar (46). Hafalkan per baris: a-i-u-e-o, ka-ki-ku-ke-ko, dst.',Dakuon:'Huruf dasar + tanda ゛(tenten) jadi bunyi bersuara: k→g, s→z, t→d, h→b. ぢ & づ bunyinya sama dengan じ & ず (jarang dipakai).',Handakuon:'Baris H + tanda ゜(maru) jadi bunyi P.',Youon:'Huruf berakhiran i + ゃ/ゅ/ょ kecil = satu suku kata. Contoh: き + ゃ = きゃ (kya), bukan ki-ya.'};
+const KD=k=>Object.entries(KG).flatMap(([g,[a,b]])=>{const A=sp(a),B=b.split(' ');return A.map((c,i)=>({f:k?kt(c):c,b:B[i],g}))});
+const KT=`Angka
+いち|ichi|satu
+に|ni|dua
+さん|san|tiga
+よん|yon|empat
+ご|go|lima
+ろく|roku|enam
+なな|nana|tujuh
+はち|hachi|delapan
+きゅう|kyuu|sembilan
+じゅう|juu|sepuluh
+ひゃく|hyaku|seratus
+せん|sen|seribu
+ぜろ|zero|nol
+Salam & Ungkapan
+おはよう|ohayou|selamat pagi
+こんにちは|konnichiwa|halo / selamat siang
+こんばんは|konbanwa|selamat malam
+さようなら|sayounara|selamat tinggal
+ありがとう|arigatou|terima kasih
+すみません|sumimasen|maaf / permisi
+ごめんなさい|gomennasai|maaf
+おねがいします|onegaishimasu|tolong / mohon
+はい|hai|ya
+いいえ|iie|tidak
+いただきます|itadakimasu|selamat makan
+ごちそうさま|gochisousama|terima kasih makanannya
+おやすみ|oyasumi|selamat tidur
+はじめまして|hajimemashite|salam kenal
+いってきます|ittekimasu|saya berangkat
+ただいま|tadaima|saya pulang
+だいじょうぶ|daijoubu|tidak apa-apa
+Orang & Keluarga
+わたし|watashi|saya
+あなた|anata|kamu
+ひと|hito|orang
+せんせい|sensei|guru
+がくせい|gakusei|pelajar
+ともだち|tomodachi|teman
+かぞく|kazoku|keluarga
+ちち|chichi|ayah (sendiri)
+はは|haha|ibu (sendiri)
+おとうさん|otousan|ayah (orang lain)
+おかあさん|okaasan|ibu (orang lain)
+あに|ani|kakak laki-laki
+あね|ane|kakak perempuan
+おとうと|otouto|adik laki-laki
+いもうと|imouto|adik perempuan
+おじいさん|ojiisan|kakek
+おばあさん|obaasan|nenek
+こども|kodomo|anak
+おとこ|otoko|laki-laki
+おんな|onna|perempuan
+Waktu
+いま|ima|sekarang
+きょう|kyou|hari ini
+あした|ashita|besok
+きのう|kinou|kemarin
+まいにち|mainichi|setiap hari
+あさ|asa|pagi
+ひる|hiru|siang
+ばん|ban|malam
+ごぜん|gozen|AM / pagi
+ごご|gogo|PM / sore
+こんしゅう|konshuu|minggu ini
+らいしゅう|raishuu|minggu depan
+せんしゅう|senshuu|minggu lalu
+ことし|kotoshi|tahun ini
+らいねん|rainen|tahun depan
+きょねん|kyonen|tahun lalu
+げつようび|getsuyoubi|Senin
+かようび|kayoubi|Selasa
+すいようび|suiyoubi|Rabu
+もくようび|mokuyoubi|Kamis
+きんようび|kinyoubi|Jumat
+どようび|doyoubi|Sabtu
+にちようび|nichiyoubi|Minggu
+Makanan & Minuman
+ごはん|gohan|nasi / makan
+みず|mizu|air
+おちゃ|ocha|teh
+コーヒー|koohii|kopi
+ぎゅうにゅう|gyuunyuu|susu
+さかな|sakana|ikan
+にく|niku|daging
+やさい|yasai|sayur
+くだもの|kudamono|buah
+たまご|tamago|telur
+パン|pan|roti
+りんご|ringo|apel
+みかん|mikan|jeruk
+たべもの|tabemono|makanan
+のみもの|nomimono|minuman
+Tempat
+うち|uchi|rumah
+がっこう|gakkou|sekolah
+だいがく|daigaku|universitas
+えき|eki|stasiun
+びょういん|byouin|rumah sakit
+ぎんこう|ginkou|bank
+ゆうびんきょく|yuubinkyoku|kantor pos
+としょかん|toshokan|perpustakaan
+レストラン|resutoran|restoran
+みせ|mise|toko
+スーパー|suupaa|supermarket
+こうえん|kouen|taman
+くうこう|kuukou|bandara
+へや|heya|kamar
+トイレ|toire|toilet
+くに|kuni|negara
+まち|machi|kota
+かいしゃ|kaisha|perusahaan
+やま|yama|gunung
+うみ|umi|laut
+かわ|kawa|sungai
+Benda Sehari-hari
+ほん|hon|buku
+えんぴつ|enpitsu|pensil
+かばん|kaban|tas
+くるま|kuruma|mobil
+でんしゃ|densha|kereta
+じてんしゃ|jitensha|sepeda
+ひこうき|hikouki|pesawat
+バス|basu|bus
+かさ|kasa|payung
+くつ|kutsu|sepatu
+ふく|fuku|baju
+とけい|tokei|jam
+めがね|megane|kacamata
+つくえ|tsukue|meja
+いす|isu|kursi
+でんわ|denwa|telepon
+テレビ|terebi|televisi
+しゃしん|shashin|foto
+じしょ|jisho|kamus
+さいふ|saifu|dompet
+おかね|okane|uang
+てがみ|tegami|surat
+まど|mado|jendela
+えいが|eiga|film
+おんがく|ongaku|musik
+しごと|shigoto|pekerjaan
+しゅくだい|shukudai|PR
+しけん|shiken|ujian
+にほんご|nihongo|bahasa Jepang
+なまえ|namae|nama
+Tubuh & Alam
+あたま|atama|kepala
+かお|kao|wajah
+め|me|mata
+みみ|mimi|telinga
+くち|kuchi|mulut
+て|te|tangan
+あし|ashi|kaki
+からだ|karada|tubuh
+てんき|tenki|cuaca
+あめ|ame|hujan
+ゆき|yuki|salju
+かぜ|kaze|angin
+そら|sora|langit
+つき|tsuki|bulan
+いぬ|inu|anjing
+ねこ|neko|kucing
+とり|tori|burung
+Kata Kerja
+たべる|taberu|makan
+のむ|nomu|minum
+みる|miru|melihat
+きく|kiku|mendengar
+よむ|yomu|membaca
+かく|kaku|menulis
+はなす|hanasu|berbicara
+いく|iku|pergi
+くる|kuru|datang
+かえる|kaeru|pulang
+する|suru|melakukan
+かう|kau|membeli
+あう|au|bertemu
+はいる|hairu|masuk
+でる|deru|keluar
+おきる|okiru|bangun
+ねる|neru|tidur
+あそぶ|asobu|bermain
+およぐ|oyogu|berenang
+はたらく|hataraku|bekerja
+わかる|wakaru|mengerti
+しる|shiru|tahu
+あるく|aruku|berjalan
+はしる|hashiru|berlari
+のる|noru|naik
+おりる|oriru|turun
+かりる|kariru|meminjam
+あげる|ageru|memberi
+もらう|morau|menerima
+つかう|tsukau|memakai
+つくる|tsukuru|membuat
+まつ|matsu|menunggu
+もつ|motsu|membawa
+とる|toru|mengambil
+ある|aru|ada (benda)
+いる|iru|ada (makhluk hidup)
+すむ|sumu|tinggal
+あらう|arau|mencuci
+あける|akeru|membuka
+しめる|shimeru|menutup
+おしえる|oshieru|mengajar
+ならう|narau|belajar (dari guru)
+うたう|utau|menyanyi
+Kata Sifat -i
+おおきい|ookii|besar
+ちいさい|chiisai|kecil
+たかい|takai|tinggi / mahal
+やすい|yasui|murah
+あたらしい|atarashii|baru
+ふるい|furui|lama / tua
+いい|ii|bagus
+わるい|warui|buruk
+あつい|atsui|panas
+さむい|samui|dingin
+おいしい|oishii|enak
+むずかしい|muzukashii|sulit
+やさしい|yasashii|mudah / baik hati
+たのしい|tanoshii|menyenangkan
+おもしろい|omoshiroi|menarik / lucu
+いそがしい|isogashii|sibuk
+ながい|nagai|panjang
+みじかい|mijikai|pendek
+はやい|hayai|cepat / pagi
+おそい|osoi|lambat
+あかるい|akarui|terang
+くらい|kurai|gelap
+うれしい|ureshii|senang
+かわいい|kawaii|imut
+つよい|tsuyoi|kuat
+ひろい|hiroi|luas
+せまい|semai|sempit
+あかい|akai|merah
+あおい|aoi|biru
+しろい|shiroi|putih
+くろい|kuroi|hitam
+Kata Sifat -na
+すき|suki|suka
+きらい|kirai|tidak suka
+きれい|kirei|cantik / bersih
+しずか|shizuka|tenang
+にぎやか|nigiyaka|ramai
+げんき|genki|sehat / semangat
+ゆうめい|yuumei|terkenal
+しんせつ|shinsetsu|ramah
+べんり|benri|praktis
+じょうず|jouzu|pandai
+へた|heta|kurang pandai
+たいへん|taihen|repot / berat
+Kata Tanya & Penunjuk
+なに|nani|apa
+だれ|dare|siapa
+いつ|itsu|kapan
+どこ|doko|di mana
+どれ|dore|yang mana
+どう|dou|bagaimana
+なぜ|naze|kenapa
+いくら|ikura|berapa harga
+いくつ|ikutsu|berapa banyak
+これ|kore|ini
+それ|sore|itu
+あれ|are|itu (jauh)
+ここ|koko|di sini
+そこ|soko|di situ
+あそこ|asoko|di sana`;
+const PT=`は|wa|Penanda topik ("kalau soal ..."). Ditulis は tapi dibaca wa.|わたしは インドネシアじんです。|Saya orang Indonesia.
+が|ga|Penanda subjek; untuk info baru, kata tanya, dan suka/bisa/ada.|だれが きますか。|Siapa yang datang?
+を|o|Penanda objek langsung kata kerja. Dibaca o.|みずを のみます。|Saya minum air.
+に|ni|Waktu tepat, tujuan, tempat keberadaan, penerima.|しちじに おきます。|Bangun jam tujuh.
+で|de|Tempat melakukan aksi, alat, bahan.|がっこうで べんきょうします。|Belajar di sekolah.
+へ|e|Arah tujuan. Dibaca e.|にほんへ いきます。|Pergi ke Jepang.
+の|no|Kepemilikan, menghubungkan dua benda.|わたしの ほん|Buku saya
+と|to|"Dan" antar benda, atau "bersama".|ともだちと いきます。|Pergi bersama teman.
+も|mo|"Juga", menggantikan は/が/を.|わたしも がくせいです。|Saya juga pelajar.
+か|ka|Tanda tanya di akhir kalimat.|おげんきですか。|Apa kabar?
+から|kara|"Dari" (waktu/tempat) atau "karena".|くじから はじまります。|Mulai dari jam sembilan.
+まで|made|"Sampai" (waktu/tempat).|えきまで あるきます。|Jalan sampai stasiun.
+や|ya|"Dan lain-lain" (daftar tidak lengkap).|りんごや みかんを かいます。|Beli apel, jeruk, dll.
+だけ|dake|"Hanya".|みずだけ のみます。|Hanya minum air.
+より|yori|"Daripada" (perbandingan).|りんごより みかんが すきです。|Lebih suka jeruk daripada apel.
+よ|yo|Penegas, memberi info baru.|おいしいですよ。|Enak lho.
+ね|ne|Minta persetujuan ("kan/ya?").|いい てんきですね。|Cuacanya bagus ya.`;
+const SN=`Urutan dasar: kata kerja di akhir|(Waktu) + Subjek は + (Tempat で) + Objek を + Kata kerja|わたしは あした がっこうで にほんごを べんきょうします。|Besok saya belajar bahasa Jepang di sekolah.|Indonesia itu SVO, Jepang SOV: kata kerja SELALU di akhir. Partikel menandai peran tiap kata, jadi urutan kata di tengah agak fleksibel.
+Kalimat benda: A adalah B|A は B です / ではありません / でした / ですか|たなかさんは せんせいです。|Pak Tanaka adalah guru.|です = "adalah" (sopan). Negatif: ではありません (lisan: じゃありません). Lampau: でした.
+Kata sifat -i|A は adj-i です. Negatif: い→くないです. Lampau: い→かったです|このりんごは おいしいです。|Apel ini enak.|おいしくないです = tidak enak; おいしかったです = dulu enak. Pengecualian: いい → よくないです.
+Kata sifat -na|A は adj-na です. Sebelum benda: adj-na + な + benda. Negatif: じゃありません|ここは しずかです。 / しずかな まち|Di sini tenang. / Kota yang tenang.|きれい, すき, げんき termasuk kata sifat -na.
+Kata kerja bentuk ます|ます (sekarang/akan) · ません (tidak) · ました (lampau) · ませんでした (tidak, lampau)|まいあさ パンを たべます。|Tiap pagi saya makan roti.|Satu bentuk untuk sekarang & masa depan. Waktunya ditunjukkan kata keterangan seperti あした, まいにち.
+Ada: あります / います|Tempat に Benda が あります · Tempat に Orang が います|つくえの うえに ほんが あります。|Di atas meja ada buku.|います untuk makhluk hidup (orang, hewan), あります untuk benda mati & tumbuhan.
+Ingin: ~たい|Kata kerja (tanpa ます) + たいです|すしを たべたいです。|Saya ingin makan sushi.|Objek boleh pakai を atau が.
+Sedang melakukan: ~ています|Kata kerja bentuk-te + います|いま テレビを みています。|Sekarang sedang nonton TV.|Bentuk-te: たべる→たべて, みる→みて, のむ→のんで, いく→いって, かく→かいて.
+Ajakan & permintaan|~ませんか (mau ...?) · ~ましょう (ayo) · ~てください (tolong)|いっしょに たべませんか。|Mau makan bareng?|Tambah おねがいします untuk permintaan yang lebih sopan.
+Kalimat tanya|Kalimat biasa + か. Kata tanya menempati posisi jawabannya|これは なんですか。|Ini apa?|Kata tanya tidak dipindah ke depan seperti bahasa Indonesia.`;
+const parse=()=>{let c='';return KT.split('\n').flatMap(l=>{if(!l.includes('|')){c=l;return[]}const[f,s,b]=l.split('|');return[{f,s,b,g:c}]})};
+const D={hira:KD(0),kata:KD(1),koto:parse()};
+let T={p:'dash',m:'list',sel:new Set(),rev:false,fc:null,qz:null};
+const deck=()=>{const d=D[T.p];return T.sel.size?d.filter(x=>T.sel.has(x.g)):d};
+const cats=()=>T.p=='koto'?[...new Set(D.koto.map(x=>x.g))]:Object.keys(KG);
+const ans=c=>T.rev?c.f:c.b;
+function opts(c){const a=ans(c),o=[a],seen=new Set([a]);for(const x of sh(D[T.p])){if(x.b===c.b||seen.has(ans(x)))continue;seen.add(ans(x));o.push(ans(x));if(o.length==4)break}return sh(o)}
+function go(p){T.p=p;T.m='list';T.sel=new Set();T.fc=T.qz=null;R();scrollTo(0,0)}
+function mode(m){T.m=m;T.fc=T.qz=null;const d=deck();if(m=='card')T.fc={q:sh(d),n:0,t:d.length,fl:0};if(m=='quiz'){const q=sh(d).slice(0,10);T.qz={q,i:0,s:0,pk:null,o:opts(q[0])}}R()}
+function ch(g){g==null?T.sel.clear():T.sel.has(g)?T.sel.delete(g):T.sel.add(g);T.m=='list'?R():mode(T.m)}
+function rv(){T.rev=!T.rev;mode(T.m)}
+function fl(){T.fc.fl^=1;R()}
+function ok(y){const f=T.fc;if(y){f.q.shift();f.n++}else f.q.push(f.q.shift());f.fl=0;R()}
+function pk(i){const z=T.qz;if(z.pk!=null)return;z.pk=i;if(z.o[i]==ans(z.q[z.i]))z.s++;R()}
+function nx(){const z=T.qz;z.i++;z.pk=null;if(z.i<z.q.length)z.o=opts(z.q[z.i]);R()}
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function list(){const d=deck();return [...new Set(d.map(x=>x.g))].map(g=>{const it=d.filter(x=>x.g==g);return `<h3>${g}<small>${it.length}</small>${NOTE[g]&&T.p!='koto'?`<em>${NOTE[g]}</em>`:''}</h3>`+(T.p=='koto'?`<div class="card" style="padding:4px">${it.map(x=>`<div class="w"><b>${x.f}</b><span>${x.s}</span><i>${x.b}</i></div>`).join('')}</div>`:`<div class="kg">${it.map(x=>`<div class="k"><b>${x.f}</b><span>${x.b}</span></div>`).join('')}</div>`)}).join('')}
+function card(){const f=T.fc;if(!f.q.length)return `<div class="card c" style="margin-top:12px"><div class="big">🎉</div><p>Selesai! ${f.t} kartu sudah hafal.</p><button class="btn" onclick="mode('card')">Ulangi</button></div>`;const c=f.q[0],fr=T.rev?c.b:c.f,bk=T.rev?c.f:c.b;
+return `<p class="mut">Hafal ${f.n} / ${f.t}</p><div class="card fc" onclick="fl()"><div class="big">${f.fl?bk:fr}</div>${f.fl&&c.s?`<div class="sub">${c.s}</div>`:''}${f.fl?'':'<div class="sub">ketuk untuk membalik</div>'}<button class="chip" style="margin-top:12px" onclick="event.stopPropagation();say('${c.f}')">🔊 Dengar</button></div>${f.fl?`<div class="row"><button class="btn no" onclick="ok(0)">Belum hafal</button><button class="btn ok" onclick="ok(1)">Hafal</button></div>`:''}`}
+function quiz(){const z=T.qz;if(z.i>=z.q.length)return `<div class="card c" style="margin-top:12px"><div class="big">${z.s}/${z.q.length}</div><p>${z.s==z.q.length?'Sempurna! すごい!':z.s>=z.q.length*.7?'Bagus, lanjut terus!':'Ayo latihan lagi, pasti bisa!'}</p><button class="btn" onclick="mode('quiz')">Main lagi</button></div>`;
+const c=z.q[z.i],a=ans(c);return `<p class="mut">Soal ${z.i+1}/${z.q.length} · Skor ${z.s}</p><div class="card c"><div class="big">${T.rev?c.b:c.f}</div></div><div class="opts">${z.o.map((o,i)=>`<button class="opt ${z.pk!=null?(o==a?'ok':i==z.pk?'no':''):''}" onclick="pk(${i})">${o}</button>`).join('')}</div>${z.pk!=null?`<button class="btn" style="width:100%" onclick="nx()">Lanjut →</button>`:''}`}
+function page(){const t={hira:'ひらがな Hiragana',kata:'カタカナ Katakana',koto:'ことば Kotoba'}[T.p];
+const chips=`<div class="chips"><button class="chip ${T.sel.size?'':'on'}" onclick="ch()">Semua</button>${cats().map(c=>`<button class="chip ${T.sel.has(c)?'on':''}" onclick="ch('${c}')">${c}</button>`).join('')}</div>`;
+const tabs=[['list',T.p=='koto'?'Daftar':'Tabel'],['card','Flashcard'],['quiz','Quiz']].map(([m,l])=>`<button class="tab ${T.m==m?'on':''}" onclick="mode('${m}')">${l}</button>`).join('');
+return `<h1 style="font-size:24px;margin-top:8px">${t}</h1><div class="tabs">${tabs}</div>${chips}${T.m!='list'?`<label class="rv"><input type="checkbox" ${T.rev?'checked':''} onchange="rv()"> Balik arah (${T.p=='koto'?'arti → kata':'romaji → huruf'})</label>`:''}${T.m=='list'?list():T.m=='card'?card():quiz()}`}
+function dash(){return `<div style="margin-top:8px"><h1>日本語 道場</h1><p class="mut">Belajar Jepang untuk pemula level N5 & N4: kana, kotoba, partikel, dan pola kalimat. Pilih menu di bawah atau tab di atas.</p></div>
+<div class="stats">${[['hira','ひらがな',D.hira.length+' huruf'],['kata','カタカナ',D.kata.length+' huruf'],['koto','ことば',D.koto.length+' kata']].map(([p,n,c])=>`<button class="card st" onclick="go('${p}')"><b>${n}</b><span>${c}</span><i>Tabel · Flashcard · Quiz</i></button>`).join('')}</div>
+<h2>Partikel 助詞</h2><p class="mut">Partikel itu "lem" kalimat Jepang: menandai peran kata di depannya.</p><div class="pg">${PT.split('\n').map(l=>{const[p,r,e,j,a]=l.split('|');return `<div class="card"><div class="pc">${p}<small>${r}</small></div><div>${e}</div><div class="ex">${j}<br><span class="mut">${a}</span></div></div>`}).join('')}</div>
+<h2>Cara Menyusun Kalimat</h2>${SN.split('\n').map(l=>{const[t,p,j,a,n]=l.split('|');return `<div class="card sn"><b>${t}</b><code>${p}</code><div class="ex">${j}<br><span class="mut">${a}</span></div><p class="mut" style="margin:6px 0 0;font-size:14px">${n}</p></div>`}).join('')}`}
+function R(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p==T.p));$('#app').innerHTML=T.p=='dash'?dash():page()}
+const TH={sakura:'#e8638b',neon:'#00e5ff',washi:'#b23a2e',pop:'#58cc02'};
+function th(t){document.documentElement.dataset.t=t;try{localStorage.setItem('t',t)}catch(e){}}
+$('#dots').innerHTML=Object.entries(TH).map(([k,c])=>`<button class="dot" title="${k}" style="background:${c}" onclick="th('${k}')"></button>`).join('');
+let t0='';try{t0=localStorage.getItem('t')||''}catch(e){}
+th(TH[t0]?t0:matchMedia('(prefers-color-scheme: dark)').matches?'neon':'sakura');
+R();
+</script></body></html>
