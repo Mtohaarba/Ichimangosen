@@ -1471,14 +1471,14 @@ function endSprint(){
 buildNav();
 updateHeader();
 renderView();
-  <script>
+</script>
+   <script>
 /* ===== PWA: service worker + status online ===== */
 const canSW = 'serviceWorker' in navigator &&
   (location.protocol === 'https:' || ['localhost', '127.0.0.1'].includes(location.hostname));
 if (canSW) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
 window.addEventListener('offline', () => toast('Offline — semua materi tetap bisa dibuka'));
 window.addEventListener('online', () => toast('Kembali online'));
-</script>
-</script>
+   </script>
 </body>
 </html>
