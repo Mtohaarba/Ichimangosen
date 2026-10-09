@@ -1,397 +1,1452 @@
 <!DOCTYPE html>
-<html lang="id"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Nihongo Dojo - Santri Jepang wowkwowwokw</title>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benkyou 勉強 — Belajar Bahasa Jepang N5-N4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fff5f8;--card:#fff;--tx:#3b2a33;--mut:#8a7580;--ac:#e8638b;--bd:#f3cfdb;--ok:#2fa36b;--no:#d9473f;--r:18px;--bt:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-[data-t=neon]{--bg:#0d0b1e;--card:#171433;--tx:#eaf0ff;--mut:#8f93c9;--ac:#00e5ff;--bd:#322a6b;--ok:#39ff88;--no:#ff4d8d;--bt:#06121a}
-[data-t=washi]{--bg:#f4efe6;--card:#fbf8f2;--tx:#2b2b2b;--mut:#7a7468;--ac:#b23a2e;--bd:#d9ceba;--ok:#4a7a4f;--no:#b23a2e;--r:4px}
-[data-t=pop]{--bg:#f1fbea;--card:#fff;--tx:#25301f;--mut:#6b7d60;--ac:#58cc02;--bd:#b9e88f;--ok:#58cc02;--no:#ff4b4b;--r:20px}
-[data-t=pop] .card,[data-t=pop] .btn,[data-t=pop] .opt{border-bottom-width:5px}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif}
-header,nav,main{max-width:900px;margin:0 auto;padding-left:16px;padding-right:16px}
-header{display:flex;justify-content:space-between;align-items:center;padding-top:12px;padding-bottom:8px}
-header b{font-size:19px;color:var(--ac)}
-.dots{display:flex;gap:8px}.dot{width:26px;height:26px;border-radius:50%;border:3px solid var(--bd);cursor:pointer;padding:0}
-nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
-nav button,.tab,.chip{font:inherit;border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap}
-nav button{flex:1}
-nav button.on,.tab.on,.chip.on{background:var(--ac);border-color:var(--ac);color:var(--bt);font-weight:700}
-main{padding-top:8px;padding-bottom:40px}
-h1{margin:0;font-size:30px;color:var(--ac)}h2{margin:26px 0 8px}h3{margin:20px 0 8px}h3 small{color:var(--mut);margin-left:6px}
-h3 em{display:block;font-size:13px;font-weight:400;color:var(--mut);font-style:normal}
-.tabs,.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.chip{padding:4px 12px;font-size:14px}
-.card{background:var(--card);border:2px solid var(--bd);border-radius:var(--r);padding:16px}
-.c{text-align:center}.mut{color:var(--mut);font-size:14px}.rv{font-size:14px;color:var(--mut)}
-.big{font-size:clamp(32px,9vw,56px);font-weight:700;color:var(--ac);line-height:1.2}.sub{color:var(--mut);margin-top:6px}
-.fc{min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;margin-top:8px}
-.btn{font:inherit;font-weight:700;background:var(--ac);color:var(--bt);border:2px solid var(--ac);border-radius:var(--r);padding:10px 20px;cursor:pointer;margin-top:12px}
-.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.no{background:var(--no);border-color:var(--no);color:#fff}
-.row{display:flex;gap:10px}.row .btn{flex:1}
-.kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
-.k{background:var(--card);border:2px solid var(--bd);border-radius:var(--r);text-align:center;padding:8px 2px}
-.k b{font-size:26px;display:block;color:var(--ac)}.k span{font-size:12px;color:var(--mut)}
-.w{display:grid;grid-template-columns:1.2fr 1fr 1.4fr;gap:8px;padding:8px 10px;border-bottom:1px solid var(--bd)}
-.w b{color:var(--ac)}.w span{color:var(--mut)}.w i{font-style:normal}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.opt{font:inherit;font-size:17px;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:var(--r);padding:14px 8px;cursor:pointer}
-.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}.opt.no{background:var(--no);border-color:var(--no);color:#fff}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
-.st{font:inherit;color:var(--tx);cursor:pointer;text-align:center;display:flex;flex-direction:column;gap:2px}.st b{font-size:24px;color:var(--ac)}.st i{font-style:normal;font-size:13px;color:var(--mut)}
-.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-.pg .card{padding:12px}.pc{font-size:30px;font-weight:700;color:var(--ac)}.pc small{font-size:14px;color:var(--mut);margin-left:6px}
-.ex{background:var(--bg);border-radius:8px;padding:6px 10px;margin-top:6px;font-size:14px}
-.sn{margin-bottom:10px}.sn code{display:block;background:var(--bg);border-radius:8px;padding:8px 10px;margin:6px 0;font-size:14px;white-space:normal}
-@media(max-width:520px){.w{grid-template-columns:1fr 1fr}.w i{grid-column:1/3}}
-</style></head><body>
-<header><b>日本語 道場 · Nihongo Dojo</b><div class="dots" id="dots"></div></header>
-<nav><button data-p="dash" onclick="go('dash')">Dashboard</button><button data-p="hira" onclick="go('hira')">ひらがな</button><button data-p="kata" onclick="go('kata')">カタカナ</button><button data-p="koto" onclick="go('koto')">ことば</button></nav>
-<main id="app"></main>
+:root{
+  --paper:#F5EFE3; --paper2:#FBF7EC; --ink:#26211B; --ink2:#6E6355;
+  --red:#C2402F; --red-d:#93301F; --green:#5F7A3D; --green-d:#48602C;
+  --line:#D8CDB8; --fj:'Shippori Mincho',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Zen Maru Gothic',sans-serif;-webkit-font-smoothing:antialiased}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:4000;opacity:.55;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
+.mn{font-family:var(--fj)}
+button{font-family:inherit}
+.ic{width:16px;height:16px;flex:none}
+.muted{color:var(--ink2);font-size:12.5px}
+
+/* ---------- Header ---------- */
+header{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:2px solid var(--ink)}
+.topband{height:6px;background:var(--red)}
+.hwrap{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 20px 10px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand-mark{width:46px;height:46px;border-radius:50%;background:var(--red);color:#FFF6EA;font-family:var(--fj);display:grid;place-items:center;font-size:23px;font-weight:700;box-shadow:2px 2px 0 var(--ink);flex:none}
+.brand-name{font-family:var(--fj);font-weight:800;font-size:22px;letter-spacing:3px;line-height:1.1}
+.brand-sub{font-size:11px;color:var(--ink2);font-weight:500}
+.hstats{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.pill{display:flex;align-items:center;gap:7px;border:1.5px solid var(--ink);border-radius:999px;padding:6px 13px;background:var(--paper2);font-weight:700;font-size:13px;box-shadow:2px 2px 0 rgba(38,33,27,.14)}
+.pill .ic{width:15px;height:15px;color:var(--red)}
+.pill .plab{font-size:11px;color:var(--ink2);font-weight:600}
+.xpbar{width:64px;height:7px;border:1.5px solid var(--ink);border-radius:99px;overflow:hidden;background:#fff}
+.xpbar i{display:block;height:100%;background:var(--red);border-radius:99px;transition:width .4s}
+nav{max-width:1080px;margin:0 auto;padding:0 12px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.ntab{appearance:none;background:none;border:none;cursor:pointer;padding:9px 16px 11px;display:flex;flex-direction:column;align-items:center;gap:1px;position:relative;color:var(--ink2);flex:none}
+.ntab .nk{font-family:var(--fj);font-size:13px;font-weight:600}
+.ntab .nl{font-size:11px;font-weight:700;letter-spacing:.4px}
+.ntab.active{color:var(--ink)}
+.ntab.active::after{content:"";position:absolute;left:10px;right:10px;bottom:-2px;height:3px;background:var(--red)}
+.ntab:hover{color:var(--red)}
+
+/* ---------- Main ---------- */
+main{max-width:1080px;margin:0 auto;padding:34px 20px 60px;position:relative;min-height:60vh}
+.view-anim{animation:vin .4s ease}
+@keyframes vin{from{opacity:0;transform:translateY(14px)}to{opacity:1}}
+.vhead{margin-bottom:26px;position:relative}
+.vhead .big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.vhead h1{font-family:var(--fj);font-size:clamp(30px,5vw,44px);font-weight:800;line-height:1.1}
+.vhead .vj{font-size:14px;color:var(--red);font-weight:700;letter-spacing:2px}
+.vhead p{color:var(--ink2);margin-top:8px;max-width:62ch;font-size:14.5px}
+.watermark{position:absolute;top:-72px;right:-8px;font-family:var(--fj);font-size:clamp(110px,17vw,210px);font-weight:800;color:rgba(194,64,47,.06);line-height:1;pointer-events:none;user-select:none}
+.foot{text-align:center;padding:26px 20px 40px;color:var(--ink2);font-size:12.5px}
+.foot .mn{display:block;color:var(--red);font-weight:700;font-size:16px;margin-bottom:4px;letter-spacing:3px}
+
+/* ---------- Tombol, chip, panel ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:11px 20px;border:2px solid var(--ink);background:var(--paper2);color:var(--ink);cursor:pointer;border-radius:10px;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;user-select:none}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn.red{background:var(--red);color:#FFF7EC;border-color:var(--red-d);box-shadow:3px 3px 0 var(--red-d)}
+.btn.red:hover{box-shadow:4px 4px 0 var(--red-d)}
+.btn.green{background:var(--green);color:#F7FAEF;border-color:var(--green-d);box-shadow:3px 3px 0 var(--green-d)}
+.btn.sm{padding:7px 13px;font-size:12.5px;border-width:1.5px;box-shadow:2px 2px 0 var(--ink)}
+.btn.sm.red{box-shadow:2px 2px 0 var(--red-d)}
+.btn:disabled{opacity:.45;pointer-events:none}
+.wfull{width:100%;justify-content:center;margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--paper2);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--ink2)}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip.active{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.panel{border:2px solid var(--ink);border-radius:14px;background:var(--paper2);padding:20px 22px;box-shadow:4px 4px 0 rgba(38,33,27,.1)}
+.panel h3{font-family:var(--fj);font-size:19px;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.panel h3 .ic{color:var(--red)}
+.panel h3 .vj{font-size:12px;color:var(--red);font-weight:700;letter-spacing:1px}
+.psub{color:var(--ink2);font-size:13px;margin-bottom:8px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:16px}
+.tlab{font-size:11px;font-weight:800;color:var(--ink2);letter-spacing:.8px;text-transform:uppercase}
+.subtabs{display:flex;border:2px solid var(--ink);width:max-content;background:var(--paper2);box-shadow:3px 3px 0 rgba(38,33,27,.15);border-radius:10px;overflow:hidden;margin-bottom:24px;max-width:100%}
+.subtabs button{border:none;background:none;font-weight:700;font-size:13px;padding:9px 18px;cursor:pointer;color:var(--ink2);border-right:1.5px solid var(--line);white-space:nowrap}
+.subtabs button:last-child{border-right:none}
+.subtabs button.active{background:var(--ink);color:var(--paper)}
+.iconbtn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--ink);background:var(--paper2);display:grid;place-items:center;cursor:pointer;flex:none;color:var(--ink)}
+.iconbtn:hover{background:var(--red);color:#fff;border-color:var(--red-d)}
+.iconbtn.known{background:var(--green);color:#fff;border-color:var(--green-d)}
+
+/* ---------- Home ---------- */
+.hero{display:flex;gap:40px;align-items:center;justify-content:space-between;margin-bottom:30px}
+.hg-jp{color:var(--red);font-weight:700;font-size:17px;letter-spacing:3px;margin-bottom:6px}
+.hero h2{font-family:var(--fj);font-size:clamp(30px,5.4vw,50px);line-height:1.18;font-weight:800}
+.hero h2 .red{color:var(--red)}
+.mini-edit{border:none;background:none;cursor:pointer;color:var(--ink2);vertical-align:middle;padding:4px}
+.mini-edit:hover{color:var(--red)}
+.mini-edit .ic{width:15px;height:15px}
+.namein{font-family:var(--fj);font-weight:800;font-size:inherit;color:var(--red);background:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 10px;outline:none;max-width:240px}
+.hg-sub{color:var(--ink2);margin:12px 0 20px;max-width:46ch;font-size:14.5px}
+.hg-cta{display:flex;gap:12px;flex-wrap:wrap}
+.hinomaru{width:180px;height:180px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none;cursor:pointer;box-shadow:6px 6px 0 rgba(38,33,27,.15);transition:transform .2s;position:relative;margin-right:6px}
+.hinomaru:hover{transform:scale(1.03) rotate(-2deg)}
+.hinomaru span{writing-mode:vertical-rl;color:#FFF6EA;font-family:var(--fj);font-size:21px;font-weight:700;letter-spacing:7px}
+.hinomaru::after{content:"";position:absolute;inset:10px;border:1.5px solid rgba(255,246,234,.5);border-radius:50%}
+.hinomaru.wob{animation:wob .55s ease}
+@keyframes wob{0%{transform:rotate(0)}25%{transform:rotate(-7deg) scale(1.05)}55%{transform:rotate(5deg) scale(1.04)}100%{transform:rotate(0)}}
+.statstrip{display:flex;border:2px solid var(--ink);border-radius:14px;background:var(--paper2);box-shadow:4px 4px 0 rgba(38,33,27,.12);overflow:hidden;margin-bottom:26px;flex-wrap:wrap}
+.stat{flex:1 1 150px;padding:15px 18px;border-right:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+.stat:nth-child(n+4){border-bottom:none}
+.stat:last-child{border-right:none}
+.stat span{font-size:10.5px;font-weight:800;letter-spacing:.8px;color:var(--ink2);text-transform:uppercase}
+.stat b{font-family:var(--fj);font-size:25px;display:block;margin-top:2px}
+.stat b small{font-size:13px;color:var(--ink2);font-weight:600}
+.stat .sub{font-size:11.5px;color:var(--red);font-weight:700}
+.panel.today{margin-bottom:26px}
+.tw{display:flex;overflow-x:auto;margin-top:6px}
+.tw-item{display:flex;flex-direction:column;gap:1px;padding:6px 22px;border-left:1px dashed var(--line);min-width:190px}
+.tw-item:first-child{border-left:none;padding-left:2px}
+.tw-jp{font-family:var(--fj);font-size:25px;font-weight:700;display:flex;align-items:center;gap:10px}
+.tw-r{font-size:12px;color:var(--red);font-weight:700}
+.tw-id{font-size:13px;color:var(--ink2)}
+.hgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.planrow{display:flex;gap:11px;align-items:flex-start;padding:9px 2px;border-bottom:1px dashed var(--line);cursor:pointer}
+.planrow:hover .pt{color:var(--red)}
+.cbx{width:20px;height:20px;border:2px solid var(--ink);border-radius:6px;flex:none;display:grid;place-items:center;background:#fff;margin-top:2px;color:#fff}
+.planrow.done .cbx{background:var(--green);border-color:var(--green-d)}
+.planrow.done .pt{color:var(--ink2);text-decoration:line-through}
+.planrow .pt{font-size:13.5px;font-weight:700;display:block}
+.planrow .pd{font-size:12px;color:var(--ink2)}
+.pgroup{margin:14px 0}
+.prow{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:5px}
+.prow b{color:var(--red)}
+.pbar{height:10px;border:1.5px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--red)}
+.pbar i.g{background:var(--green)}
+.pg-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* ---------- Kana tabel ---------- */
+.scswitch{display:flex;border:2px solid var(--ink);border-radius:12px;overflow:hidden;box-shadow:3px 3px 0 rgba(38,33,27,.15)}
+.scswitch button{border:none;background:var(--paper2);font-family:var(--fj);font-size:18px;font-weight:700;padding:9px 20px;cursor:pointer;display:flex;gap:9px;align-items:center;color:var(--ink2)}
+.scswitch button.active{background:var(--red);color:#FFF7EC}
+.scswitch button .small{font-family:'Zen Maru Gothic';font-size:10.5px;font-weight:800;letter-spacing:1px}
+.group-desc{margin:0 0 16px;padding:12px 16px;border-left:4px solid var(--red);background:var(--paper2);font-size:13.5px;color:var(--ink2);border-radius:0 10px 10px 0;line-height:1.65}
+.kana-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:26px;align-items:start}
+.gsub{font-family:var(--fj);font-weight:700;font-size:15px;margin:18px 0 10px;color:var(--red);letter-spacing:1px}
+.gsub:first-child{margin-top:0}
+.kana-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.kana-grid.g3{grid-template-columns:repeat(3,1fr)}
+.kcell{background:var(--paper2);border:1.5px solid var(--line);border-radius:10px;padding:9px 4px 7px;text-align:center;cursor:pointer;position:relative;transition:.12s;color:var(--ink)}
+.kcell .c{font-family:var(--fj);font-size:25px;display:block;line-height:1.25}
+.kcell .r{font-size:10.5px;color:var(--ink2);font-weight:600}
+.kana-grid.g3 .kcell .c{font-size:21px}
+.kcell:hover{border-color:var(--ink);transform:translateY(-2px)}
+.kcell.sel{border-color:var(--red);background:#fff;box-shadow:2px 2px 0 var(--red)}
+.kcell.known::after{content:"";position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red)}
+.kcell.empty{visibility:hidden}
+.detail{position:sticky;top:170px;border:2px solid var(--ink);border-radius:14px;background:var(--paper2);padding:22px;box-shadow:5px 5px 0 rgba(38,33,27,.12)}
+.dc{font-family:var(--fj);font-size:82px;line-height:1.1;text-align:center;font-weight:600}
+.dr{text-align:center;margin:6px 0 14px;font-size:13px;color:var(--ink2)}
+.dr b{color:var(--red);font-size:15px;margin-right:6px}
+.dempty{text-align:center;padding:20px 4px;color:var(--ink2);font-size:13.5px;line-height:1.7}
+.dempty .mn{font-size:44px;color:rgba(194,64,47,.25);display:block;margin-bottom:10px}
+.detail .btn{margin:0 auto;display:inline-flex}
+.detail .btn.sm{margin-bottom:12px}
+.dex{border-top:1px dashed var(--line);padding-top:14px;margin-top:4px;text-align:center}
+.dex .exjp{font-family:var(--fj);font-size:23px;font-weight:700}
+.dex .exr{font-size:12.5px;color:var(--ink2);margin:4px 0 10px}
+
+/* ---------- Flashcard ---------- */
+.fc-top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--ink2);margin-bottom:8px}
+.fc-top .ic{width:14px;height:14px;color:var(--green);vertical-align:-2px}
+.fcard{width:min(430px,100%);aspect-ratio:4/3;perspective:1200px;cursor:pointer;margin:18px auto 0}
+.fcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.7,.3,1)}
+.fcard.flipped .fcard-inner{transform:rotateY(180deg)}
+.fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px solid var(--ink);border-radius:18px;background:var(--paper2);box-shadow:6px 6px 0 rgba(38,33,27,.13);padding:20px;text-align:center}
+.fback{transform:rotateY(180deg);background:#fff}
+.fbig{font-family:var(--fj);font-size:clamp(60px,12vw,84px);font-weight:600;line-height:1.1}
+.fb-r{font-size:30px;font-weight:800;color:var(--red)}
+.fb-jp{font-family:var(--fj);font-size:20px;font-weight:700}
+.fb-id{font-size:15px;color:var(--ink2)}
+.seal{position:absolute;top:14px;right:14px;width:32px;height:32px;background:var(--red);color:#FFF7EC;border-radius:7px;display:grid;place-items:center;font-family:var(--fj);font-size:16px;font-weight:700;transform:rotate(7deg);box-shadow:1px 1px 0 rgba(0,0,0,.2)}
+.fhint{position:absolute;bottom:13px;font-size:10.5px;color:var(--ink2);letter-spacing:.5px}
+.fc-btns{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.fcdone{text-align:center;padding:30px 10px}
+.fcdone .rb{font-family:var(--fj);font-size:38px;color:var(--red);font-weight:800;margin-bottom:8px}
+.fcdone p{color:var(--ink2);font-size:14px}
+
+/* ---------- Quiz ---------- */
+.quiz-top{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:var(--ink2)}
+.qprog{height:8px;border:1.5px solid var(--ink);border-radius:99px;overflow:hidden;background:#fff;margin:9px 0 6px}
+.qprog i{display:block;height:100%;background:var(--red);transition:width .3s}
+.qbig{position:relative;min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center;margin:6px 0 4px}
+.qbig .kq{font-family:var(--fj);font-size:clamp(54px,9vw,86px);font-weight:600;line-height:1.2}
+.qbig .rq{font-size:clamp(26px,4.5vw,42px);font-weight:800;letter-spacing:2px}
+.qbig .tq{font-size:clamp(20px,3.2vw,27px);font-weight:800;max-width:34ch;display:inline-block}
+.qbig .pq{font-family:var(--fj);font-size:clamp(21px,3.4vw,29px);font-weight:600;line-height:1.7;max-width:30ch;display:inline-block}
+.qsub-c{text-align:center;font-size:12.5px;color:var(--ink2);font-weight:600;margin-bottom:14px}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.qopt{border:2px solid var(--line);background:#fff;border-radius:11px;padding:14px 10px;font-size:14.5px;font-weight:700;cursor:pointer;transition:.12s;text-align:center;color:var(--ink)}
+.qopt:hover:not(:disabled){border-color:var(--ink);transform:translateY(-2px)}
+.qopt.correct{border-color:var(--green);background:#EAF2DC;color:var(--green-d)}
+.qopt.wrong{border-color:var(--red);background:#F8E4E0;color:var(--red-d)}
+.qopt:disabled{cursor:default}
+.qopt.mnc{font-family:var(--fj);font-size:23px}
+.qfb{min-height:0}
+.qnote{margin-top:14px;padding:10px 14px;border-left:3px solid var(--red);background:#fff;border-radius:0 8px 8px 0;font-size:13px}
+.stampwrap{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:5}
+.stamp{font-family:var(--fj);font-weight:800;color:var(--red);border:3.5px solid var(--red);padding:4px 18px;border-radius:8px;transform:rotate(-9deg);font-size:30px;letter-spacing:6px;background:rgba(251,247,236,.7);animation:stamp .35s ease-out;white-space:nowrap}
+.stamp.ng{color:var(--ink2);border-color:var(--ink2)}
+@keyframes stamp{0%{transform:rotate(-9deg) scale(2.4);opacity:0}60%{transform:rotate(-9deg) scale(.94);opacity:1}100%{transform:rotate(-9deg) scale(1)}}
+.qdone{text-align:center;padding:16px 4px}
+.qdone .rb{font-family:var(--fj);font-size:46px;color:var(--red);font-weight:800}
+.qdmsg{margin:8px 0 4px;font-size:14.5px}
+.qdxp{display:inline-flex;align-items:center;gap:6px;margin:12px 0 4px;font-weight:800;color:var(--red);border:1.5px dashed var(--red);border-radius:99px;padding:6px 16px;font-size:13.5px}
+.qsetup{text-align:center}
+.qsetup .btn{margin-top:14px}
+
+/* ---------- Kotoba ---------- */
+.kcount{font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.klist{border-top:2px solid var(--ink)}
+.krow{display:flex;align-items:center;gap:15px;padding:12px 8px;border-bottom:1px dashed var(--line);flex-wrap:wrap}
+.krow:hover{background:rgba(194,64,47,.04)}
+.kjp{font-family:var(--fj);font-size:23px;font-weight:600;min-width:160px;line-height:1.3}
+.kjp small{display:block;font-family:'Zen Maru Gothic';font-size:11.5px;color:var(--ink2);font-weight:500}
+.krom{font-size:12px;color:var(--red);font-weight:800;min-width:130px}
+.kid{flex:1;font-size:14px;min-width:130px}
+.tag{font-size:10px;font-weight:800;border:1px solid var(--ink);border-radius:5px;padding:2px 7px;color:var(--ink2);letter-spacing:.5px;white-space:nowrap}
+
+/* ---------- Bunpou ---------- */
+.bsec{margin-bottom:44px}
+.bh{font-family:var(--fj);font-size:clamp(21px,3vw,27px);display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.bj{background:var(--ink);color:var(--paper);border-radius:8px;padding:2px 12px;font-size:.75em}
+.bintro{color:var(--ink2);font-size:14px;max-width:66ch;margin-bottom:18px}
+.particle{border:1.5px solid var(--line);border-radius:12px;background:var(--paper2);margin-bottom:10px;overflow:hidden}
+.particle.open{border-color:var(--ink);box-shadow:4px 4px 0 rgba(38,33,27,.12)}
+.phead{display:flex;align-items:center;gap:16px;padding:13px 18px;cursor:pointer}
+.pglyph{font-family:var(--fj);font-size:32px;font-weight:700;color:var(--red);min-width:64px;line-height:1.2}
+.pmid{flex:1}
+.pmid b{display:block;font-size:14px}
+.pmid span{font-size:12px;color:var(--ink2)}
+.pchev{color:var(--ink2);transition:transform .2s}
+.particle.open .pchev{transform:rotate(180deg)}
+.pbody{padding:2px 20px 18px;border-top:1px dashed var(--line)}
+.pbody>p{font-size:14px;margin:12px 0;line-height:1.75}
+.pex{border:1px dashed var(--line);border-radius:10px;padding:11px 15px;margin-top:10px;background:#fff}
+.pj{font-family:var(--fj);font-size:19px;font-weight:600}
+.pr{font-size:12px;color:var(--red);font-weight:700;margin:2px 0}
+.pf{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--ink2)}
+.pnote{margin-top:12px;padding:10px 14px;border-left:3px solid var(--red);background:rgba(194,64,47,.06);border-radius:0 8px 8px 0;font-size:12.5px;line-height:1.6}
+.pnote b{display:block;font-size:10px;letter-spacing:1.5px;color:var(--red);margin-bottom:3px}
+.lesson{display:flex;gap:16px;margin-bottom:24px}
+.lnum{font-family:var(--fj);font-size:24px;font-weight:700;width:50px;height:50px;flex:none;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.lbody{flex:1;border:1.5px solid var(--line);border-radius:14px;background:var(--paper2);padding:18px 22px;min-width:0}
+.lbody h4{font-family:var(--fj);font-size:18px;margin-bottom:6px}
+.lbody .ld{font-size:13.5px;color:var(--ink2);line-height:1.75;margin-bottom:8px}
+.lex{display:flex;align-items:center;gap:11px;padding:7px 0;border-top:1px dashed var(--line)}
+.ljp{font-family:var(--fj);font-size:17.5px;font-weight:600;min-width:210px}
+.lid{font-size:13px;color:var(--ink2)}
+.sov{margin-top:16px;border:2px dashed var(--ink);border-radius:12px;padding:16px 18px;background:#fff}
+.sovlab{font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--ink2);text-transform:uppercase}
+.blocks{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 4px}
+.blk{border:2px solid var(--ink);border-radius:9px;padding:7px 14px;background:var(--paper);font-weight:700;font-size:14.5px;text-align:center;font-family:var(--fj)}
+.blk .rm{display:block;font-family:'Zen Maru Gothic';font-size:10px;color:var(--ink2);font-weight:500}
+.blk.vb{border-style:dashed;border-color:var(--red)}
+.sov.hl .blk.vb{background:var(--red);color:#fff;border-style:solid}
+.sov.hl .blk.vb .rm{color:#FFD9CF}
+.blk.anim{animation:blk .38s both}
+@keyframes blk{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.sovbtns{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.sovnote{margin-top:12px;font-size:12.5px;color:var(--ink2);line-height:1.7}
+.bquiz{margin-top:8px}
+.bquiz>p{font-size:13.5px;color:var(--ink2);margin-bottom:14px}
+
+/* ---------- Kyousou ---------- */
+.ky-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:start}
+.rule{display:flex;gap:12px;padding:9px 0;font-size:13.5px;border-bottom:1px dashed var(--line);line-height:1.6}
+.rule:last-of-type{border-bottom:none}
+.rj{font-family:var(--fj);color:#fff;background:var(--red);width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-weight:700;flex:none;font-size:15px}
+.spbest{margin:16px 0 6px;font-size:13px;color:var(--ink2)}
+.spbest b{color:var(--red);font-size:16px}
+.sptop{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:10px}
+.sptimer{font-family:var(--fj);font-size:40px;font-weight:800;color:var(--red)}
+.sptimer small{font-size:15px;color:var(--ink2)}
+.spmid{text-align:center}
+.spscore{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--ink2)}
+.spnum{font-family:var(--fj);font-size:34px;font-weight:800}
+.combo-badge{display:inline-flex;background:var(--red);color:#fff;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:800;letter-spacing:1px;animation:pop .25s}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.tbar{height:10px;border:2px solid var(--ink);border-radius:99px;overflow:hidden;background:#fff;margin-bottom:16px}
+.tbar i{display:block;height:100%;background:var(--red);transition:width .1s linear}
+.spprompt{text-align:center;font-size:12px;font-weight:700;color:var(--ink2);letter-spacing:.5px}
+.spq{font-family:var(--fj);font-size:clamp(46px,7vw,68px);text-align:center;margin:6px 0 4px;min-height:85px;display:flex;align-items:center;justify-content:center}
+.lbrow{display:flex;align-items:center;gap:13px;padding:10px 4px;border-bottom:1px dashed var(--line)}
+.lbrow:last-child{border-bottom:none}
+.lbrow.me{background:rgba(194,64,47,.09);border-radius:8px;padding-left:10px;padding-right:10px}
+.lbrank{font-family:var(--fj);font-weight:700;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--line);flex:none;font-size:14px}
+.lbrow:first-child .lbrank{background:var(--red);color:#fff;border-color:var(--red-d)}
+.lbrow:nth-child(2) .lbrank{background:var(--ink);color:var(--paper)}
+.lbrow:nth-child(3) .lbrank{background:#A9814B;color:#fff;border-color:#8A6838}
+.lbname{font-size:13.5px}
+.lbdots{flex:1;border-bottom:2px dotted var(--line)}
+.kynote{margin-top:14px;font-size:12px;color:var(--ink2);line-height:1.7;padding:0 6px}
+.lbfoot{margin-top:12px;text-align:right}
+
+/* ---------- Toast & Modal ---------- */
+#toasts{position:fixed;bottom:22px;right:22px;z-index:5000;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:10px;font-size:13px;font-weight:600;border-left:4px solid var(--red);box-shadow:4px 4px 0 rgba(38,33,27,.25);animation:tin .25s ease;max-width:320px;transition:opacity .3s,transform .3s}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}}
+#modal{position:fixed;inset:0;background:rgba(38,33,27,.55);z-index:4500;display:none;place-items:center;padding:20px}
+#modal.show{display:grid}
+.mbox{background:var(--paper);border:2.5px solid var(--ink);border-radius:18px;max-width:440px;width:100%;padding:30px;box-shadow:8px 8px 0 rgba(38,33,27,.35);animation:min .3s cubic-bezier(.2,.9,.3,1.2);text-align:center}
+@keyframes min{from{opacity:0;transform:scale(.9) translateY(14px)}}
+.rstamp{display:inline-block;border:3px solid var(--red);color:var(--red);padding:2px 16px;border-radius:8px;transform:rotate(-6deg);font-weight:800;letter-spacing:8px;margin-bottom:12px;font-size:18px}
+.rbig{font-family:var(--fj);font-size:52px;color:var(--red);font-weight:800;line-height:1.1}
+.rbig small{font-size:17px;color:var(--ink2);font-weight:600}
+.rsub{color:var(--ink2);font-size:13px;margin:6px 0 12px}
+.rxp{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:var(--red);font-size:14px;margin-bottom:8px}
+.rrank{display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.mrow{display:flex;gap:12px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+
+@media(max-width:900px){
+  .kana-layout{grid-template-columns:1fr}
+  .detail{position:static}
+  .hgrid,.ky-grid{grid-template-columns:1fr}
+  .hero{flex-direction:column;gap:22px;text-align:center;align-items:center}
+  .hg-cta{justify-content:center}
+  .hg-sub{margin-inline:auto}
+  .hinomaru{width:140px;height:140px}
+  .hinomaru span{font-size:16px;letter-spacing:5px}
+  .qopts{grid-template-columns:1fr 1fr}
+  .ljp{min-width:0}
+  .lex{flex-wrap:wrap}
+  .hstats{width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topband"></div>
+  <div class="hwrap">
+    <div class="brand">
+      <div class="brand-mark">勉</div>
+      <div>
+        <div class="brand-name">BENKYOU</div>
+        <div class="brand-sub">勉強 · Tempat Belajar Bahasa Jepang</div>
+      </div>
+    </div>
+    <div class="hstats">
+      <div class="pill" id="pill-streak"></div>
+      <div class="pill" id="pill-xp"></div>
+    </div>
+  </div>
+  <nav id="nav"></nav>
+</header>
+
+<main id="main"></main>
+
+<footer class="foot">
+  <span class="mn">継続は力なり</span>
+  Keizoku wa chikara nari — "Konsistensi adalah kekuatan."
+</footer>
+
+<div id="toasts"></div>
+<div id="modal"><div class="mbox" id="mbox"></div></div>
+
 <script>
-const $=s=>document.querySelector(s),sp=s=>s.includes(' ')?s.split(' '):[...s],kt=s=>[...s].map(c=>String.fromCharCode(c.charCodeAt(0)+96)).join(''),sh=a=>[...a].sort(()=>Math.random()-.5);
-const KG={
-Seion:['あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん','a i u e o ka ki ku ke ko sa shi su se so ta chi tsu te to na ni nu ne no ha hi fu he ho ma mi mu me mo ya yu yo ra ri ru re ro wa wo n'],
-Dakuon:['がぎぐげござじずぜぞだぢづでどばびぶべぼ','ga gi gu ge go za ji zu ze zo da ji zu de do ba bi bu be bo'],
-Handakuon:['ぱぴぷぺぽ','pa pi pu pe po'],
-Youon:['きゃ きゅ きょ しゃ しゅ しょ ちゃ ちゅ ちょ にゃ にゅ にょ ひゃ ひゅ ひょ みゃ みゅ みょ りゃ りゅ りょ ぎゃ ぎゅ ぎょ じゃ じゅ じょ びゃ びゅ びょ ぴゃ ぴゅ ぴょ','kya kyu kyo sha shu sho cha chu cho nya nyu nyo hya hyu hyo mya myu myo rya ryu ryo gya gyu gyo ja ju jo bya byu byo pya pyu pyo']};
-const NOTE={Seion:'Huruf dasar (46). Hafalkan per baris: a-i-u-e-o, ka-ki-ku-ke-ko, dst.',Dakuon:'Huruf dasar + tanda ゛(tenten) jadi bunyi bersuara: k→g, s→z, t→d, h→b. ぢ & づ bunyinya sama dengan じ & ず (jarang dipakai).',Handakuon:'Baris H + tanda ゜(maru) jadi bunyi P.',Youon:'Huruf berakhiran i + ゃ/ゅ/ょ kecil = satu suku kata. Contoh: き + ゃ = きゃ (kya), bukan ki-ya.'};
-const KD=k=>Object.entries(KG).flatMap(([g,[a,b]])=>{const A=sp(a),B=b.split(' ');return A.map((c,i)=>({f:k?kt(c):c,b:B[i],g}))});
-const KT=`Angka
-いち|ichi|satu
-に|ni|dua
-さん|san|tiga
-よん|yon|empat
-ご|go|lima
-ろく|roku|enam
-なな|nana|tujuh
-はち|hachi|delapan
-きゅう|kyuu|sembilan
-じゅう|juu|sepuluh
-ひゃく|hyaku|seratus
-せん|sen|seribu
-ぜろ|zero|nol
-Salam & Ungkapan
-おはよう|ohayou|selamat pagi
-こんにちは|konnichiwa|halo / selamat siang
-こんばんは|konbanwa|selamat malam
-さようなら|sayounara|selamat tinggal
-ありがとう|arigatou|terima kasih
-すみません|sumimasen|maaf / permisi
-ごめんなさい|gomennasai|maaf
-おねがいします|onegaishimasu|tolong / mohon
-はい|hai|ya
-いいえ|iie|tidak
-いただきます|itadakimasu|selamat makan
-ごちそうさま|gochisousama|terima kasih makanannya
-おやすみ|oyasumi|selamat tidur
-はじめまして|hajimemashite|salam kenal
-いってきます|ittekimasu|saya berangkat
-ただいま|tadaima|saya pulang
-だいじょうぶ|daijoubu|tidak apa-apa
-Orang & Keluarga
-わたし|watashi|saya
-あなた|anata|kamu
-ひと|hito|orang
-せんせい|sensei|guru
-がくせい|gakusei|pelajar
-ともだち|tomodachi|teman
-かぞく|kazoku|keluarga
-ちち|chichi|ayah (sendiri)
-はは|haha|ibu (sendiri)
-おとうさん|otousan|ayah (orang lain)
-おかあさん|okaasan|ibu (orang lain)
-あに|ani|kakak laki-laki
-あね|ane|kakak perempuan
-おとうと|otouto|adik laki-laki
-いもうと|imouto|adik perempuan
-おじいさん|ojiisan|kakek
-おばあさん|obaasan|nenek
-こども|kodomo|anak
-おとこ|otoko|laki-laki
-おんな|onna|perempuan
-Waktu
-いま|ima|sekarang
-きょう|kyou|hari ini
-あした|ashita|besok
-きのう|kinou|kemarin
-まいにち|mainichi|setiap hari
-あさ|asa|pagi
-ひる|hiru|siang
-ばん|ban|malam
-ごぜん|gozen|AM / pagi
-ごご|gogo|PM / sore
-こんしゅう|konshuu|minggu ini
-らいしゅう|raishuu|minggu depan
-せんしゅう|senshuu|minggu lalu
-ことし|kotoshi|tahun ini
-らいねん|rainen|tahun depan
-きょねん|kyonen|tahun lalu
-げつようび|getsuyoubi|Senin
-かようび|kayoubi|Selasa
-すいようび|suiyoubi|Rabu
-もくようび|mokuyoubi|Kamis
-きんようび|kinyoubi|Jumat
-どようび|doyoubi|Sabtu
-にちようび|nichiyoubi|Minggu
-Makanan & Minuman
-ごはん|gohan|nasi / makan
-みず|mizu|air
-おちゃ|ocha|teh
-コーヒー|koohii|kopi
-ぎゅうにゅう|gyuunyuu|susu
-さかな|sakana|ikan
-にく|niku|daging
-やさい|yasai|sayur
-くだもの|kudamono|buah
-たまご|tamago|telur
-パン|pan|roti
-りんご|ringo|apel
-みかん|mikan|jeruk
-たべもの|tabemono|makanan
-のみもの|nomimono|minuman
-Tempat
-うち|uchi|rumah
-がっこう|gakkou|sekolah
-だいがく|daigaku|universitas
-えき|eki|stasiun
-びょういん|byouin|rumah sakit
-ぎんこう|ginkou|bank
-ゆうびんきょく|yuubinkyoku|kantor pos
-としょかん|toshokan|perpustakaan
-レストラン|resutoran|restoran
-みせ|mise|toko
-スーパー|suupaa|supermarket
-こうえん|kouen|taman
-くうこう|kuukou|bandara
-へや|heya|kamar
-トイレ|toire|toilet
-くに|kuni|negara
-まち|machi|kota
-かいしゃ|kaisha|perusahaan
-やま|yama|gunung
-うみ|umi|laut
-かわ|kawa|sungai
-Benda Sehari-hari
-ほん|hon|buku
-えんぴつ|enpitsu|pensil
-かばん|kaban|tas
-くるま|kuruma|mobil
-でんしゃ|densha|kereta
-じてんしゃ|jitensha|sepeda
-ひこうき|hikouki|pesawat
-バス|basu|bus
-かさ|kasa|payung
-くつ|kutsu|sepatu
-ふく|fuku|baju
-とけい|tokei|jam
-めがね|megane|kacamata
-つくえ|tsukue|meja
-いす|isu|kursi
-でんわ|denwa|telepon
-テレビ|terebi|televisi
-しゃしん|shashin|foto
-じしょ|jisho|kamus
-さいふ|saifu|dompet
-おかね|okane|uang
-てがみ|tegami|surat
-まど|mado|jendela
-えいが|eiga|film
-おんがく|ongaku|musik
-しごと|shigoto|pekerjaan
-しゅくだい|shukudai|PR
-しけん|shiken|ujian
-にほんご|nihongo|bahasa Jepang
-なまえ|namae|nama
-Tubuh & Alam
-あたま|atama|kepala
-かお|kao|wajah
-め|me|mata
-みみ|mimi|telinga
-くち|kuchi|mulut
-て|te|tangan
-あし|ashi|kaki
-からだ|karada|tubuh
-てんき|tenki|cuaca
-あめ|ame|hujan
-ゆき|yuki|salju
-かぜ|kaze|angin
-そら|sora|langit
-つき|tsuki|bulan
-いぬ|inu|anjing
-ねこ|neko|kucing
-とり|tori|burung
-Kata Kerja
-たべる|taberu|makan
-のむ|nomu|minum
-みる|miru|melihat
-きく|kiku|mendengar
-よむ|yomu|membaca
-かく|kaku|menulis
-はなす|hanasu|berbicara
-いく|iku|pergi
-くる|kuru|datang
-かえる|kaeru|pulang
-する|suru|melakukan
-かう|kau|membeli
-あう|au|bertemu
-はいる|hairu|masuk
-でる|deru|keluar
-おきる|okiru|bangun
-ねる|neru|tidur
-あそぶ|asobu|bermain
-およぐ|oyogu|berenang
-はたらく|hataraku|bekerja
-わかる|wakaru|mengerti
-しる|shiru|tahu
-あるく|aruku|berjalan
-はしる|hashiru|berlari
-のる|noru|naik
-おりる|oriru|turun
-かりる|kariru|meminjam
-あげる|ageru|memberi
-もらう|morau|menerima
-つかう|tsukau|memakai
-つくる|tsukuru|membuat
-まつ|matsu|menunggu
-もつ|motsu|membawa
-とる|toru|mengambil
-ある|aru|ada (benda)
-いる|iru|ada (makhluk hidup)
-すむ|sumu|tinggal
-あらう|arau|mencuci
-あける|akeru|membuka
-しめる|shimeru|menutup
-おしえる|oshieru|mengajar
-ならう|narau|belajar (dari guru)
-うたう|utau|menyanyi
-Kata Sifat -i
-おおきい|ookii|besar
-ちいさい|chiisai|kecil
-たかい|takai|tinggi / mahal
-やすい|yasui|murah
-あたらしい|atarashii|baru
-ふるい|furui|lama / tua
-いい|ii|bagus
-わるい|warui|buruk
-あつい|atsui|panas
-さむい|samui|dingin
-おいしい|oishii|enak
-むずかしい|muzukashii|sulit
-やさしい|yasashii|mudah / baik hati
-たのしい|tanoshii|menyenangkan
-おもしろい|omoshiroi|menarik / lucu
-いそがしい|isogashii|sibuk
-ながい|nagai|panjang
-みじかい|mijikai|pendek
-はやい|hayai|cepat / pagi
-おそい|osoi|lambat
-あかるい|akarui|terang
-くらい|kurai|gelap
-うれしい|ureshii|senang
-かわいい|kawaii|imut
-つよい|tsuyoi|kuat
-ひろい|hiroi|luas
-せまい|semai|sempit
-あかい|akai|merah
-あおい|aoi|biru
-しろい|shiroi|putih
-くろい|kuroi|hitam
-Kata Sifat -na
-すき|suki|suka
-きらい|kirai|tidak suka
-きれい|kirei|cantik / bersih
-しずか|shizuka|tenang
-にぎやか|nigiyaka|ramai
-げんき|genki|sehat / semangat
-ゆうめい|yuumei|terkenal
-しんせつ|shinsetsu|ramah
-べんり|benri|praktis
-じょうず|jouzu|pandai
-へた|heta|kurang pandai
-たいへん|taihen|repot / berat
-Kata Tanya & Penunjuk
-なに|nani|apa
-だれ|dare|siapa
-いつ|itsu|kapan
-どこ|doko|di mana
-どれ|dore|yang mana
-どう|dou|bagaimana
-なぜ|naze|kenapa
-いくら|ikura|berapa harga
-いくつ|ikutsu|berapa banyak
-これ|kore|ini
-それ|sore|itu
-あれ|are|itu (jauh)
-ここ|koko|di sini
-そこ|soko|di situ
-あそこ|asoko|di sana`;
-const PT=`は|wa|Penanda topik ("kalau soal ..."). Ditulis は tapi dibaca wa.|わたしは インドネシアじんです。|Saya orang Indonesia.
-が|ga|Penanda subjek; untuk info baru, kata tanya, dan suka/bisa/ada.|だれが きますか。|Siapa yang datang?
-を|o|Penanda objek langsung kata kerja. Dibaca o.|みずを のみます。|Saya minum air.
-に|ni|Waktu tepat, tujuan, tempat keberadaan, penerima.|しちじに おきます。|Bangun jam tujuh.
-で|de|Tempat melakukan aksi, alat, bahan.|がっこうで べんきょうします。|Belajar di sekolah.
-へ|e|Arah tujuan. Dibaca e.|にほんへ いきます。|Pergi ke Jepang.
-の|no|Kepemilikan, menghubungkan dua benda.|わたしの ほん|Buku saya
-と|to|"Dan" antar benda, atau "bersama".|ともだちと いきます。|Pergi bersama teman.
-も|mo|"Juga", menggantikan は/が/を.|わたしも がくせいです。|Saya juga pelajar.
-か|ka|Tanda tanya di akhir kalimat.|おげんきですか。|Apa kabar?
-から|kara|"Dari" (waktu/tempat) atau "karena".|くじから はじまります。|Mulai dari jam sembilan.
-まで|made|"Sampai" (waktu/tempat).|えきまで あるきます。|Jalan sampai stasiun.
-や|ya|"Dan lain-lain" (daftar tidak lengkap).|りんごや みかんを かいます。|Beli apel, jeruk, dll.
-だけ|dake|"Hanya".|みずだけ のみます。|Hanya minum air.
-より|yori|"Daripada" (perbandingan).|りんごより みかんが すきです。|Lebih suka jeruk daripada apel.
-よ|yo|Penegas, memberi info baru.|おいしいですよ。|Enak lho.
-ね|ne|Minta persetujuan ("kan/ya?").|いい てんきですね。|Cuacanya bagus ya.`;
-const SN=`Urutan dasar: kata kerja di akhir|(Waktu) + Subjek は + (Tempat で) + Objek を + Kata kerja|わたしは あした がっこうで にほんごを べんきょうします。|Besok saya belajar bahasa Jepang di sekolah.|Indonesia itu SVO, Jepang SOV: kata kerja SELALU di akhir. Partikel menandai peran tiap kata, jadi urutan kata di tengah agak fleksibel.
-Kalimat benda: A adalah B|A は B です / ではありません / でした / ですか|たなかさんは せんせいです。|Pak Tanaka adalah guru.|です = "adalah" (sopan). Negatif: ではありません (lisan: じゃありません). Lampau: でした.
-Kata sifat -i|A は adj-i です. Negatif: い→くないです. Lampau: い→かったです|このりんごは おいしいです。|Apel ini enak.|おいしくないです = tidak enak; おいしかったです = dulu enak. Pengecualian: いい → よくないです.
-Kata sifat -na|A は adj-na です. Sebelum benda: adj-na + な + benda. Negatif: じゃありません|ここは しずかです。 / しずかな まち|Di sini tenang. / Kota yang tenang.|きれい, すき, げんき termasuk kata sifat -na.
-Kata kerja bentuk ます|ます (sekarang/akan) · ません (tidak) · ました (lampau) · ませんでした (tidak, lampau)|まいあさ パンを たべます。|Tiap pagi saya makan roti.|Satu bentuk untuk sekarang & masa depan. Waktunya ditunjukkan kata keterangan seperti あした, まいにち.
-Ada: あります / います|Tempat に Benda が あります · Tempat に Orang が います|つくえの うえに ほんが あります。|Di atas meja ada buku.|います untuk makhluk hidup (orang, hewan), あります untuk benda mati & tumbuhan.
-Ingin: ~たい|Kata kerja (tanpa ます) + たいです|すしを たべたいです。|Saya ingin makan sushi.|Objek boleh pakai を atau が.
-Sedang melakukan: ~ています|Kata kerja bentuk-te + います|いま テレビを みています。|Sekarang sedang nonton TV.|Bentuk-te: たべる→たべて, みる→みて, のむ→のんで, いく→いって, かく→かいて.
-Ajakan & permintaan|~ませんか (mau ...?) · ~ましょう (ayo) · ~てください (tolong)|いっしょに たべませんか。|Mau makan bareng?|Tambah おねがいします untuk permintaan yang lebih sopan.
-Kalimat tanya|Kalimat biasa + か. Kata tanya menempati posisi jawabannya|これは なんですか。|Ini apa?|Kata tanya tidak dipindah ke depan seperti bahasa Indonesia.`;
-const parse=()=>{let c='';return KT.split('\n').flatMap(l=>{if(!l.includes('|')){c=l;return[]}const[f,s,b]=l.split('|');return[{f,s,b,g:c}]})};
-const D={hira:KD(0),kata:KD(1),koto:parse()};
-let T={p:'dash',m:'list',sel:new Set(),rev:false,fc:null,qz:null};
-const deck=()=>{const d=D[T.p];return T.sel.size?d.filter(x=>T.sel.has(x.g)):d};
-const cats=()=>T.p=='koto'?[...new Set(D.koto.map(x=>x.g))]:Object.keys(KG);
-const ans=c=>T.rev?c.f:c.b;
-function opts(c){const a=ans(c),o=[a],seen=new Set([a]);for(const x of sh(D[T.p])){if(x.b===c.b||seen.has(ans(x)))continue;seen.add(ans(x));o.push(ans(x));if(o.length==4)break}return sh(o)}
-function go(p){T.p=p;T.m='list';T.sel=new Set();T.fc=T.qz=null;R();scrollTo(0,0)}
-function mode(m){T.m=m;T.fc=T.qz=null;const d=deck();if(m=='card')T.fc={q:sh(d),n:0,t:d.length,fl:0};if(m=='quiz'){const q=sh(d).slice(0,10);T.qz={q,i:0,s:0,pk:null,o:opts(q[0])}}R()}
-function ch(g){g==null?T.sel.clear():T.sel.has(g)?T.sel.delete(g):T.sel.add(g);T.m=='list'?R():mode(T.m)}
-function rv(){T.rev=!T.rev;mode(T.m)}
-function fl(){T.fc.fl^=1;R()}
-function ok(y){const f=T.fc;if(y){f.q.shift();f.n++}else f.q.push(f.q.shift());f.fl=0;R()}
-function pk(i){const z=T.qz;if(z.pk!=null)return;z.pk=i;if(z.o[i]==ans(z.q[z.i]))z.s++;R()}
-function nx(){const z=T.qz;z.i++;z.pk=null;if(z.i<z.q.length)z.o=opts(z.q[z.i]);R()}
-function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
-function list(){const d=deck();return [...new Set(d.map(x=>x.g))].map(g=>{const it=d.filter(x=>x.g==g);return `<h3>${g}<small>${it.length}</small>${NOTE[g]&&T.p!='koto'?`<em>${NOTE[g]}</em>`:''}</h3>`+(T.p=='koto'?`<div class="card" style="padding:4px">${it.map(x=>`<div class="w"><b>${x.f}</b><span>${x.s}</span><i>${x.b}</i></div>`).join('')}</div>`:`<div class="kg">${it.map(x=>`<div class="k"><b>${x.f}</b><span>${x.b}</span></div>`).join('')}</div>`)}).join('')}
-function card(){const f=T.fc;if(!f.q.length)return `<div class="card c" style="margin-top:12px"><div class="big">🎉</div><p>Selesai! ${f.t} kartu sudah hafal.</p><button class="btn" onclick="mode('card')">Ulangi</button></div>`;const c=f.q[0],fr=T.rev?c.b:c.f,bk=T.rev?c.f:c.b;
-return `<p class="mut">Hafal ${f.n} / ${f.t}</p><div class="card fc" onclick="fl()"><div class="big">${f.fl?bk:fr}</div>${f.fl&&c.s?`<div class="sub">${c.s}</div>`:''}${f.fl?'':'<div class="sub">ketuk untuk membalik</div>'}<button class="chip" style="margin-top:12px" onclick="event.stopPropagation();say('${c.f}')">🔊 Dengar</button></div>${f.fl?`<div class="row"><button class="btn no" onclick="ok(0)">Belum hafal</button><button class="btn ok" onclick="ok(1)">Hafal</button></div>`:''}`}
-function quiz(){const z=T.qz;if(z.i>=z.q.length)return `<div class="card c" style="margin-top:12px"><div class="big">${z.s}/${z.q.length}</div><p>${z.s==z.q.length?'Sempurna! すごい!':z.s>=z.q.length*.7?'Bagus, lanjut terus!':'Ayo latihan lagi, pasti bisa!'}</p><button class="btn" onclick="mode('quiz')">Main lagi</button></div>`;
-const c=z.q[z.i],a=ans(c);return `<p class="mut">Soal ${z.i+1}/${z.q.length} · Skor ${z.s}</p><div class="card c"><div class="big">${T.rev?c.b:c.f}</div></div><div class="opts">${z.o.map((o,i)=>`<button class="opt ${z.pk!=null?(o==a?'ok':i==z.pk?'no':''):''}" onclick="pk(${i})">${o}</button>`).join('')}</div>${z.pk!=null?`<button class="btn" style="width:100%" onclick="nx()">Lanjut →</button>`:''}`}
-function page(){const t={hira:'ひらがな Hiragana',kata:'カタカナ Katakana',koto:'ことば Kotoba'}[T.p];
-const chips=`<div class="chips"><button class="chip ${T.sel.size?'':'on'}" onclick="ch()">Semua</button>${cats().map(c=>`<button class="chip ${T.sel.has(c)?'on':''}" onclick="ch('${c}')">${c}</button>`).join('')}</div>`;
-const tabs=[['list',T.p=='koto'?'Daftar':'Tabel'],['card','Flashcard'],['quiz','Quiz']].map(([m,l])=>`<button class="tab ${T.m==m?'on':''}" onclick="mode('${m}')">${l}</button>`).join('');
-return `<h1 style="font-size:24px;margin-top:8px">${t}</h1><div class="tabs">${tabs}</div>${chips}${T.m!='list'?`<label class="rv"><input type="checkbox" ${T.rev?'checked':''} onchange="rv()"> Balik arah (${T.p=='koto'?'arti → kata':'romaji → huruf'})</label>`:''}${T.m=='list'?list():T.m=='card'?card():quiz()}`}
-function dash(){return `<div style="margin-top:8px"><h1>日本語 道場</h1><p class="mut">Belajar Jepang untuk pemula level N5 & N4: kana, kotoba, partikel, dan pola kalimat. Pilih menu di bawah atau tab di atas.</p></div>
-<div class="stats">${[['hira','ひらがな',D.hira.length+' huruf'],['kata','カタカナ',D.kata.length+' huruf'],['koto','ことば',D.koto.length+' kata']].map(([p,n,c])=>`<button class="card st" onclick="go('${p}')"><b>${n}</b><span>${c}</span><i>Tabel · Flashcard · Quiz</i></button>`).join('')}</div>
-<h2>Partikel 助詞</h2><p class="mut">Partikel itu "lem" kalimat Jepang: menandai peran kata di depannya.</p><div class="pg">${PT.split('\n').map(l=>{const[p,r,e,j,a]=l.split('|');return `<div class="card"><div class="pc">${p}<small>${r}</small></div><div>${e}</div><div class="ex">${j}<br><span class="mut">${a}</span></div></div>`}).join('')}</div>
-<h2>Cara Menyusun Kalimat</h2>${SN.split('\n').map(l=>{const[t,p,j,a,n]=l.split('|');return `<div class="card sn"><b>${t}</b><code>${p}</code><div class="ex">${j}<br><span class="mut">${a}</span></div><p class="mut" style="margin:6px 0 0;font-size:14px">${n}</p></div>`}).join('')}`}
-function R(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p==T.p));$('#app').innerHTML=T.p=='dash'?dash():page()}
-const TH={sakura:'#e8638b',neon:'#00e5ff',washi:'#b23a2e',pop:'#58cc02'};
-function th(t){document.documentElement.dataset.t=t;try{localStorage.setItem('t',t)}catch(e){}}
-$('#dots').innerHTML=Object.entries(TH).map(([k,c])=>`<button class="dot" title="${k}" style="background:${c}" onclick="th('${k}')"></button>`).join('');
-let t0='';try{t0=localStorage.getItem('t')||''}catch(e){}
-th(TH[t0]?t0:matchMedia('(prefers-color-scheme: dark)').matches?'neon':'sakura');
-R();
+/* =================== IKON (SVG inline) =================== */
+const ICONS={
+vol:'<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
+flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+check:'<path d="M20 6 9 17l-5-5"/>',
+chev:'<path d="m6 9 6 6 6-6"/>',
+re:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+trophy:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+play:'<path d="M6 3l14 9-14 9V3z"/>',
+arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+pencil:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',
+book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+swords:'<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4"/><path d="M7 17l-4 4"/><path d="M3 19l2 2"/>',
+ok:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'
+};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg>`;
+
+/* =================== DATA KANA =================== */
+const pk=s=>s.split(',').map(x=>{const p=x.trim().split(' ');return{r:p[0],c:p[1]}});
+const KANA={
+ hiragana:{
+  seion:pk("a あ,i い,u う,e え,o お,ka か,ki き,ku く,ke け,ko こ,sa さ,shi し,su す,se せ,so そ,ta た,chi ち,tsu つ,te て,to と,na な,ni に,nu ぬ,ne ね,no の,ha は,hi ひ,fu ふ,he へ,ho ほ,ma ま,mi み,mu む,me め,mo も,ya や,yu ゆ,yo よ,ra ら,ri り,ru る,re れ,ro ろ,wa わ,wo を,n ん"),
+  dakuon:pk("ga が,gi ぎ,gu ぐ,ge げ,go ご,za ざ,ji じ,zu ず,ze ぜ,zo ぞ,da だ,ji ぢ,zu づ,de で,do ど,ba ば,bi び,bu ぶ,be べ,bo ぼ"),
+  handakuon:pk("pa ぱ,pi ぴ,pu ぷ,pe ぺ,po ぽ"),
+  youon:pk("kya きゃ,kyu きゅ,kyo きょ,sha しゃ,shu しゅ,sho しょ,cha ちゃ,chu ちゅ,cho ちょ,nya にゃ,nyu にゅ,nyo にょ,hya ひゃ,hyu ひゅ,hyo ひょ,mya みゃ,myu みゅ,myo みょ,rya りゃ,ryu りゅ,ryo りょ,gya ぎゃ,gyu ぎゅ,gyo ぎょ,ja じゃ,ju じゅ,jo じょ,bya びゃ,byu びゅ,byo びょ,pya ぴゃ,pyu ぴゅ,pyo ぴょ")
+ },
+ katakana:{
+  seion:pk("a ア,i イ,u ウ,e エ,o オ,ka カ,ki キ,ku ク,ke ケ,ko コ,sa サ,shi シ,su ス,se セ,so ソ,ta タ,chi チ,tsu ツ,te テ,to ト,na ナ,ni ニ,nu ヌ,ne ネ,no ノ,ha ハ,hi ヒ,fu フ,he ヘ,ho ホ,ma マ,mi ミ,mu ム,me メ,mo モ,ya ヤ,yu ユ,yo ヨ,ra ラ,ri リ,ru ル,re レ,ro ロ,wa ワ,wo ヲ,n ン"),
+  dakuon:pk("ga ガ,gi ギ,gu グ,ge ゲ,go ゴ,za ザ,ji ジ,zu ズ,ze ゼ,zo ゾ,da ダ,ji ヂ,zu ヅ,de デ,do ド,ba バ,bi ビ,bu ブ,be ベ,bo ボ"),
+  handakuon:pk("pa パ,pi ピ,pu プ,pe ペ,po ポ"),
+  youon:pk("kya キャ,kyu キュ,kyo キョ,sha シャ,shu シュ,sho ショ,cha チャ,chu チュ,cho チョ,nya ニャ,nyu ニュ,nyo ニョ,hya ヒャ,hyu ヒュ,hyo ヒョ,mya ミャ,myu ミュ,myo ミョ,rya リャ,ryu リュ,ryo リョ,gya ギャ,gyu ギュ,gyo ギョ,ja ジャ,ju ジュ,jo ジョ,bya ビャ,byu ビュ,byo ビョ,pya ピャ,pyu ピュ,pyo ピョ")
+ }
+};
+const SEION_ORDER=["a","i","u","e","o","ka","ki","ku","ke","ko","sa","shi","su","se","so","ta","chi","tsu","te","to","na","ni","nu","ne","no","ha","hi","fu","he","ho","ma","mi","mu","me","mo","ya",null,"yu",null,"yo",null,"ra","ri","ru","re","ro","wa",null,null,"wo","n"];
+const GROUP_INFO={
+ seion:{label:"Seion",desc:"Seion (清音) — 46 suara dasar gojūon. Ini fondasi semua bunyi bahasa Jepang. Kuasai dulu baris ini sebelum lanjut ke dakuon dan yōon."},
+ dakuon:{label:"Dakuon・Handakuon",desc:"Dakuon (濁音) ditandai dua garis kecil (゛): k→g, s→z, t→d, h→b. Handakuon (半濁音) ditandai lingkaran kecil (゜): h→p. Bentuk karakternya sama, hanya bunyinya yang berubah."},
+ youon:{label:"Yōon",desc:"Yōon (拗音): suara kecil ゃ・ゅ・ょ menempel setelah suku berakhiran -i dan menggabungkannya jadi SATU ketukan — kya, sha, cha, ryo... Bukan dua suku terpisah!"}
+};
+const KANA_EX={
+ "を":["本を読む","ほんをよむ","hon o yomu","membaca buku"],
+ "ぢ":null,"づ":null,"ヲ":null,"ヂ":null,"ヅ":null,
+ "ちゃ":["茶色","ちゃいろ","chairo","warna coklat"],
+ "ちゅ":["中学校","ちゅうがっこう","chuugakkou","sekolah menengah pertama"],
+ "ちょ":["蝶","ちょう","chou","kupu-kupu"],
+ "じゃ":["じゃがいも","じゃがいも","jagaimo","kentang"],
+ "じゅ":["十","じゅう","juu","sepuluh"],
+ "じょ":["女子","じょし","joshi","gadis"],
+ "りょ":["旅館","りょかん","ryokan","penginapan Jepang"],
+ "しゃ":["社員","しゃいん","shain","karyawan"],
+ "しょ":["食事","しょくじ","shokuji","makanan/makan"],
+ "きょ":["教室","きょうしつ","kyoushitsu","ruang kelas"],
+ "きゅ":["九","きゅう","kyuu","sembilan"],
+ "にゃ":["にゃんこ","にゃんこ","nyanko","meong, anak kucing"]
+};
+
+/* =================== DATA KOTOBA (N5-N4) =================== */
+const KOTOBA_RAW=[
+["おはようございます","おはようございます","ohayou gozaimasu","Selamat pagi","Sapaan",5],
+["こんにちは","こんにちは","konnichiwa","Selamat siang","Sapaan",5],
+["こんばんは","こんばんは","konbanwa","Selamat malam","Sapaan",5],
+["ありがとう","ありがとう","arigatou","Terima kasih","Sapaan",5],
+["すみません","すみません","sumimasen","Permisi / maaf","Sapaan",5],
+["ごめんなさい","ごめんなさい","gomen nasai","Maafkan saya","Sapaan",5],
+["はい","はい","hai","Ya","Sapaan",5],
+["いいえ","いいえ","iie","Bukan / tidak","Sapaan",5],
+["さようなら","さようなら","sayounara","Selamat tinggal","Sapaan",5],
+["おやすみなさい","おやすみなさい","oyasuminasai","Selamat tidur","Sapaan",5],
+["おねがいします","おねがいします","onegaishimasu","Tolong / mohon","Sapaan",5],
+["はじめまして","はじめまして","hajimemashite","Senang berkenalan","Sapaan",5],
+["私","わたし","watashi","Saya","Orang",5],
+["あなた","あなた","anata","Kamu / Anda","Orang",5],
+["彼","かれ","kare","Dia (pria)","Orang",5],
+["彼女","かのじょ","kanojo","Dia (wanita); pacar","Orang",5],
+["友達","ともだち","tomodachi","Teman","Orang",5],
+["先生","せんせい","sensei","Guru","Orang",5],
+["学生","がくせい","gakusei","Murid / mahasiswa","Orang",5],
+["家族","かぞく","kazoku","Keluarga","Orang",5],
+["人","ひと","hito","Orang","Orang",5],
+["本","ほん","hon","Buku","Benda",5],
+["水","みず","mizu","Air","Benda",5],
+["お茶","おちゃ","ocha","Teh","Benda",5],
+["パン","パン","pan","Roti","Benda",5],
+["卵","たまご","tamago","Telur","Benda",5],
+["お金","おかね","okane","Uang","Benda",5],
+["写真","しゃしん","shashin","Foto","Benda",5],
+["電話","でんわ","denwa","Telepon","Benda",5],
+["車","くるま","kuruma","Mobil","Benda",5],
+["犬","いぬ","inu","Anjing","Benda",5],
+["猫","ねこ","neko","Kucing","Benda",5],
+["学校","がっこう","gakkou","Sekolah","Tempat",5],
+["家","いえ","ie","Rumah","Tempat",5],
+["図書館","としょかん","toshokan","Perpustakaan","Tempat",5],
+["公園","こうえん","kouen","Taman","Tempat",5],
+["駅","えき","eki","Stasiun","Tempat",5],
+["デパート","デパート","depaato","Pusat perbelanjaan","Tempat",5],
+["トイレ","トイレ","toire","Toilet","Tempat",5],
+["郵便局","ゆうびんきょく","yuubinkyoku","Kantor pos","Tempat",5],
+["レストラン","レストラン","resutoran","Restoran","Tempat",5],
+["今日","きょう","kyou","Hari ini","Waktu",5],
+["明日","あした","ashita","Besok","Waktu",5],
+["昨日","きのう","kinou","Kemarin","Waktu",5],
+["今","いま","ima","Sekarang","Waktu",5],
+["朝","あさ","asa","Pagi","Waktu",5],
+["夜","よる","yoru","Malam","Waktu",5],
+["時間","じかん","jikan","Waktu / jam","Waktu",5],
+["週末","しゅうまつ","shuumatsu","Akhir pekan","Waktu",5],
+["食べる","たべる","taberu","Makan","Verba",5],
+["飲む","のむ","nomu","Minum","Verba",5],
+["行く","いく","iku","Pergi","Verba",5],
+["来る","くる","kuru","Datang","Verba",5],
+["見る","みる","miru","Melihat / menonton","Verba",5],
+["読む","よむ","yomu","Membaca","Verba",5],
+["書く","かく","kaku","Menulis","Verba",5],
+["話す","はなす","hanasu","Berbicara","Verba",5],
+["買う","かう","kau","Membeli","Verba",5],
+["寝る","ねる","neru","Tidur","Verba",5],
+["聞く","きく","kiku","Mendengar; bertanya","Verba",5],
+["歩く","あるく","aruku","Berjalan","Verba",5],
+["働く","はたらく","hataraku","Bekerja","Verba",5],
+["大きい","おおきい","ookii","Besar","Sifat",5],
+["小さい","ちいさい","chiisai","Kecil","Sifat",5],
+["高い","たかい","takai","Tinggi; mahal","Sifat",5],
+["安い","やすい","yasui","Murah","Sifat",5],
+["新しい","あたらしい","atarashii","Baru","Sifat",5],
+["古い","ふるい","furui","Tua (benda)","Sifat",5],
+["いい","いい","ii","Bagus","Sifat",5],
+["おいしい","おいしい","oishii","Enak","Sifat",5],
+["早い","はやい","hayai","Cepat; pagi","Sifat",5],
+["暑い","あつい","atsui","Panas (cuaca)","Sifat",5],
+["寒い","さむい","samui","Dingin (cuaca)","Sifat",5],
+["楽しい","たのしい","tanoshii","Menyenangkan","Sifat",5],
+["難しい","むずかしい","muzukashii","Sulit","Sifat",5],
+["世界","せかい","sekai","Dunia","Benda",4],
+["気持ち","きもち","kimochi","Perasaan","Benda",4],
+["予定","よてい","yotei","Rencana / jadwal","Benda",4],
+["経験","けいけん","keiken","Pengalaman","Benda",4],
+["料理","りょうり","ryouri","Masakan; memasak","Benda",4],
+["掃除","そうじ","souji","Membersihkan; bersih-bersih","Benda",4],
+["仕事","しごと","shigoto","Pekerjaan","Benda",4],
+["病院","びょういん","byouin","Rumah sakit","Tempat",4],
+["薬","くすり","kusuri","Obat","Benda",4],
+["自転車","じてんしゃ","jitensha","Sepeda","Benda",4],
+["地図","ちず","chizu","Peta","Benda",4],
+["趣味","しゅみ","shumi","Hobi","Benda",4],
+["歌","うた","uta","Lagu","Benda",4],
+["皿","さら","sara","Piring","Benda",4],
+["町","まち","machi","Kota; perkampungan","Tempat",4],
+["待つ","まつ","matsu","Menunggu","Verba",4],
+["考える","かんがえる","kangaeru","Berpikir","Verba",4],
+["送る","おくる","okuru","Mengirim","Verba",4],
+["手伝う","てつだう","tetsudau","Membantu","Verba",4],
+["疲れる","つかれる","tsukareru","Lelah","Verba",4],
+["終わる","おわる","owaru","Selesai","Verba",4],
+["始まる","はじまる","hajimaru","Mulai","Verba",4],
+["調べる","しらべる","shiraberu","Memeriksa; menyelidiki","Verba",4],
+["探す","さがす","sagasu","Mencari","Verba",4],
+["洗う","あらう","arau","Mencuci","Verba",4],
+["覚える","おぼえる","oboeru","Menghafal; mengingat","Verba",4],
+["曲がる","まがる","magaru","Berbelok","Verba",4],
+["綺麗","きれい","kirei","Bersih; cantik","Sifat",4],
+["静か","しずか","shizuka","Tenang; sepi","Sifat",4],
+["賑やか","にぎやか","nigiyaka","Ramai","Sifat",4],
+["元気","げんき","genki","Sehat; bersemangat","Sifat",4],
+["上手","じょうず","jouzu","Mahir; pandai","Sifat",4],
+["下手","へた","heta","Canggung; kurang bisa","Sifat",4],
+["面白い","おもしろい","omoshiroi","Menarik; seru","Sifat",4],
+["便利","べんり","benri","Praktis; berguna","Sifat",4],
+["つまらない","つまらない","tsumaranai","Membosankan","Sifat",4],
+["大変","たいへん","taihen","Berat; luar biasa susah","Sifat",4]
+];
+const KOTOBA=KOTOBA_RAW.map((a,i)=>({jp:a[0],kana:a[1],r:a[2],id:a[3],cat:a[4],lvl:a[5],key:'k'+i}));
+const K5=KOTOBA.filter(w=>w.lvl===5);
+const CATS=[...new Set(KOTOBA.map(w=>w.cat))];
+
+/* =================== DATA BUNPOU =================== */
+const PARTICLES=[
+{p:"は",r:"wa",t:"Penanda topik",d:"Menandai topik kalimat: 'kalau soal X, maka...'. Ditulis は tapi dibaca 'wa' — ini pengecualian yang wajib lo inget.",ex:[["私は学生です。","Watashi wa gakusei desu.","Saya adalah murid."],["これは本です。","Kore wa hon desu.","Ini adalah buku."]],n:"Jangan tertukar: は sebagai partikel dibaca 'wa', bukan 'ha'."},
+{p:"が",r:"ga",t:"Penanda subjek / fokus baru",d:"Menandai subjek, terutama informasi baru atau jawaban dari 'siapa/apa'.",ex:[["猫がいます。","Neko ga imasu.","Ada kucing."],["雨が降っています。","Ame ga futte imasu.","Hujan sedang turun."]],n:"は = topik yang sudah dikenal; が = informasi baru yang jadi fokus."},
+{p:"を",r:"o",t:"Penanda objek langsung",d:"Menandai benda yang menerima aksi verba. Ditulis を, dibaca 'o'.",ex:[["パンを食べます。","Pan o tabemasu.","Makan roti."],["音楽を聞きます。","Ongaku o kikimasu.","Mendengarkan musik."]],n:"Verba selalu ngikut di belakangnya — inget pola SOV."},
+{p:"に",r:"ni",t:"Tujuan / waktu tertentu",d:"Menunjukkan arah tujuan, atau waktu yang spesifik (jam, hari tanggal).",ex:[["学校に行きます。","Gakkou ni ikimasu.","Pergi ke sekolah."],["7時に起きます。","Shichi-ji ni okimasu.","Bangun jam 7."]],n:"Waktu spesifik pakai に; kata seperti kyou/ashita/kinou TIDAK pakai に."},
+{p:"で",r:"de",t:"Tempat kegiatan / alat",d:"Menunjukkan lokasi aksi berlangsung, atau alat/cara melakukan sesuatu.",ex:[["図書館で勉強します。","Toshokan de benkyou shimasu.","Belajar di perpustakaan."],["バスで行きます。","Basu de ikimasu.","Pergi naik bus."]],n:"に = tujuan (ke mana); で = tempat melakukan (di mana aksinya)."},
+{p:"へ",r:"e",t:"Arah",d:"Menekankan arah gerakan. Ditulis へ tapi dibaca 'e'.",ex:[["日本へ行きます。","Nihon e ikimasu.","Pergi ke Jepang."]],n:"Mirip に untuk arah, tapi fokusnya ke 'arah tujuan', bukan titik tujuan."},
+{p:"と",r:"to",t:"Dan / dengan / kutipan",d:"Menyambung dua benda ('dan'), berarti 'dengan' seseorang, atau menandai kutipan.",ex:[["友達と映画を見ます。","Tomodachi to eiga o mimasu.","Nonton film dengan teman."],["「はい」と言いました。","\"Hai\" to iimashita.","Berkata 'ya'."]],n:"と menyambung kata benda dengan kata benda, bukan kalimat dengan kalimat."},
+{p:"も",r:"mo",t:"Juga",d:"Berarti 'juga'. Posisinya menggantikan は atau が.",ex:[["私も学生です。","Watashi mo gakusei desu.","Saya juga murid."]],n:"も menimpa は/が — jangan dipakai bersamaan (わたしはも = salah)."},
+{p:"の",r:"no",t:"Kepemilikan / penjelas",d:"Menunjukkan milik atau hubungan. Urutannya terbalik dari Indonesia: 'A no B' = B milik A.",ex:[["私の本です。","Watashi no hon desu.","Itu buku saya."],["日本語の先生。","Nihongo no sensei.","Guru bahasa Jepang."]],n:"Nihongo NO sensei = guru bahasa Jepang (bukan 'bahasa milik guru') — urutannya kebalik!"},
+{p:"から・まで",r:"kara / made",t:"Dari / sampai",d:"から = titik mulai, まで = titik akhir. Bisa untuk waktu atau tempat.",ex:[["9時から5時まで働きます。","Ku-ji kara go-ji made hatarakimasu.","Bekerja dari jam 9 sampai 5."],["駅から家まで歩きます。","Eki kara ie made arukimasu.","Jalan kaki dari stasiun sampai rumah."]],n:"から juga bisa berarti 'karena' kalau dipasang di akhir kalimat."},
+{p:"か",r:"ka",t:"Tanda tanya",d:"Ditempel di akhir kalimat untuk jadi pertanyaan — urutan kata tidak perlu dibalik.",ex:[["あなたは学生ですか。","Anata wa gakusei desu ka.","Apakah kamu murid?"]],n:"Secara tata bahasa '?' tidak wajib — か sudah menandai kalimat tanya."},
+{p:"ね・よ",r:"ne / yo",t:"Konfirmasi / penekanan",d:"ね mencari persetujuan ('ya, kan?'); よ memberi tahu hal baru ('lho').",ex:[["いい天気ですね。","Ii tenki desu ne.","Cuacanya bagus, ya."],["おいしいですよ。","Oishii desu yo.","Enak, lho!"]],n:"ね = cari kesepakatan; よ = kasih info yang belum lo tau."}
+];
+const LESSONS=[
+{n:"一",t:"Urutan kata: Subjek → Objek → Verba (SOV)",d:"Bahasa Indonesia menyusun 'Saya makan roti' (verba di tengah). Bahasa Jepang membaliknya: verba selalu paling akhir. 「わたしは パンを たべます」 harfiahnya 'Saya — roti — makan'.",demo:true},
+{n:"二",t:"です — kata 'adalah' yang sopan",d:"です ditempel di akhir kalimat bermakna 'adalah'. Negasinya じゃありません ('bukan'). Untuk bertanya cukup tambah か di belakang — urutan kata tidak berubah sama sekali.",ex:[["私は学生です。","Saya adalah murid."],["私は学生じゃありません。","Saya bukan murid."],["あなたは先生ですか。","Apakah Anda guru?"]]},
+{n:"三",t:"あります vs います — dua kata 'ada'",d:"Bahasa Jepang membedakan keberadaan: います untuk makhluk hidup yang bisa bergerak (orang, hewan), あります untuk benda dan tumbuhan.",ex:[["ねこがいます。","Ada kucing."],["ほんがあります。","Ada buku."],["こうえんにひとがいます。","Ada orang di taman."]]},
+{n:"四",t:"Kata sifat い dan な",d:"Kata sifat い berakhiran い (たかい = tinggi/mahal). Kata sifat na butuh な saat mendahului kata benda (きれいな はな = bunga yang cantik). Negasi い: ganti い jadi くない.",ex:[["たかいやま。","Gunung yang tinggi."],["きれいなまち。","Kota yang indah."],["たかくない。","Tidak mahal."]]},
+{n:"五",t:"Bentuk ます — verba sopan + waktu",d:"Bentuk sopan verba diakhiri ます. Ganti akhirannya untuk mengubah waktu: ました (sudah), ません (tidak), ませんでした (tidak, lampau). Satu pola untuk semua verba!",ex:[["たべます。","Makan (sekarang / akan)."],["たべました。","Sudah makan."],["たべません。","Tidak makan."],["たべませんでした。","Tidak makan (tadi)."]]},
+{n:"六",t:"Pola penting level N4",d:"Pola-pola yang wajib dikenali di N4. Hafalkan lewat contohnya, nanti pola lain tinggal nempel.",ex:[["にほんへいきたいです。","Aku ingin pergi ke Jepang. (~たい = ingin)"],["はいってもいいですか。","Bolehkah masuk? (~てもいい = boleh)"],["ふじさんにのぼったことがあります。","Aku pernah mendaki Fuji. (~たことがある = pernah)"],["さわらないでください。","Tolong jangan disentuh. (~ないでください)"],["べんきょうしなければなりません。","Aku harus belajar. (~なければならない = harus)"]]}
+];
+const PARTICLE_QUIZ=[
+{q:"わたし ___ がくせいです。",opts:["は","を","で","の"],ans:"は",note:"Topik kalimat ditandai は (dibaca 'wa')."},
+{q:"パン ___ たべます。",opts:["が","を","に","へ"],ans:"を",note:"Objek langsung dari verba ditandai を."},
+{q:"がっこう ___ いきます。",opts:["で","を","に","も"],ans:"に",note:"に menunjukkan tujuan gerakan: pergi KE sekolah."},
+{q:"としょかん ___ べんきょうします。",opts:["に","で","へ","か"],ans:"で",note:"で menandai tempat kegiatan dilakukan."},
+{q:"ともだち ___ えいがをみます。",opts:["と","の","を","が"],ans:"と",note:"と = 'dengan' seseorang."},
+{q:"A: 「がくせいです。」 B: 「わたし ___ がくせいです。」",opts:["は","も","を","で"],ans:"も",note:"も = 'juga', dipakai menggantikan は/が."},
+{q:"これ ___ わたしのほんです。",opts:["は","に","で","へ"],ans:"は",note:"は menandai topik: 'kalau soal ini, itu buku saya'."},
+{q:"7じ ___ おきます。",opts:["で","を","に","と"],ans:"に",note:"に dipakai untuk waktu spesifik seperti jam 7."},
+{q:"バス ___ えきへいきます。",opts:["で","に","を","が"],ans:"で",note:"で juga berarti alat/cara: 'naik bus'."},
+{q:"ねこ ___ います。",opts:["が","を","で","の"],ans:"が",note:"が menandai subjek/informasi baru: 'ada kucing'."}
+];
+const PLAN=[
+{t:"Hari 1 — Hiragana seion: あ〜こ",d:"Buka tabel hiragana, dengarkan tiap suara, lalu flashcard"},
+{t:"Hari 2 — Hiragana seion: さ〜の",d:"Lanjutkan tabel + flashcard, ulangi baris kemarin"},
+{t:"Hari 3 — Hiragana seion: は〜ん",d:"Selesaikan seion, coba quiz hiragana seion"},
+{t:"Hari 4 — Dakuon, handakuon & yōon",d:"Pahami tanda ゛゜ dan suara gabungan ゃゅょ"},
+{t:"Hari 5 — Katakana seion",d:"Bentuk beda, bunyi sama — pakai trik mnemonic"},
+{t:"Hari 6 — Katakana dakuon & yōon",d:"Rampungkan semua kana + quiz katakana"},
+{t:"Hari 7 — Kotoba pertama & quiz campuran",d:"Hafalkan sapaan & kata benda N5, lalu uji diri"}
+];
+const LEVELS=[["初心者","Shoshinsha"],["入門","Nyuumon"],["基礎","Kiso"],["進歩","Shinpo"],["上達","Joutatsu"],["熟練","Jukuren"],["達人","Tatsujin"]];
+const BOTS=[{name:"Yuki",base:96},{name:"Haruto",base:84},{name:"Sora",base:71},{name:"Sakura",base:60},{name:"Aoi",base:48}];
+
+/* =================== STATE & UTIL =================== */
+function ls(k,d){try{const v=localStorage.getItem('bk_'+k);return v!==null?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem('bk_'+k,JSON.stringify(v))}catch(e){}}
+const store={
+  name:ls('name','Pelajar'), xp:ls('xp',0), streak:ls('streak',0), lastDay:ls('lastDay',''),
+  known:new Set(ls('known',[])), kwords:new Set(ls('kwords',[])),
+  plan:ls('plan',[false,false,false,false,false,false,false]), best:ls('best',0),
+  bots:ls('bots',null)
+};
+if(!Array.isArray(store.bots)||!store.bots.length){store.bots=BOTS.map(b=>({name:b.name,score:b.base}));sv('bots',store.bots);}
+function todayStr(off=0){const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function addXP(n){
+  const t=todayStr();
+  if(store.lastDay!==t){
+    store.streak=(store.lastDay===todayStr(-1))?store.streak+1:1;
+    store.lastDay=t;sv('streak',store.streak);sv('lastDay',t);
+  }
+  store.xp+=n;sv('xp',store.xp);updateHeader();
+}
+function levelInfo(xp){
+  const lvl=Math.floor(xp/120)+1,base=(lvl-1)*120,need=120-(xp-base);
+  const nm=LEVELS[Math.min(lvl-1,LEVELS.length-1)];
+  return{lvl,kanji:nm[0],romaji:nm[1],prog:(xp-base)/120,need};
+}
+function kanaProgress(sc){
+  const all=[...KANA[sc].seion,...KANA[sc].dakuon,...KANA[sc].handakuon,...KANA[sc].youon];
+  const n=all.filter(k=>store.known.has(sc+':'+k.c)).length;
+  return{n,t:all.length,p:Math.round(n/all.length*100)};
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function todayWords(n){
+  const d=new Date();let s=d.getFullYear()*1e4+(d.getMonth()+1)*100+d.getDate();
+  s%=2147483647;if(s<=0)s+=2147483646;
+  const rnd=()=>{s=s*16807%2147483647;return(s-1)/2147483646;};
+  const idxs=new Set();while(idxs.size<n)idxs.add(Math.floor(rnd()*KOTOBA.length));
+  return[...idxs].map(i=>KOTOBA[i]);
+}
+function kanaSet(sc,gr){
+  const srcs=sc==='mix'?['hiragana','katakana']:[sc];
+  const out=[];
+  srcs.forEach(s=>{
+    const g=KANA[s];
+    const groups=gr==='all'?{seion:g.seion,dakuon:g.dakuon,handakuon:g.handakuon,youon:g.youon}
+      :gr==='dakuon'?{dakuon:g.dakuon,handakuon:g.handakuon}
+      :{[gr]:g[gr]};
+    Object.values(groups).forEach(arr=>arr.forEach(k=>out.push({c:k.c,r:k.r,sc:s})));
+  });
+  return out;
+}
+const ALLK=[...kanaSet('mix','all')];
+function findExample(c){
+  const w=KOTOBA.find(x=>(x.kana.includes(c)||x.jp.includes(c))&&x.kana!==c);
+  if(w)return w;
+  if(Object.prototype.hasOwnProperty.call(KANA_EX,c)){const e=KANA_EX[c];return e?{jp:e[0],kana:e[1],r:e[2],id:e[3]}:null;}
+  return null;
+}
+
+/* =================== SUARA (TTS Jepang browser) =================== */
+let jpVoice=null;
+function pickVoice(){
+  if(!('speechSynthesis' in window))return;
+  const vs=speechSynthesis.getVoices();
+  jpVoice=vs.find(v=>v.lang==='ja-JP')||vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith('ja'))||null;
+}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function speak(text,rate=0.85){
+  if(!('speechSynthesis' in window)){toast('Browser ini tidak mendukung suara');return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';if(jpVoice)u.voice=jpVoice;u.rate=rate;
+  speechSynthesis.speak(u);
+}
+
+/* =================== TOAST & MODAL =================== */
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.innerHTML=msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';setTimeout(()=>t.remove(),320);},2600);
+}
+const modalEl=document.getElementById('modal'),mbox=document.getElementById('mbox');
+function showModal(html){mbox.innerHTML=html;modalEl.classList.add('show');}
+function closeModal(){modalEl.classList.remove('show');}
+modalEl.addEventListener('click',e=>{if(e.target===modalEl)closeModal();});
+
+/* =================== NAVIGASI =================== */
+const VIEWS={
+  home:{jp:'ホーム',label:'Beranda',render:renderHome},
+  kana:{jp:'かな',label:'Kana',render:renderKana},
+  kotoba:{jp:'言葉',label:'Kotoba',render:renderKotoba},
+  bunpou:{jp:'文法',label:'Bunpou',render:renderBunpou},
+  kyousou:{jp:'競争',label:'Kompetisi',render:renderKyousou}
+};
+let cur='home';
+const navEl=document.getElementById('nav'),mainEl=document.getElementById('main');
+function buildNav(){
+  navEl.innerHTML=Object.entries(VIEWS).map(([k,v])=>
+    `<button class="ntab" data-nav="${k}"><span class="nk">${v.jp}</span><span class="nl">${v.label}</span></button>`).join('');
+}
+navEl.addEventListener('click',e=>{const b=e.target.closest('.ntab');if(b)go(b.dataset.nav);});
+function go(v){cur=v;renderView();window.scrollTo({top:0,behavior:'smooth'});}
+function renderView(){
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.toggle('active',b.dataset.nav===cur));
+  mainEl.innerHTML='';
+  const w=document.createElement('div');w.className='view-anim';mainEl.appendChild(w);
+  VIEWS[cur].render(w);
+}
+/* delegasi global: tombol suara & pintasan navigasi */
+document.addEventListener('click',e=>{
+  const s=e.target.closest('.spk');
+  if(s){speak(s.dataset.say,s.dataset.rate?+s.dataset.rate:0.85);return;}
+  const g=e.target.closest('[data-go]');
+  if(g)go(g.dataset.go);
+});
+function vhead(kj,title,jp,desc){
+  return `<div class="vhead"><div class="watermark">${kj}</div>
+    <div class="big"><h1>${title}</h1><span class="vj">${jp}</span></div><p>${desc}</p></div>`;
+}
+function updateHeader(){
+  const li=levelInfo(store.xp);
+  document.getElementById('pill-xp').innerHTML=
+    `${ic('zap')}<b>Lv ${li.lvl}</b><div class="xpbar"><i style="width:${Math.round(li.prog*100)}%"></i></div><span>${store.xp} XP</span>`;
+  document.getElementById('pill-streak').innerHTML=
+    `${ic('flame')}<b>${store.streak}</b><span class="plab">hari streak</span>`;
+}
+
+/* =================== ENGIN: QUIZ =================== */
+function stamp(wrap,text){
+  const s=document.createElement('div');
+  s.className='stamp'+(text==='正解'?'':' ng');
+  s.textContent=text;wrap.appendChild(s);
+}
+function runQuiz(box,cfg){
+  const qs=cfg.questions;let qi=0,score=0;
+  function draw(){
+    if(qi>=qs.length)return finish();
+    const q=qs[qi];
+    box.innerHTML=`
+      <div class="quiz-top"><span>Soal ${qi+1} / ${qs.length}</span><span>${ic('ok')} ${score} benar</span></div>
+      <div class="qprog"><i style="width:${qi/qs.length*100}%"></i></div>
+      <div class="qbig">${q.q}<div class="stampwrap"></div></div>
+      ${q.sub?`<div class="qsub-c">${q.sub}</div>`:''}
+      <div class="qopts">${q.opts.map((o,i)=>`<button class="qopt ${q.mnc?'mnc':''}" data-i="${i}">${o}</button>`).join('')}</div>
+      <div class="qfb"></div>`;
+    const btns=[...box.querySelectorAll('.qopt')];
+    btns.forEach(b=>b.onclick=()=>{
+      btns.forEach(x=>x.disabled=true);
+      const i=+b.dataset.i,good=i===q.a;
+      btns[q.a].classList.add('correct');
+      if(good){score++;stamp(box.querySelector('.stampwrap'),'正解');}
+      else{
+        b.classList.add('wrong');
+        stamp(box.querySelector('.stampwrap'),'ざんねん');
+        if(q.note)box.querySelector('.qfb').innerHTML=`<div class="qnote">${q.note}</div>`;
+      }
+      setTimeout(()=>{qi++;draw();},good?800:1700);
+    });
+  }
+  function finish(){
+    const pct=score/qs.length;
+    const msg=pct===1?'満点 — Sempurna!':pct>=0.8?'すごい — Luar biasa!':pct>=0.6?'いいね — Bagus, terus tingkatkan.':pct>=0.4?'だいじょうぶ — Oke, ulangi bagian yang keliru.':'がんばって — Jangan menyerah, coba lagi!';
+    const xp=score*(cfg.xpEach||10);
+    if(xp>0)addXP(xp);
+    box.innerHTML=`
+      <div class="qdone">
+        <div class="rb">${score} / ${qs.length}</div>
+        <p class="qdmsg">${msg}</p>
+        ${xp>0?`<div class="qdxp">${ic('zap')} +${xp} XP</div>`:''}
+        <div class="fc-btns">
+          <button class="btn red" id="qagain">${ic('re')} Ulangi</button>
+          <button class="btn" id="qback">Kembali</button>
+        </div>
+      </div>`;
+    box.querySelector('#qagain').onclick=()=>runQuiz(box,{...cfg,questions:cfg.regenerate?cfg.regenerate():cfg.questions});
+    box.querySelector('#qback').onclick=()=>renderView();
+    toast(xp>0?`+${xp} XP · quiz selesai`:'Quiz selesai');
+  }
+  draw();
+}
+
+/* =================== ENGIN: FLASHCARD =================== */
+function runFlashcards(box,cfg){
+  const queue=shuffle(cfg.cards.slice());
+  const total=cfg.cards.length;let done=0;
+  function draw(){
+    if(!queue.length){
+      addXP(5);toast('+5 XP · deck selesai! おめでとう');
+      box.innerHTML=`
+        <div class="fcdone">
+          <div class="rb">全問クリア!</div>
+          <p>Kamu menghafal semua ${total} kartu di deck ini. Lanjut deck lain, atau langsung quiz?</p>
+          <div class="fc-btns">
+            <button class="btn" id="fcagain">${ic('re')} Ulangi deck</button>
+            <button class="btn" id="fcback">${ic('arrow')} Kembali</button>
+          </div>
+        </div>`;
+      box.querySelector('#fcagain').onclick=()=>runFlashcards(box,cfg);
+      box.querySelector('#fcback').onclick=()=>renderView();
+      return;
+    }
+    const c=queue[0];
+    box.innerHTML=`
+      <div class="fc-top"><span>${ic('ok')} ${done}/${total} hafal</span><span>${queue.length} kartu tersisa</span></div>
+      <div class="pbar"><i style="width:${done/total*100}%"></i></div>
+      <div class="fcard"><div class="fcard-inner">
+        <div class="fface ffront">${c.front}<div class="seal">${cfg.seal}</div><span class="fhint">klik kartu untuk membuka</span></div>
+        <div class="fface fback">${c.back}</div>
+      </div></div>
+      <div class="fc-btns">
+        <button class="btn" id="fno">${ic('re')} Belum hafal</button>
+        <button class="btn green" id="fok">${ic('check')} Hafal</button>
+      </div>`;
+    const card=box.querySelector('.fcard');
+    card.onclick=e=>{if(e.target.closest('.spk'))return;card.classList.toggle('flipped');};
+    box.querySelector('#fok').onclick=()=>{if(cfg.onKnown)cfg.onKnown(c);done++;queue.shift();draw();};
+    box.querySelector('#fno').onclick=()=>{queue.shift();queue.push(c);draw();};
+  }
+  draw();
+}
+
+/* =================== VIEW: BERANDA =================== */
+function renderHome(w){
+  const h=new Date().getHours();
+  const g=h<10?["おはようございます","Selamat pagi"]:h<17?["こんにちは","Selamat siang"]:["こんばんは","Selamat malam"];
+  const hk=kanaProgress('hiragana'),kk=kanaProgress('katakana');
+  const li=levelInfo(store.xp);
+  const words=todayWords(3);
+  const ktotal=hk.t+kk.t,know=hk.n+kk.n;
+  const kotobaPct=Math.round(store.kwords.size/KOTOBA.length*100);
+  w.innerHTML=`
+  <div class="hero">
+    <div class="hgreet">
+      <div class="hg-jp mn">${g[0]}</div>
+      <h2>Selamat datang kembali,<br><span class="red nm">${esc(store.name)}</span><button class="mini-edit" id="editname" title="Ganti nama">${ic('pencil')}</button></h2>
+      <p class="hg-sub">一日一歩 — satu langkah kecil setiap hari. Itu cara paling cepat menguasai bahasa Jepang.</p>
+      <div class="hg-cta">
+        <button class="btn red" data-go="kana">${ic('book')} Mulai Belajar Kana</button>
+        <button class="btn" data-go="kyousou">${ic('swords')} Tantangan 60 Detik</button>
+      </div>
+    </div>
+    <div class="hinomaru" id="hinomaru" title="Klik aku!"><span>今日も頑張ろう</span></div>
+  </div>
+  <div class="statstrip">
+    <div class="stat"><span>Level</span><b>${li.lvl}</b><div class="sub" title="${li.romaji}">${li.kanji}</div></div>
+    <div class="stat"><span>XP</span><b>${store.xp}</b><div class="sub">${li.need} XP ke Lv ${li.lvl+1}</div></div>
+    <div class="stat"><span>Streak</span><b>${store.streak}<small> hari</small></b><div class="sub">jangan putus!</div></div>
+    <div class="stat"><span>Kana Dikuasai</span><b>${know}<small>/${ktotal}</small></b><div class="sub">${Math.round(know/ktotal*100)}%</div></div>
+    <div class="stat"><span>Kotoba</span><b>${store.kwords.size}<small> kata</small></b><div class="sub">dari ${KOTOBA.length}</div></div>
+  </div>
+  <div class="panel today">
+    <h3>${ic('vol')} Kotoba Hari Ini <span class="vj">今日の言葉</span></h3>
+    <div class="tw">${words.map(x=>`
+      <div class="tw-item">
+        <div class="tw-jp">${esc(x.jp)}<button class="iconbtn spk" data-say="${esc(x.kana)}" title="Dengar">${ic('vol')}</button></div>
+        <div class="tw-r">${x.r}</div>
+        <div class="tw-id">${x.id}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="hgrid">
+    <div class="panel">
+      <h3>${ic('book')} Rencana 7 Hari <span class="vj">七日間プラン</span></h3>
+      <p class="psub">Roadmap pemula: dari nol sampai siap masuk materi N5. Klik untuk mencentang.</p>
+      <div id="planlist">${PLAN.map((p,i)=>`
+        <div class="planrow ${store.plan[i]?'done':''}" data-i="${i}">
+          <div class="cbx">${store.plan[i]?ic('check'):''}</div>
+          <div><b class="pt">${p.t}</b><span class="pd">${p.d}</span></div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="panel">
+      <h3>${ic('target')} Progres Kamu</h3>
+      <div class="pgroup"><div class="prow"><span>Hiragana</span><b>${hk.p}%</b></div><div class="pbar"><i style="width:${hk.p}%"></i></div></div>
+      <div class="pgroup"><div class="prow"><span>Katakana</span><b>${kk.p}%</b></div><div class="pbar"><i style="width:${kk.p}%"></i></div></div>
+      <div class="pgroup"><div class="prow"><span>Kotoba N5-N4</span><b>${kotobaPct}%</b></div><div class="pbar"><i class="g" style="width:${kotobaPct}%"></i></div></div>
+      <div class="pg-cta">
+        <button class="btn sm" data-go="kotoba">${ic('arrow')} Belajar Kotoba</button>
+        <button class="btn sm" data-go="bunpou">${ic('book')} Papan Materi</button>
+      </div>
+    </div>
+  </div>`;
+  w.querySelector('#hinomaru').onclick=e=>{
+    speak('今日も頑張りましょう');
+    const el=e.currentTarget;el.classList.remove('wob');void el.offsetWidth;el.classList.add('wob');
+  };
+  w.querySelector('#editname').onclick=e=>{
+    const h2=e.currentTarget.closest('h2');
+    const span=h2.querySelector('.nm');
+    const inp=document.createElement('input');
+    inp.className='namein';inp.maxLength=16;inp.value=store.name;
+    span.replaceWith(inp);e.currentTarget.style.display='none';
+    inp.focus();inp.select();
+    const done=()=>{const v=inp.value.trim();if(v){store.name=v;sv('name',store.name);}renderView();};
+    inp.onblur=done;
+    inp.onkeydown=ev=>{if(ev.key==='Enter')inp.blur();};
+  };
+  w.querySelector('#planlist').onclick=e=>{
+    const r=e.target.closest('.planrow');if(!r)return;
+    const i=+r.dataset.i;store.plan[i]=!store.plan[i];sv('plan',store.plan);
+    r.classList.toggle('done',store.plan[i]);
+    r.querySelector('.cbx').innerHTML=store.plan[i]?ic('check'):'';
+    if(store.plan[i]&&store.plan.every(Boolean)){addXP(10);toast('+10 XP · rencana 7 hari selesai semua! 素晴らしい!');}
+  };
+}
+
+/* =================== VIEW: KANA =================== */
+const KS={sub:'tabel',sc:'hiragana',gr:'seion',sel:null};
+const KFC={sc:'hiragana',gr:'seion'};
+const KQZ={src:'hiragana',scope:'seion',dir:'k2r'};
+function renderKana(w){
+  w.innerHTML=vhead('仮','Kana','かな','Hiragana & katakana — abjad pertama bahasa Jepang. Lengkap dari seion, dakuon, handakuon, sampai yōon. Klik karakter untuk dengar dan tandai hafal.')+`
+  <div class="subtabs" id="ksub">
+    <button data-s="tabel" class="${KS.sub==='tabel'?'active':''}">Tabel Kana</button>
+    <button data-s="kartu" class="${KS.sub==='kartu'?'active':''}">Flashcard</button>
+    <button data-s="quiz" class="${KS.sub==='quiz'?'active':''}">Quiz</button>
+  </div>
+  <div id="kbody"></div>`;
+  w.querySelector('#ksub').onclick=e=>{
+    const b=e.target.closest('button');if(!b)return;
+    KS.sub=b.dataset.s;renderView();
+  };
+  renderKanaBody(w.querySelector('#kbody'));
+}
+function renderKanaBody(b){
+  if(KS.sub==='tabel'){
+    b.innerHTML=`
+    <div class="toolbar">
+      <div class="scswitch">
+        <button data-sc="hiragana" class="${KS.sc==='hiragana'?'active':''}"><span class="mn">あ</span><span class="small">HIRAGANA</span></button>
+        <button data-sc="katakana" class="${KS.sc==='katakana'?'active':''}"><span class="mn">ア</span><span class="small">KATAKANA</span></button>
+      </div>
+      <div class="chips">${['seion','dakuon','youon'].map(g=>`<button class="chip ${KS.gr===g?'active':''}" data-gr="${g}">${GROUP_INFO[g].label}</button>`).join('')}</div>
+    </div>
+    <div class="group-desc">${GROUP_INFO[KS.gr].desc}</div>
+    <div class="kana-layout">
+      <div id="kgridzone"></div>
+      <aside class="detail" id="kdetail"></aside>
+    </div>`;
+    b.querySelector('.scswitch').onclick=e=>{const x=e.target.closest('button');if(!x)return;KS.sc=x.dataset.sc;KS.sel=null;renderView();};
+    b.querySelector('.chips').onclick=e=>{const x=e.target.closest('.chip');if(!x)return;KS.gr=x.dataset.gr;KS.sel=null;renderView();};
+    renderKGrid(b.querySelector('#kgridzone'));
+    renderKDetail(b.querySelector('#kdetail'));
+  }
+  else if(KS.sub==='kartu'){
+    const cards=kanaSet(KFC.sc,KFC.gr);
+    b.innerHTML=`
+    <div class="toolbar">
+      <span class="tlab">Abjad</span>
+      <div class="chips">${[['hiragana','Hiragana'],['katakana','Katakana'],['mix','Campuran']].map(([v,l])=>`<button class="chip ${KFC.sc===v?'active':''}" data-sc="${v}">${l}</button>`).join('')}</div>
+      <span class="tlab">Grup</span>
+      <div class="chips">${[['all','Semua'],['seion','Seion'],['dakuon','Dakuon・Handakuon'],['youon','Yōon']].map(([v,l])=>`<button class="chip ${KFC.gr===v?'active':''}" data-gr="${v}">${l}</button>`).join('')}</div>
+    </div>
+    <div id="fzone" class="panel" style="text-align:center">
+      <h3>${ic('book')} Deck Siap: ${cards.length} Kartu</h3>
+      <p class="psub">Klik kartu untuk membuka. Yang belum hafal akan muncul lagi di belakang sampai lo hafal semua.</p>
+      <button class="btn red" id="fstart">${ic('play')} Mulai Flashcard</button>
+    </div>`;
+    b.querySelector('.chips').onclick=e=>{const x=e.target.closest('.chip');if(!x)return;if(x.dataset.sc)KFC.sc=x.dataset.sc;if(x.dataset.gr)KFC.gr=x.dataset.gr;renderView();};
+    b.querySelector('#fstart').onclick=()=>{
+      const cs=kanaSet(KFC.sc,KFC.gr).map(k=>({
+        front:`<div class="fbig mn">${k.c}</div>`,
+        back:`<div class="fb-r">${k.r}</div><button class="btn sm spk" data-say="${k.c}" data-rate="0.6">${ic('vol')} Dengar</button>`,
+        sc:k.sc,c:k.c
+      }));
+      runFlashcards(b.querySelector('#fzone'),{
+        cards:cs,seal:'仮',
+        onKnown:c=>{store.known.add(c.sc+':'+c.c);sv('known',[...store.known]);}
+      });
+    };
+  }
+  else{
+    b.innerHTML=`
+    <div class="toolbar">
+      <span class="tlab">Sumber</span>
+      <div class="chips">${[['hiragana','Hiragana'],['katakana','Katakana'],['mix','Campuran']].map(([v,l])=>`<button class="chip ${KQZ.src===v?'active':''}" data-src="${v}">${l}</button>`).join('')}</div>
+      <span class="tlab">Cakupan</span>
+      <div class="chips">${[['seion','Seion saja'],['all','Semua grup']].map(([v,l])=>`<button class="chip ${KQZ.scope===v?'active':''}" data-scope="${v}">${l}</button>`).join('')}</div>
+      <span class="tlab">Arah</span>
+      <div class="chips">${[['k2r','Kana → Romaji'],['r2k','Romaji → Kana']].map(([v,l])=>`<button class="chip ${KQZ.dir===v?'active':''}" data-dir="${v}">${l}</button>`).join('')}</div>
+    </div>
+    <div id="qzone"></div>`;
+    b.querySelector('.chips').onclick=e=>{
+      const x=e.target.closest('.chip');if(!x)return;
+      if(x.dataset.src)KQZ.src=x.dataset.src;
+      if(x.dataset.scope)KQZ.scope=x.dataset.scope;
+      if(x.dataset.dir)KQZ.dir=x.dataset.dir;
+      renderView();
+    };
+    const zone=b.querySelector('#qzone');
+    zone.innerHTML=`<div class="panel qsetup">
+      <h3>${ic('target')} 10 Soal Acak</h3>
+      <p class="psub">Pilih jawaban yang benar, ada stempel 正解 buat jawaban tepat. Semakin sering latihan, makin cepat baca kana.</p>
+      <button class="btn red" id="qstart">${ic('play')} Mulai Quiz</button>
+    </div>`;
+    zone.querySelector('#qstart').onclick=()=>runQuiz(zone,{questions:buildKanaQuiz(),regenerate:buildKanaQuiz,xpEach:10});
+  }
+}
+function renderKGrid(zone){
+  const cellHTML=k=>{
+    const known=store.known.has(KS.sc+':'+k.c);
+    const sel=KS.sel&&KS.sel.c===k.c;
+    return `<button class="kcell ${known?'known':''} ${sel?'sel':''}" data-c="${k.c}" data-r="${k.r}"><span class="c mn">${k.c}</span><span class="r">${k.r}</span></button>`;
+  };
+  let html='';
+  if(KS.gr==='seion'){
+    html='<div class="kana-grid">'+SEION_ORDER.map(r=>r?cellHTML(KANA[KS.sc].seion.find(x=>x.r===r)):'<div class="kcell empty"></div>').join('')+'</div>';
+  }else{
+    const parts=KS.gr==='dakuon'
+      ?[['dakuon','Dakuon (゛)'],['handakuon','Handakuon (゜)']]
+      :[['youon','Yōon (ゃゅょ)']];
+    parts.forEach(([g,label])=>{
+      html+=`<div class="gsub">${label}</div><div class="kana-grid ${g==='youon'?'g3':''}">`+KANA[KS.sc][g].map(cellHTML).join('')+'</div>';
+    });
+  }
+  zone.innerHTML=html;
+  zone.onclick=e=>{
+    const c=e.target.closest('.kcell');
+    if(!c||c.classList.contains('empty'))return;
+    KS.sel={c:c.dataset.c,r:c.dataset.r};
+    renderKGrid(zone);renderKDetail(document.getElementById('kdetail'));
+    speak(c.dataset.c,0.6);
+  };
+}
+function renderKDetail(d){
+  if(!KS.sel){
+    d.innerHTML=`<div class="dempty"><span class="mn">かな</span><p>Klik karakter mana pun di tabel untuk melihat contoh kata, mendengar cara bacanya, dan menandainya hafal.</p></div>`;
+    return;
+  }
+  const k=KS.sel,known=store.known.has(KS.sc+':'+k.c);
+  const ex=findExample(k.c);
+  let exHTML;
+  if(ex===null){
+    exHTML=`<p class="muted">– belum ada contoh kata umum. Dengarkan cara bacanya di atas.</p>`;
+  }else{
+    exHTML=`<div class="exjp mn">${esc(ex.jp)}</div><div class="exr">${ex.r} — ${ex.id}</div>
+      <button class="btn sm spk" data-say="${esc(ex.kana||ex.jp)}">${ic('vol')} Dengar contoh</button>`;
+  }
+  d.innerHTML=`
+    <div class="dc mn">${k.c}</div>
+    <div class="dr"><b>${k.r}</b><span>${KS.sc==='hiragana'?'Hiragana':'Katakana'} · ${GROUP_INFO[KS.gr].label}</span></div>
+    <div style="text-align:center"><button class="btn sm spk" data-say="${k.c}" data-rate="0.6">${ic('vol')} Dengar</button></div>
+    <div class="dex">${exHTML}</div>
+    <button class="btn ${known?'green':''} wfull" id="kmark">${known?ic('check')+' Sudah hafal — klik untuk hapus':ic('ok')+' Tandai hafal'}</button>`;
+  d.querySelector('#kmark').onclick=()=>{
+    const key=KS.sc+':'+k.c;
+    if(store.known.has(key)){store.known.delete(key);}
+    else{store.known.add(key);addXP(2);toast('+2 XP · '+k.c+' ('+k.r+') ditandai hafal');}
+    sv('known',[...store.known]);
+    renderView();
+  };
+}
+function buildKanaQuiz(){
+  const pool=kanaSet(KQZ.src,KQZ.scope==='seion'?'seion':'all');
+  const use=KQZ.dir==='r2k'?(()=>{const s=new Set(),p=[];pool.forEach(k=>{if(!s.has(k.r)){s.add(k.r);p.push(k);}});return p;})():pool;
+  return shuffle(use.slice()).slice(0,10).map(k=>{
+    const ans=KQZ.dir==='k2r'?k.r:k.c;
+    const ds=shuffle(use.filter(x=>x.r!==k.r)).slice(0,3).map(x=>KQZ.dir==='k2r'?x.r:x.c);
+    const opts=shuffle([ans,...ds]);
+    return{
+      q:KQZ.dir==='k2r'?`<span class="kq mn">${k.c}</span>`:`<span class="rq">${k.r}</span>`,
+      sub:KQZ.dir==='k2r'?'Apa bacaan romaji-nya?':'Karakter mana yang bunyinya begini?',
+      opts,a:opts.indexOf(ans),mnc:KQZ.dir==='r2k'
+    };
+  });
+}
+
+/* =================== VIEW: KOTOBA =================== */
+const KL={sub:'belajar',cat:'Semua',lvl:'all'};
+const KFC2={cat:'Semua',lvl:'all'};
+const KBQ={src:'n5',dir:'j2a'};
+function renderKotoba(w){
+  w.innerHTML=vhead('言','Kotoba','ことば','Kosakata inti N5 & N4 — '+KOTOBA.length+' kata yang paling sering muncul, dikelompokkan biar gampang dicerna.')+`
+  <div class="subtabs" id="klsub">
+    <button data-s="belajar" class="${KL.sub==='belajar'?'active':''}">Kamus</button>
+    <button data-s="kartu" class="${KL.sub==='kartu'?'active':''}">Flashcard</button>
+    <button data-s="quiz" class="${KL.sub==='quiz'?'active':''}">Quiz</button>
+  </div>
+  <div id="kobody"></div>`;
+  w.querySelector('#klsub').onclick=e=>{const b=e.target.closest('button');if(b){KL.sub=b.dataset.s;renderView();}};
+  renderKotobaBody(w.querySelector('#kobody'));
+}
+function kotobaFilter(cat,lvl){
+  return KOTOBA.filter(x=>(lvl==='all'||(lvl==='n5'?x.lvl===5:x.lvl===4))&&(cat==='Semua'||x.cat===cat));
+}
+function renderKotobaBody(b){
+  if(KL.sub==='belajar'){
+    const list=kotobaFilter(KL.cat,KL.lvl);
+    b.innerHTML=`
+    <div class="toolbar">
+      <span class="tlab">Level</span>
+      <div class="chips">${[['all','Semua'],['n5','N5'],['n4','N4']].map(([v,l])=>`<button class="chip ${KL.lvl===v?'active':''}" data-lvl="${v}">${l}</button>`).join('')}</div>
+      <span class="tlab">Kategori</span>
+      <div class="chips">${['Semua',...CATS].map(c=>`<button class="chip ${KL.cat===c?'active':''}" data-cat="${c}">${c}</button>`).join('')}</div>
+    </div>
+    <div class="kcount">${list.length} kata — tandai ${ic('check')} kalau udah hafal biar kehitung di progres.</div>
+    <div class="klist" id="klist">${list.map(x=>`
+      <div class="krow">
+        <div class="kjp mn">${esc(x.jp)}${x.kana!==x.jp?`<small>${x.kana}</small>`:''}</div>
+        <div class="krom">${x.r}</div>
+        <div class="kid">${x.id}</div>
+        <span class="tag">${x.cat}</span><span class="tag">N${x.lvl}</span>
+        <button class="iconbtn spk" data-say="${esc(x.kana)}" title="Dengar">${ic('vol')}</button>
+        <button class="iconbtn kmarkbtn ${store.kwords.has(x.key)?'known':''}" data-k="${x.key}" title="Tandai hafal">${ic('check')}</button>
+      </div>`).join('')}
+    </div>`;
+    b.querySelector('.chips').onclick=e=>{
+      const x=e.target.closest('.chip');if(!x)return;
+      if(x.dataset.lvl)KL.lvl=x.dataset.lvl;
+      if(x.dataset.cat)KL.cat=x.dataset.cat;
+      renderView();
+    };
+    b.querySelector('#klist').onclick=e=>{
+      const t=e.target.closest('.kmarkbtn');if(!t)return;
+      const key=t.dataset.k;
+      if(store.kwords.has(key)){store.kwords.delete(key);t.classList.remove('known');}
+      else{store.kwords.add(key);t.classList.add('known');addXP(1);toast('+1 XP · kata baru ditandai hafal');}
+      sv('kwords',[...store.kwords]);
+    };
+  }
+  else if(KL.sub==='kartu'){
+    const cards=kotobaFilter(KFC2.cat,KFC2.lvl);
+    b.innerHTML=`
+    <div class="toolbar">
+      <span class="tlab">Level</span>
+      <div class="chips">${[['all','Semua'],['n5','N5'],['n4','N4']].map(([v,l])=>`<button class="chip ${KFC2.lvl===v?'active':''}" data-lvl="${v}">${l}</button>`).join('')}</div>
+      <span class="tlab">Kategori</span>
+      <div class="chips">${['Semua',...CATS].map(c=>`<button class="chip ${KFC2.cat===c?'active':''}" data-cat="${c}">${c}</button>`).join('')}</div>
+    </div>
+    <div id="fzone" class="panel" style="text-align:center">
+      <h3>${ic('book')} Deck Siap: ${cards.length} Kartu</h3>
+      <p class="psub">Depan: cara baca kana. Belakang: kanji, romaji, dan artinya.</p>
+      <button class="btn red" id="fstart">${ic('play')} Mulai Flashcard</button>
+    </div>`;
+    b.querySelector('.chips').onclick=e=>{
+      const x=e.target.closest('.chip');if(!x)return;
+      if(x.dataset.lvl)KFC2.lvl=x.dataset.lvl;
+      if(x.dataset.cat)KFC2.cat=x.dataset.cat;
+      renderView();
+    };
+    b.querySelector('#fstart').onclick=()=>{
+      runFlashcards(b.querySelector('#fzone'),{
+        cards:cards.map(x=>({
+          front:`<div class="fbig mn">${esc(x.kana)}</div>`,
+          back:`${x.jp!==x.kana?`<div class="fb-jp mn">${esc(x.jp)}</div>`:''}<div class="fb-r">${x.r}</div><div class="fb-id">${x.id}</div><button class="btn sm spk" data-say="${esc(x.kana)}">${ic('vol')} Dengar</button>`,
+          key:x.key
+        })),
+        seal:'葉',
+        onKnown:c=>{store.kwords.add(c.key);sv('kwords',[...store.kwords]);}
+      });
+    };
+  }
+  else{
+    b.innerHTML=`
+    <div class="toolbar">
+      <span class="tlab">Sumber</span>
+      <div class="chips">${[['n5','Kotoba N5'],['n4','Kotoba N4'],['mix','Campuran']].map(([v,l])=>`<button class="chip ${KBQ.src===v?'active':''}" data-src="${v}">${l}</button>`).join('')}</div>
+      <span class="tlab">Arah</span>
+      <div class="chips">${[['j2a','Jepang → Arti'],['a2j','Arti → Jepang']].map(([v,l])=>`<button class="chip ${KBQ.dir===v?'active':''}" data-dir="${v}">${l}</button>`).join('')}</div>
+    </div>
+    <div id="qzone"></div>`;
+    b.querySelector('.chips').onclick=e=>{
+      const x=e.target.closest('.chip');if(!x)return;
+      if(x.dataset.src)KBQ.src=x.dataset.src;
+      if(x.dataset.dir)KBQ.dir=x.dataset.dir;
+      renderView();
+    };
+    const zone=b.querySelector('#qzone');
+    zone.innerHTML=`<div class="panel qsetup">
+      <h3>${ic('target')} 10 Soal Acak</h3>
+      <p class="psub">Tes kosakata: cocokkan kata Jepang dengan artinya (atau sebaliknya).</p>
+      <button class="btn red" id="qstart">${ic('play')} Mulai Quiz</button>
+    </div>`;
+    zone.querySelector('#qstart').onclick=()=>runQuiz(zone,{questions:buildKotobaQuiz(),regenerate:buildKotobaQuiz,xpEach:10});
+  }
+}
+function buildKotobaQuiz(){
+  const lvl=KBQ.src==='n5'?5:KBQ.src==='n4'?4:null;
+  const pool=KOTOBA.filter(x=>!lvl||x.lvl===lvl);
+  return shuffle(pool.slice()).slice(0,10).map(x=>{
+    if(KBQ.dir==='j2a'){
+      const ds=shuffle(pool.filter(y=>y.id!==x.id)).slice(0,3).map(y=>y.id);
+      const opts=shuffle([x.id,...ds]);
+      return{q:`<span class="kq mn">${esc(x.kana)}</span>`,sub:x.jp!==x.kana?`ditulis 「${x.jp}」 — apa artinya?`:'Apa artinya?',opts,a:opts.indexOf(x.id)};
+    }
+    const ds=shuffle(pool.filter(y=>y.kana!==x.kana)).slice(0,3).map(y=>y.kana);
+    const opts=shuffle([x.kana,...ds]);
+    return{q:`<span class="tq">${x.id}</span>`,sub:'Mana kata Jepang yang tepat?',opts,a:opts.indexOf(x.kana),mnc:true};
+  });
+}
+
+/* =================== VIEW: BUNPOU =================== */
+function renderBunpou(w){
+  w.innerHTML=vhead('文','Bunpou','ぶんぽう','Papan materi: partikel dan cara menyusun kalimat — dua hal yang bikin bahasa Jepang "nyambung". Baca pelan-pelan, tiap contoh bisa didengarkan.')+`
+  <div class="bsec">
+    <h2 class="bh"><span class="bj mn">助詞</span> Partikel — jembatan antar kata</h2>
+    <p class="bintro">Partikel adalah sufiks kecil setelah kata yang menentukan perannya dalam kalimat. Ini bagian yang paling sering bikin pemula bingung — pelajari satu-satu, jangan buru-buru.</p>
+    <div id="plist">${PARTICLES.map((p,i)=>`
+      <div class="particle ${i===0?'open':''}">
+        <div class="phead">
+          <div class="pglyph mn">${p.p}</div>
+          <div class="pmid"><b>${p.r}</b><span>${p.t}</span></div>
+          <span class="pchev">${ic('chev')}</span>
+        </div>
+        <div class="pbody" ${i===0?'':'hidden'}>
+          <p>${p.d}</p>
+          ${p.ex.map(e=>`
+            <div class="pex">
+              <div class="pj mn">${e[0]}</div>
+              <div class="pr">${e[1]}</div>
+              <div class="pf"><span>${e[2]}</span><button class="iconbtn spk" data-say="${e[0]}" title="Dengar">${ic('vol')}</button></div>
+            </div>`).join('')}
+          ${p.n?`<div class="pnote"><b>CATATAN</b>${p.n}</div>`:''}
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="bsec">
+    <h2 class="bh"><span class="bj mn">文型</span> Struktur Kalimat — cara menyusun kalimat</h2>
+    <div id="lessons">${LESSONS.map(l=>`
+      <div class="lesson">
+        <div class="lnum mn">${l.n}</div>
+        <div class="lbody">
+          <h4>${l.t}</h4>
+          <p class="ld">${l.d}</p>
+          ${l.ex?l.ex.map(e=>`
+            <div class="lex">
+              <span class="ljp mn">${e[0]}</span>
+              <button class="iconbtn spk" data-say="${e[0]}" title="Dengar">${ic('vol')}</button>
+              <span class="lid">${e[1]}</span>
+            </div>`).join(''):''}
+          ${l.demo?sovDemo():''}
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="panel bquiz">
+    <h3>${ic('swords')} Latihan Partikel <span class="vj">助詞クイズ</span></h3>
+    <p>Uji pemahamanmu: isi bagian kosong dengan partikel yang tepat. 10 soal, langsung ada pembahasannya kalau keliru.</p>
+    <div id="pq"></div>
+  </div>`;
+  w.querySelector('#plist').onclick=e=>{
+    const h=e.target.closest('.phead');if(!h)return;
+    const p=h.parentElement;
+    const open=p.classList.toggle('open');
+    p.querySelector('.pbody').hidden=!open;
+  };
+  const sov=w.querySelector('#sov');
+  if(sov){
+    sov.querySelector('#sovhl').onclick=()=>sov.classList.toggle('hl');
+    sov.querySelector('#sovpl').onclick=()=>sovReplay(sov);
+    sovReplay(sov);
+  }
+  const pq=w.querySelector('#pq');
+  pq.innerHTML=`<button class="btn red" id="pqstart">${ic('play')} Mulai Latihan</button>`;
+  pq.querySelector('#pqstart').onclick=()=>runQuiz(pq,{questions:buildPartikelQuiz(),regenerate:buildPartikelQuiz,xpEach:12});
+}
+function sovDemo(){
+  return `<div class="sov" id="sov">
+    <div class="sovline"><span class="sovlab">Bahasa Indonesia · SVO</span>
+      <div class="blocks">
+        <div class="blk">Saya</div><div class="blk vb">makan</div><div class="blk">roti</div><div class="blk">di restoran</div>
+      </div>
+    </div>
+    <div class="sovline"><span class="sovlab">Bahasa Jepang · SOV</span>
+      <div class="blocks jpblocks">
+        <div class="blk">わたしは<span class="rm">watashi wa</span></div>
+        <div class="blk">レストランで<span class="rm">resutoran de</span></div>
+        <div class="blk">パンを<span class="rm">pan o</span></div>
+        <div class="blk vb">たべます<span class="rm">tabemasu</span></div>
+      </div>
+    </div>
+    <div class="sovbtns">
+      <button class="btn sm" id="sovhl">${ic('target')} Sorot verba</button>
+      <button class="btn sm" id="sovpl">${ic('play')} Susun ulang</button>
+    </div>
+    <p class="sovnote">Kuncinya satu: verba bahasa Jepang <b>selalu di akhir kalimat</b>. 「わたしは レストランで パンを たべます」 harfiahnya: "Saya — di restoran — roti — makan."</p>
+  </div>`;
+}
+function sovReplay(sov){
+  const bl=[...sov.querySelectorAll('.jpblocks .blk')];
+  bl.forEach(b=>b.classList.remove('anim'));
+  void sov.offsetWidth;
+  bl.forEach((b,i)=>{b.style.animationDelay=(i*0.14)+'s';b.classList.add('anim');});
+}
+function buildPartikelQuiz(){
+  return shuffle(PARTICLE_QUIZ.slice()).slice(0,10).map(p=>{
+    const opts=shuffle(p.opts.slice());
+    return{q:`<span class="pq mn">${p.q}</span>`,sub:'Partikel mana yang tepat?',opts,a:opts.indexOf(p.ans),note:p.note,mnc:true};
+  });
+}
+
+/* =================== VIEW: KYOUSOU (KOMPETISI) =================== */
+let sp=null;
+function renderKyousou(w){
+  w.innerHTML=vhead('闘','Kompetisi','きょうそう','Sprint 60 detik: jawab soal sebanyak mungkin, panen combo, dan kejar rival-rival di papan peringkat.')+`
+  <div class="ky-grid">
+    <div class="panel" id="spbox"></div>
+    <div>
+      <div class="panel">
+        <h3>${ic('trophy')} Papan Peringkat</h3>
+        <div id="lb"></div>
+        <div class="lbfoot"><button class="btn sm" id="lbreset">Reset skor</button></div>
+      </div>
+      <p class="kynote">Rival di papan ini juga "rajin berlatih" — skornya bisa naik kapan saja kalau lo lengah. Jaga posisi!</p>
+    </div>
+  </div>`;
+  renderLB(w);
+  renderSprintIdle(w);
+  w.querySelector('#lbreset').onclick=()=>{
+    showModal(`
+      <h3 class="mn" style="font-size:22px">Reset papan peringkat?</h3>
+      <p class="rsub">Semua skor (termasuk rival) akan kembali ke awal.</p>
+      <div class="mrow">
+        <button class="btn red" id="mok">Ya, reset</button>
+        <button class="btn" id="mcl">Batal</button>
+      </div>`);
+    document.getElementById('mok').onclick=()=>{
+      sv('lb',[]);
+      store.bots=BOTS.map(b=>({name:b.name,score:b.base}));sv('bots',store.bots);
+      closeModal();renderView();toast('Papan peringkat direset');
+    };
+    document.getElementById('mcl').onclick=closeModal;
+  };
+}
+function renderLB(w){
+  const entries=[...store.bots.map(b=>({name:b.name,score:b.score})),...ls('lb',[])];
+  entries.sort((a,b)=>b.score-a.score);
+  w.querySelector('#lb').innerHTML=entries.slice(0,10).map((e,i)=>`
+    <div class="lbrow ${e.me?'me':''}">
+      <div class="lbrank">${i<3?['一','二','三'][i]:i+1}</div>
+      <b class="lbname">${esc(e.name)}${e.me?' (kamu)':''}</b>
+      <span class="lbdots"></span>
+      <b>${e.score}</b>
+    </div>`).join('');
+}
+function renderSprintIdle(w){
+  const box=w.querySelector('#spbox');
+  box.innerHTML=`
+    <h3>${ic('clock')} Sprint 60 Detik <span class="vj">６０秒チャレンジ</span></h3>
+    <div class="rule"><span class="rj mn">時</span><div><b>60 detik.</b> Soal kana & kotoba N5 campur, muncul terus tanpa henti.</div></div>
+    <div class="rule"><span class="rj mn">連</span><div><b>Combo.</b> 3 benar beruntun → skor ×2, 6 beruntun → ×3. Salah sekali, combo hangus.</div></div>
+    <div class="rule"><span class="rj mn">験</span><div><b>XP.</b> Setengah dari skor akhir jadi XP.</div></div>
+    <div class="rule"><span class="rj mn">順</span><div><b>Papan peringkat.</b> Skor langsung tercatat di papan.</div></div>
+    <div class="spbest">Rekor pribadi: <b>${store.best}</b> poin</div>
+    <button class="btn red" id="spstart" style="font-size:16px;padding:14px 26px">${ic('play')} MULAI — 開始</button>`;
+  box.querySelector('#spstart').onclick=startSprint;
+}
+function startSprint(){
+  sp={t:60,score:0,combo:0,maxCombo:0,maxMult:1,ok:0,ng:0,done:false,cur:null};
+  renderSprintRun();
+  sp.timer=setInterval(spTick,100);
+  spQ();
+}
+function renderSprintRun(){
+  const box=document.getElementById('spbox');
+  box.innerHTML=`
+    <div class="sptop">
+      <div class="sptimer" id="sptimer">60<small>s</small></div>
+      <div class="spmid"><div class="spscore">SKOR</div><div class="spnum" id="spnum">0</div></div>
+      <div id="spcombo"></div>
+    </div>
+    <div class="tbar"><i id="spbar" style="width:100%"></i></div>
+    <div class="spprompt" id="spprompt"></div>
+    <div class="spq" id="spq"></div>
+    <div class="qopts" id="spopts"></div>`;
+}
+function spTick(){
+  if(!sp||sp.done)return;
+  const tEl=document.getElementById('sptimer');
+  if(!tEl){clearInterval(sp.timer);return;}
+  sp.t-=0.1;
+  if(sp.t<=0){sp.t=0;endSprint();return;}
+  tEl.innerHTML=Math.ceil(sp.t)+'<small>s</small>';
+  document.getElementById('spbar').style.width=(sp.t/60*100)+'%';
+}
+function spBuildQ(){
+  if(Math.random()<0.6){
+    const k=ALLK[(Math.random()*ALLK.length)|0];
+    const ds=new Set();
+    let guard=0;
+    while(ds.size<3&&guard++<200){const x=ALLK[(Math.random()*ALLK.length)|0];if(x.r!==k.r)ds.add(x.r);}
+    const opts=shuffle([k.r,...ds]);
+    return{prompt:'APA BACAANNYA?',front:`<span class="mn">${k.c}</span>`,opts,ai:opts.indexOf(k.r)};
+  }
+  const x=K5[(Math.random()*K5.length)|0];
+  const ds=new Set();
+  let guard=0;
+  while(ds.size<3&&guard++<200){const y=K5[(Math.random()*K5.length)|0];if(y.id!==x.id)ds.add(y.id);}
+  const opts=shuffle([x.id,...ds]);
+  return{prompt:'APA ARTINYA?',front:`<span class="mn">${esc(x.kana)}</span>`,opts,ai:opts.indexOf(x.id)};
+}
+function spQ(){
+  if(!sp||sp.done)return;
+  sp.cur=spBuildQ();
+  document.getElementById('spprompt').textContent=sp.cur.prompt;
+  document.getElementById('spq').innerHTML=sp.cur.front;
+  const opts=document.getElementById('spopts');
+  opts.innerHTML=sp.cur.opts.map((o,i)=>`<button class="qopt" data-i="${i}">${o}</button>`).join('');
+  const btns=[...opts.children];
+  btns.forEach((b,i)=>b.onclick=()=>spAnswer(i,btns));
+}
+function spAnswer(i,btns){
+  if(!sp||sp.done)return;
+  btns.forEach(b=>b.disabled=true);
+  const q=sp.cur,good=i===q.ai;
+  if(good){
+    sp.combo++;sp.maxCombo=Math.max(sp.maxCombo,sp.combo);
+    const mult=sp.combo>=6?3:sp.combo>=3?2:1;
+    sp.maxMult=Math.max(sp.maxMult,mult);
+    sp.score+=10*mult;sp.ok++;
+    btns[q.ai].classList.add('correct');
+  }else{
+    sp.combo=0;sp.ng++;
+    btns[i].classList.add('wrong');
+    btns[q.ai].classList.add('correct');
+  }
+  document.getElementById('spnum').textContent=sp.score;
+  document.getElementById('spcombo').innerHTML=
+    sp.combo>=6?'<span class="combo-badge">×3 COMBO</span>':
+    sp.combo>=3?'<span class="combo-badge">×2 COMBO</span>':'';
+  setTimeout(spQ,good?400:650);
+}
+function endSprint(){
+  if(sp.done)return;
+  sp.done=true;clearInterval(sp.timer);
+  const xp=Math.floor(sp.score/2);
+  const prevBest=store.best;
+  if(sp.score>store.best){store.best=sp.score;sv('best',store.best);}
+  store.bots.forEach(b=>{if(Math.random()<0.45)b.score+=2+((Math.random()*6)|0);});
+  sv('bots',store.bots);
+  const lb=ls('lb',[]);
+  lb.push({name:store.name,score:sp.score,me:1,ts:Date.now()});
+  sv('lb',lb);
+  const all=[...store.bots.map(b=>({name:b.name,score:b.score})),...lb];
+  all.sort((a,b)=>b.score-a.score);
+  const rank=all.findIndex(e=>e.me&&e.score===sp.score)+1;
+  if(xp>0)addXP(xp);
+  showModal(`
+    <div class="rstamp mn">終了</div>
+    <div class="rbig">${sp.score}<small> poin</small></div>
+    <p class="rsub">${sp.ok} benar · ${sp.ng} salah · combo terbaik ×${sp.maxMult}</p>
+    <div class="rxp">${ic('zap')} +${xp} XP ${sp.score>prevBest?'· REKOR BARU!':''}</div>
+    <div class="rrank">${ic('trophy')} Peringkat #${rank} di papan peringkat</div>
+    <div class="mrow">
+      <button class="btn red" id="magain">${ic('re')} Main lagi</button>
+      <button class="btn" id="mclose">Tutup</button>
+    </div>`);
+  document.getElementById('magain').onclick=()=>{closeModal();startSprint();};
+  document.getElementById('mclose').onclick=()=>{closeModal();renderView();};
+}
+
+/* =================== INIT =================== */
+buildNav();
+updateHeader();
+renderView();
 </script>
 </body>
 </html>
