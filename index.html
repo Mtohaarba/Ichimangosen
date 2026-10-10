@@ -1480,5 +1480,707 @@ if (canSW) window.addEventListener('load', () => navigator.serviceWorker.registe
 window.addEventListener('offline', () => toast('Offline — semua materi tetap bisa dibuka'));
 window.addEventListener('online', () => toast('Kembali online'));
    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ================= BENKYOU V2 — MULTIPLAYER (Supabase) =================
+   1) Isi SB_URL & SB_KEY dari Project Settings → API
+   2) SQL setup harus sudah dijalankan di Supabase
+======================================================================== */
+const SB_URL="ISI_URL_SUPABASE";
+const SB_KEY="ISI_ANON_KEY";
+
+ICONS.user='<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>';
+ICONS.copy='<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>';
+
+let supa=null;
+if(window.supabase&&!SB_URL.startsWith("ISI_")){
+  try{supa=window.supabase.createClient(SB_URL,SB_KEY);}catch(e){console.error(e);}
+}
+
+document.head.insertAdjacentHTML('beforeend',`<style>
+.mp-inp{width:100%;border:2px solid var(--ink);border-radius:10px;padding:11px 14px;font:inherit;font-weight:600;background:#fff;outline:none}
+.mp-inp:focus{border-color:var(--blue)}
+.mp-code{font-size:clamp(34px,7vw,52px);font-weight:800;letter-spacing:10px;text-align:center;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;margin:6px 0 2px}
+.mp-pl{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff;font-weight:700;font-size:13.5px}
+.mp-av{width:30px;height:30px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.mp-badge{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);border-radius:99px;padding:5px 12px;font-size:12px;font-weight:800;background:#fff}
+.mp-hint{font-size:12.5px;color:var(--ink2);line-height:1.7}
+.mp-srow{display:flex;align-items:center;gap:12px;padding:9px 6px;border-bottom:1px dashed var(--line);font-weight:700;font-size:14px}
+.mp-srow .pts{margin-left:auto;font-family:var(--fj);font-weight:800}
+.mp-pod{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:18px 0 8px}
+.mp-pod .p{width:86px;border:2px solid var(--ink);border-radius:12px;background:#fff;text-align:center;padding:10px 6px;box-shadow:3px 3px 0 rgba(37,43,71,.12)}
+.mp-pod .p b{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mp-pod .p .sc{font-weight:800;font-size:20px}
+.mp-pod .p1{height:112px}.mp-pod .p2{height:94px}.mp-pod .p3{height:80px}
+.mp-pod .rk{font-weight:800;font-size:18px;color:var(--red)}
+@media(max-width:820px){.mp-grid{grid-template-columns:1fr}}
+</style>`);
+
+let ME=null;
+const MP={channel:null,room:null,host:false,hostId:null,phase:'idle',
+  settings:{cat:'hiragana',count:10,dur:8},qs:[],qi:0,scores:{},names:{},final:null,
+  answers:{},roundPts:{},ansCount:0,qStart:0,qEndsAt:0,myAns:null,reveal:null,curQ:null,
+  timers:[],tick:null,authTab:'login'};
+
+function send(ev,payload){if(MP.channel)MP.channel.send({type:'broadcast',event:ev,payload});}
+function mpT(fn,ms){const id=setTimeout(fn,ms);MP.timers.push(id);return id;}
+function mpClear(){MP.timers.forEach(clearTimeout);MP.timers=[];if(MP.tick){clearInterval(MP.tick);MP.tick=null;}}
+function mpWrap(html){const m=document.getElementById('main');m.innerHTML='';const w=document.createElement('div');w.className='view-anim';w.innerHTML=html;m.appendChild(w);window.scrollTo({top:0});return w;}
+function mpHead(){return `<div class="vhead"><div class="watermark">たいせん</div><div class="big"><h1>Multiplayer</h1><span class="vj">たいせん</span></div><p>Bertanding langsung sama pemain lain: jawab benar, jawab cepat, rebut peringkat satu.</p></div>`;}
+
+/* ---------- AUTH ---------- */
+async function mpLoadMe(){
+  if(!supa)return null;
+  const {data}=await supa.auth.getSession();
+  const user=data?.session?.user;
+  if(!user){ME=null;return null;}
+  let uname=user.user_metadata?.username||('pemain'+user.id.slice(0,4));
+  try{const {data:prof}=await supa.from('profiles').select('username').eq('id',user.id).maybeSingle();
+    if(prof?.username)uname=prof.username;}catch(e){}
+  ME={id:user.id,username:uname};return ME;
+}
+function updateUserPill(){
+  const hs=document.querySelector('.hstats');if(!hs)return;
+  let p=document.getElementById('pill-user');
+  if(!ME){if(p)p.remove();return;}
+  if(!p){p=document.createElement('div');p.className='pill';p.id='pill-user';hs.prepend(p);}
+  p.innerHTML=`${ic('user')}<b>${esc(ME.username)}</b>`;
+}
+
+/* ---------- SOAL (dibuat host, jawaban TIDAK ikut dikirim) ---------- */
+function mpBuildQuestions(s){
+  const out=[];
+  if(s.cat==='kotoba'){
+    for(let i=0;i<s.count;i++){
+      const x=K5[(Math.random()*K5.length)|0];
+      const ds=shuffle(K5.filter(y=>y.id!==x.id)).slice(0,3).map(y=>y.id);
+      const opts=shuffle([x.id,...ds]);
+      out.push({prompt:'APA ARTINYA?',front:x.kana,opts,correct:opts.indexOf(x.id)});
+    }
+    return out;
+  }
+  const pool=s.cat==='hiragana'?PH:s.cat==='katakana'?PKK:PMIX;
+  const sh=shuffle(pool.slice());
+  for(let i=0;i<s.count;i++){
+    const k=sh[i%sh.length];
+    const ds=shuffle(pool.filter(y=>y.r!==k.r)).slice(0,3).map(y=>y.r);
+    const opts=shuffle([k.r,...ds]);
+    out.push({prompt:s.cat==='hiragana'?'BACA HIRAGANA INI:':s.cat==='katakana'?'BACA KATAKANA INI:':'APA BACAANNYA?',front:k.c,opts,correct:opts.indexOf(k.r)});
+  }
+  return out;
+}
+
+/* ---------- CHANNEL REALTIME ---------- */
+function presenceList(){
+  if(!MP.channel)return[];
+  const st=MP.channel.presenceState();const out=[];const seen=new Set();
+  Object.values(st).forEach(arr=>{const p=arr&&arr[0];if(p&&p.id&&!seen.has(p.id)){seen.add(p.id);out.push(p);}});
+  return out;
+}
+function scoreArr(){return Object.entries(MP.scores).map(([id,s])=>({id,s,name:MP.names[id]||'pemain'})).sort((a,b)=>b.s-a.s);}
+function mpSubscribe(code){
+  if(MP.channel){try{supa.removeChannel(MP.channel);}catch(e){}}
+  MP.channel=supa.channel('benkyou-room:'+code,{config:{presence:{key:ME.id}}});
+  MP.channel
+    .on('presence',{event:'sync'},onPresenceSync)
+    .on('broadcast',{event:'settings'},({payload})=>{MP.settings=payload.s;if(cur==='multi'&&MP.phase==='lobby')renderMP();})
+    .on('broadcast',{event:'start'},({payload})=>{MP.settings=payload.settings;MP.qi=0;MP.scores={};MP.phase='playing';MP.reveal=null;MP.curQ=null;if(cur==='multi')renderMP();})
+    .on('broadcast',{event:'q'},({payload})=>onQ(payload))
+    .on('broadcast',{event:'ans'},({payload})=>onRemoteAns(payload))
+    .on('broadcast',{event:'reveal'},({payload})=>onReveal(payload))
+    .on('broadcast',{event:'end'},({payload})=>onEnd(payload))
+    .on('broadcast',{event:'lobby'},()=>mpResetToLobby())
+    .subscribe(async status=>{
+      if(status==='SUBSCRIBED'){try{await MP.channel.track({id:ME.id,username:ME.username});}catch(e){}}
+    });
+}
+function hostSend(ev,payload){
+  send(ev,payload); // host tidak menerima broadcast-nya sendiri → panggil handler lokal
+  if(ev==='q')onQ(payload);
+  else if(ev==='reveal')onReveal(payload);
+  else if(ev==='end')onEnd(payload);
+  else if(ev==='lobby')mpResetToLobby();
+}
+function onPresenceSync(){
+  if(!MP.channel||MP.phase==='idle')return;
+  presenceList().forEach(p=>{MP.names[p.id]=p.username;});
+  if(!MP.host&&MP.hostId&&!presenceList().some(p=>p.id===MP.hostId)){
+    toast('Host keluar — room ditutup');mpLeave();return;
+  }
+  if(cur==='multi'&&MP.phase==='lobby')renderMP();
+}
+function onQ(p){
+  mpClear();
+  MP.qi=p.i;MP.curQ=p;MP.reveal=null;MP.myAns=null;MP.ansCount=0;MP.qEndsAt=p.endsAt;MP.phase='playing';
+  if(cur==='multi')renderMP();else toast('Match di room '+MP.room+' sedang berjalan!');
+}
+function onRemoteAns(p){
+  if(MP.phase!=='playing'||p.i!==MP.qi||MP.reveal)return;
+  MP.ansCount++;MP.names[p.pid]=p.username;
+  if(MP.host)hostTally(p);
+  updateAnsBadge();
+}
+function hostTally(p){
+  if(!MP.host)return;
+  if(MP.answers[p.pid]!==undefined)return; // cuma jawaban pertama yang dihitung
+  MP.answers[p.pid]=p.opt;
+  const q=MP.qs[MP.qi];if(!q)return;
+  if(p.opt===q.correct){
+    const el=Math.max(0,Date.now()-MP.qStart);
+    const pts=50+Math.max(0,Math.round(50*(1-el/(MP.settings.dur*1000))));
+    MP.scores[p.pid]=(MP.scores[p.pid]||0)+pts;
+    MP.roundPts[p.pid]=(MP.roundPts[p.pid]||0)+pts;
+  }
+}
+function onReveal(p){
+  if(MP.phase!=='playing'||p.i!==MP.qi)return;
+  mpClear();MP.reveal=p;
+  p.scores.forEach(r=>{MP.scores[r.id]=r.s;MP.names[r.id]=r.name;});
+  if(cur==='multi')renderMP();
+}
+function onEnd(p){
+  mpClear();MP.phase='finished';MP.final=p.scores;
+  p.scores.forEach(r=>{MP.scores[r.id]=r.s;MP.names[r.id]=r.name;});
+  const myRank=p.scores.findIndex(r=>r.id===ME.id)+1;
+  if(myRank===1){addXP(15);toast('+15 XP · juara 1! ゆうしょう!');}
+  else if(myRank>0)addXP(5);
+  if(cur==='multi')renderMP();
+}
+function mpResetToLobby(){mpClear();MP.phase='lobby';MP.qi=0;MP.qs=[];MP.scores={};MP.final=null;MP.reveal=null;MP.curQ=null;if(cur==='multi')renderMP();}
+
+/* ---------- ALUR HOST ---------- */
+async function mpHostStart(){
+  if(!MP.host)return;
+  MP.qs=mpBuildQuestions(MP.settings);
+  MP.scores={};presenceList().forEach(p=>{MP.scores[p.id]=0;MP.names[p.id]=p.username;});
+  MP.qi=0;
+  hostSend('start',{settings:MP.settings});
+  try{await supa.from('rooms').update({status:'playing',settings:MP.settings}).eq('code',MP.room);}catch(e){}
+  if(cur==='multi')renderMP();
+  mpT(mpHostNextQ,900);
+}
+function mpHostNextQ(){
+  if(!MP.host||MP.phase!=='playing')return;
+  if(MP.qi>=MP.qs.length)return mpHostEnd();
+  const q=MP.qs[MP.qi];
+  MP.answers={};MP.roundPts={};MP.qStart=Date.now();
+  hostSend('q',{i:MP.qi,prompt:q.prompt,front:q.front,opts:q.opts,endsAt:MP.qStart+MP.settings.dur*1000});
+  if(cur==='multi')renderMP();
+  mpT(mpHostReveal,MP.settings.dur*1000);
+}
+function mpHostReveal(){
+  if(!MP.host||MP.phase!=='playing')return;
+  const q=MP.qs[MP.qi];
+  hostSend('reveal',{i:MP.qi,correct:q.correct,scores:scoreArr(),round:{...MP.roundPts}});
+  MP.qi++;
+  mpT(()=>{MP.qi>=MP.qs.length?mpHostEnd():mpHostNextQ();},3200);
+}
+function mpHostEnd(){
+  if(!MP.host)return;
+  hostSend('end',{scores:scoreArr()});
+  supa.from('rooms').update({status:'finished'}).eq('code',MP.room).then(()=>{});
+}
+async function mpRematch(){
+  if(!MP.host)return;
+  try{await supa.from('rooms').update({status:'lobby'}).eq('code',MP.room);}catch(e){}
+  hostSend('lobby',{});
+}
+function mpSet(k,v){if(!MP.host)return;MP.settings[k]=(k==='cat')?v:+v;send('settings',{s:MP.settings});renderMP();}
+
+/* ---------- BUAT / GABUNG / KELUAR ---------- */
+function genCode(){const A='ABCDEFGHJKMNPQRSTUVWXYZ23456789';const r=new Uint8Array(5);crypto.getRandomValues(r);let s='';for(let i=0;i<5;i++)s+=A[r[i]%A.length];return s;}
+async function mpCreate(){
+  let code=genCode();
+  for(let t=0;t<3;t++){
+    const {error}=await supa.from('rooms').insert({code,host_id:ME.id,status:'lobby',settings:MP.settings});
+    if(!error)break;
+    if(t===2){toast('Gagal buat room: '+error.message);return;}
+    code=genCode();
+  }
+  MP.room=code;MP.host=true;MP.hostId=ME.id;MP.phase='lobby';MP.qi=0;MP.scores={};MP.reveal=null;MP.curQ=null;
+  mpSubscribe(code);renderMP();
+}
+async function mpJoin(raw){
+  const code=(raw||'').trim().toUpperCase();
+  if(code.length!==5){toast('Kode room harus 5 huruf');return;}
+  const {data:room,error}=await supa.from('rooms').select('*').eq('code',code).maybeSingle();
+  if(error){toast('Gagal cek room: '+error.message);return;}
+  if(!room){toast('Room tidak ditemukan — cek lagi kodenya');return;}
+  if(room.status!=='lobby'){toast('Match sedang berjalan — tunggu sampai selesai');return;}
+  MP.room=code;MP.host=false;MP.hostId=room.host_id;MP.phase='lobby';
+  MP.settings=room.settings||MP.settings;MP.qi=0;MP.scores={};MP.final=null;MP.reveal=null;MP.curQ=null;
+  mpSubscribe(code);renderMP();
+  setTimeout(()=>{if(MP.phase==='lobby'&&MP.channel&&!presenceList().some(p=>p.id===MP.hostId))toast('Host belum terlihat… pastikan halaman host masih terbuka');},2500);
+}
+async function mpLeave(){
+  mpClear();
+  if(MP.channel){try{await MP.channel.untrack();}catch(e){}try{supa.removeChannel(MP.channel);}catch(e){}}
+  if(MP.host&&MP.room&&supa){try{await supa.from('rooms').delete().eq('code',MP.room);}catch(e){}}
+  MP.channel=null;MP.room=null;MP.host=false;MP.hostId=null;MP.phase='idle';MP.curQ=null;MP.reveal=null;
+  if(cur==='multi')renderMP();
+}
+
+/* ---------- JAWAB ---------- */
+function mpAnswer(i){
+  if(MP.phase!=='playing'||MP.reveal||MP.myAns!==null)return;
+  MP.myAns=i;
+  const payload={pid:ME.id,username:ME.username,i:MP.qi,opt:i};
+  send('ans',payload);
+  if(MP.host)hostTally(payload);
+  MP.ansCount++;updateAnsBadge();
+  renderMP();
+}
+function updateAnsBadge(){const el=document.getElementById('mpans');if(el)el.textContent=MP.ansCount+'/'+presenceList().length+' menjawab';}
+
+/* ================= RENDER ================= */
+function renderMP(){
+  if(cur!=='multi')return;
+  if(!supa)return renderSetupView();
+  if(!ME){mpLoadMe().then(m=>{updateUserPill();m?renderMP():renderAuthView();});return;}
+  if(MP.phase==='lobby')return renderLobby();
+  if(MP.phase==='playing')return MP.curQ?renderGame():renderWait();
+  if(MP.phase==='finished')return renderResults();
+  return renderMenu();
+}
+function renderSetupView(){
+  mpWrap(`${mpHead()}
+  <div class="panel" style="max-width:640px;margin:0 auto">
+    <h3>${ic('target')} Setup Sekali Saja</h3>
+    <p class="psub">Multiplayer butuh project Supabase gratis. Buka <b>supabase.com</b> → New Project, lalu:</p>
+    <ol class="mp-hint" style="padding-left:18px;display:grid;gap:8px;margin:10px 0 14px">
+      <li><b>SQL Editor</b> → paste & run SQL setup (tabel profiles + rooms + trigger).</li>
+      <li><b>Project Settings → API</b> → salin Project URL & anon public key.</li>
+      <li>Di file ini, isi <b>SB_URL</b> dan <b>SB_KEY</b> di bagian "BENKYOU V2".</li>
+      <li><b>Authentication → Providers → Email</b> → matikan "Confirm email".</li>
+    </ol>
+    <p class="mp-hint">Setelah diisi, refresh halaman — tab Multiplayer langsung aktif.</p>
+  </div>`);
+}
+function renderAuthView(){
+  const t=MP.authTab;
+  const w=mpWrap(`${mpHead()}
+    <div class="panel" style="max-width:440px;margin:0 auto">
+      <div class="subtabs" style="width:100%;margin-bottom:18px">
+        <button data-t="login" class="${t==='login'?'active':''}" style="flex:1">Masuk</button>
+        <button data-t="daftar" class="${t==='daftar'?'active':''}" style="flex:1">Daftar</button>
+      </div>
+      <form id="mpauth">
+        ${t==='daftar'?`<label class="tlab">Nama pemain</label><input class="mp-inp" name="u" maxlength="16" required placeholder="mis. udin_gamer" style="margin:6px 0 14px">`:''}
+        <label class="tlab">Email</label><input class="mp-inp" name="e" type="email" required placeholder="email@contoh.com" style="margin:6px 0 14px">
+        <label class="tlab">Password (min. 6 karakter)</label><input class="mp-inp" name="p" type="password" required minlength="6" style="margin:6px 0 4px">
+        <p class="mp-hint" id="mperr" style="color:var(--red);min-height:18px;margin:8px 0 2px"></p>
+        <button class="btn red wfull" type="submit">${t==='login'?'Masuk':'Daftar Sekarang'}</button>
+      </form>
+    </div>`);
+  w.querySelectorAll('.subtabs button').forEach(b=>b.onclick=()=>{MP.authTab=b.dataset.t;renderAuthView();});
+  w.querySelector('#mpauth').onsubmit=async ev=>{
+    ev.preventDefault();
+    const f=ev.target,err=w.querySelector('#mperr');err.textContent='';
+    const btn=f.querySelector('button[type=submit]');btn.disabled=true;
+    if(t==='login'){
+      const {error}=await supa.auth.signInWithPassword({email:f.e.value,password:f.p.value});
+      if(error){err.textContent=error.message==='Invalid login credentials'?'Email atau password salah':error.message;btn.disabled=false;return;}
+    }else{
+      const {error}=await supa.auth.signUp({email:f.e.value,password:f.p.value,options:{data:{username:f.u.value.trim()}}});
+      if(error){err.textContent=/Database error|profiles/i.test(error.message)?'Username sudah dipakai, coba yang lain':error.message;btn.disabled=false;return;}
+      const {data:s2}=await supa.auth.getSession();
+      if(!s2?.session){err.textContent='Daftar berhasil! Silakan masuk. (Kalau diminta verifikasi email, matikan "Confirm email" di Supabase.)';btn.disabled=false;return;}
+    }
+    await mpLoadMe();updateUserPill();toast('Halo, '+esc(ME.username)+'!');renderMP();
+  };
+}
+function renderMenu(){
+  const w=mpWrap(`${mpHead()}
+   <div class="panel" style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+     <div class="mp-av" style="width:44px;height:44px;font-size:18px">${esc(ME.username[0].toUpperCase())}</div>
+     <div style="flex:1"><b>${esc(ME.username)}</b><div class="muted">siap bertanding</div></div>
+     <button class="btn sm" id="mpout">${ic('arrow')} Keluar akun</button>
+   </div>
+   <div class="mp-grid">
+     <div class="panel">
+       <h3>${ic('swords')} Buat Room <span class="vj">ホスト</span></h3>
+       <p class="psub">Jadi host: atur aturan main, bagikan kode 5 huruf, mulai match kapan pun lo mau.</p>
+       <button class="btn red wfull" id="mpcreate" style="margin-top:8px">${ic('play')} Buat Room Baru</button>
+     </div>
+     <div class="panel">
+       <h3>${ic('arrow')} Gabung Room <span class="vj">ルーム</span></h3>
+       <p class="psub">Punya kode dari teman? Masukin di sini.</p>
+       <input class="mp-inp" id="mpcode" maxlength="5" placeholder="KODE" style="text-align:center;letter-spacing:8px;font-size:22px;font-weight:800;text-transform:uppercase;margin:8px 0">
+       <button class="btn blue wfull" id="mpjoin">${ic('arrow')} Gabung</button>
+     </div>
+   </div>
+   <p class="mp-hint" style="margin-top:16px">Cara main: semua pemain dapat soal yang sama bersamaan. Jawab <b>benar</b> = 50 poin + bonus kecepatan sampai 50. Makin cepet makin gede. Salah atau telat = 0.</p>`);
+  w.querySelector('#mpout').onclick=async()=>{await supa.auth.signOut();ME=null;updateUserPill();renderMP();};
+  w.querySelector('#mpcreate').onclick=mpCreate;
+  w.querySelector('#mpjoin').onclick=()=>mpJoin(w.querySelector('#mpcode').value);
+  w.querySelector('#mpcode').onkeydown=e=>{if(e.key==='Enter')mpJoin(e.target.value);};
+}
+function renderLobby(){
+  const players=presenceList();
+  const cats=[['hiragana','Hiragana'],['katakana','Katakana'],['mix','Kana Campur'],['kotoba','Kotoba N5']];
+  const w=mpWrap(`${mpHead()}
+   <div class="panel" style="text-align:center;margin-bottom:20px">
+     <div class="tlab">KODE ROOM — bagikan ke temanmu</div>
+     <div class="mp-code">${MP.room}</div>
+     <button class="btn sm" id="mpcopy">${ic('copy')} Salin kode</button>
+   </div>
+   <div class="mp-grid">
+     <div class="panel">
+       <h3>${ic('user')} Pemain di Lobby <span class="mp-badge">${players.length}</span></h3>
+       <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+        ${players.map(p=>`<div class="mp-pl"><div class="mp-av">${esc((p.username||'?')[0].toUpperCase())}</div><b style="flex:1">${esc(p.username)}${p.id===MP.hostId?' <span class="tag">HOST</span>':''}${p.id===ME.id?' (kamu)':''}</b></div>`).join('')}
+       </div>
+       ${MP.host?'':'<p class="mp-hint" style="margin-top:12px">Menunggu host mulai match…</p>'}
+       <button class="btn sm" id="mpleave" style="margin-top:14px">← Keluar room</button>
+     </div>
+     <div class="panel">
+       <h3>${ic('target')} Aturan Main ${MP.host?'':'<span class="tag">diatur host</span>'}</h3>
+       ${MP.host?`
+        <div class="pgroup"><div class="prow"><span>Kategori soal</span></div>
+          <div class="chips">${cats.map(([v,l])=>`<button class="chip ${MP.settings.cat===v?'active':''}" data-k="cat" data-v="${v}">${l}</button>`).join('')}</div></div>
+        <div class="pgroup"><div class="prow"><span>Jumlah soal</span></div>
+          <div class="chips">${[5,10,15].map(v=>`<button class="chip ${MP.settings.count===v?'active':''}" data-k="count" data-v="${v}">${v} soal</button>`).join('')}</div></div>
+        <div class="pgroup"><div class="prow"><span>Waktu per soal</span></div>
+          <div class="chips">${[6,8,12].map(v=>`<button class="chip ${MP.settings.dur===v?'active':''}" data-k="dur" data-v="${v}">${v} detik</button>`).join('')}</div></div>
+        <button class="btn red wfull" id="mpstart">${ic('play')} MULAI MATCH — かいし</button>
+       `:`
+        <div class="pgroup"><div class="prow"><span>Kategori</span><b>${({hiragana:'Hiragana',katakana:'Katakana',mix:'Kana Campur',kotoba:'Kotoba N5'})[MP.settings.cat]||MP.settings.cat}</b></div></div>
+        <div class="pgroup"><div class="prow"><span>Jumlah soal</span><b>${MP.settings.count}</b></div></div>
+        <div class="pgroup"><div class="prow"><span>Waktu / soal</span><b>${MP.settings.dur} detik</b></div></div>
+       `}
+     </div>
+   </div>`);
+  w.querySelector('#mpcopy').onclick=async()=>{try{await navigator.clipboard.writeText(MP.room);toast('Kode '+MP.room+' disalin');}catch(e){toast('Kode: '+MP.room);}};
+  w.querySelector('#mpleave').onclick=mpLeave;
+  if(MP.host){
+    w.querySelectorAll('.chips .chip').forEach(c=>c.onclick=()=>mpSet(c.dataset.k,c.dataset.v));
+    w.querySelector('#mpstart').onclick=mpHostStart;
+  }
+}
+function renderWait(){
+  mpWrap(`${mpHead()}<div class="panel" style="text-align:center"><h3>Menyiapkan soal…</h3><p class="psub">Match segera dimulai! かいし!</p></div>`);
+}
+function renderGame(){
+  const p=MP.curQ;if(!p)return renderWait();
+  const rev=MP.reveal;
+  const remain=rev?0:Math.max(0,MP.qEndsAt-Date.now());
+  const w=mpWrap(`
+    <div class="quiz-top"><span>Soal ${MP.qi+1} / ${MP.settings.count}</span><span class="mp-badge" id="mpans">${MP.ansCount}/${presenceList().length} menjawab</span></div>
+    <div class="tbar"><i id="mpbar" style="width:${rev?0:Math.round(remain/(MP.settings.dur*1000)*100)}%"></i></div>
+    <div class="panel">
+      <div class="spprompt">${p.prompt}</div>
+      <div class="spq">${esc(p.front)}</div>
+      <div class="qopts" id="mpopts">${p.opts.map((o,idx)=>{
+        let cls='qopt';
+        if(rev){if(idx===rev.correct)cls+=' correct';else if(MP.myAns===idx)cls+=' wrong';}
+        return `<button class="${cls}" data-i="${idx}" ${(rev||MP.myAns!==null)?'disabled':''}>${esc(o)}</button>`;
+      }).join('')}</div>
+      ${rev?`
+        <div class="qnote" style="margin-top:16px">
+          <b>${MP.myAns===rev.correct?('BENAR! +'+((rev.round&&rev.round[ME.id])||0)+' poin'):(MP.myAns===null?('Waktu habis — jawaban: '+esc(p.opts[rev.correct])):('Kurang tepat — jawaban: '+esc(p.opts[rev.correct])))}</b>
+        </div>
+        <div style="margin-top:14px">
+          <div class="tlab" style="margin-bottom:6px">Skor sementara</div>
+          ${rev.scores.slice(0,8).map((r,idx)=>`<div class="mp-srow"><b style="width:26px">${idx+1}</b><span style="flex:1">${esc(r.name)}${r.id===ME.id?' (kamu)':''}</span><span class="pts">${r.s}</span></div>`).join('')}
+        </div>`:''}
+    </div>`);
+  w.querySelectorAll('#mpopts .qopt').forEach(b=>b.onclick=()=>mpAnswer(+b.dataset.i));
+  if(MP.tick){clearInterval(MP.tick);MP.tick=null;}
+  if(!rev){
+    MP.tick=setInterval(()=>{
+      const b=document.getElementById('mpbar');
+      if(!b){clearInterval(MP.tick);MP.tick=null;return;}
+      const r=Math.max(0,MP.qEndsAt-Date.now());
+      b.style.width=(r/(MP.settings.dur*1000)*100)+'%';
+    },100);
+  }
+}
+function pod(rank,row,cls){
+  if(!row)return `<div class="p ${cls}" style="visibility:hidden"></div>`;
+  return `<div class="p ${cls}"><div class="rk">${rank}</div><b>${esc(row.name)}</b><div class="sc">${row.s}</div></div>`;
+}
+function renderResults(){
+  const sc=MP.final||scoreArr();
+  const w=mpWrap(`${mpHead()}
+   <div class="panel" style="text-align:center">
+     ${sc[0]&&sc[0].id===ME.id?'<div class="rstamp">ゆうしょう!</div>':''}
+     <h3 style="justify-content:center">Hasil Akhir <span class="vj">けっか</span></h3>
+     <div class="mp-pod">${pod(2,sc[1],'p2')}${pod(1,sc[0],'p1')}${pod(3,sc[2],'p3')}</div>
+     <div style="margin-top:14px;text-align:left">
+       ${sc.map((r,idx)=>`<div class="mp-srow"><b style="width:26px">${idx+1}</b><span style="flex:1">${esc(r.name)}${r.id===ME.id?' (kamu)':''}</span><span class="pts">${r.s} poin</span></div>`).join('')||'<p class="muted">Belum ada skor</p>'}
+     </div>
+     <div class="mrow">
+       ${MP.host?`<button class="btn red" id="mpagain">${ic('re')} Main Lagi</button><button class="btn" id="mpclose">Tutup Room</button>`
+                :`<button class="btn" id="mpclose">Keluar Room</button>`}
+     </div>
+   </div>`);
+  if(MP.host)w.querySelector('#mpagain').onclick=mpRematch;
+  w.querySelector('#mpclose').onclick=mpLeave;
+}
+
+/* ---------- INTEGRASI NAVIGASI + INIT ---------- */
+VIEWS.multi={jp:'たいせん',label:'Multiplayer',render:()=>renderMP()};
+buildNav();
+if(supa){
+  mpLoadMe().then(()=>{updateUserPill();});
+  supa.auth.onAuthStateChange(()=>{mpLoadMe().then(()=>{updateUserPill();if(cur==='multi')renderMP();});});
+}
+</script>
+<script>
+/* ================= BENKYOU V2.1 — GATE LOGIN + PROGRES AWAN + LEADERBOARD LIVE =================
+   Syarat: SQL V2 & V2.1 sudah dijalankan, SB_URL/SB_KEY sudah diisi di modul V2.
+   Letakkan SETELAH modul V2, sebelum </body>.
+================================================================================================== */
+
+/* ---------- CSS tambahan ---------- */
+document.head.insertAdjacentHTML('beforeend',`<style>
+#gate{position:fixed;inset:0;z-index:6000;background:var(--paper);display:none;place-items:center;padding:24px;overflow:auto}
+#gate.show{display:grid}
+.gwrap{width:min(460px,100%)}
+.gbrand{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:20px}
+.gcard{border:2.5px solid var(--ink);border-radius:18px;background:var(--paper2);padding:26px 24px;box-shadow:8px 8px 0 rgba(37,43,71,.15)}
+.gfoot{margin-top:14px;font-size:12px;color:var(--ink2);text-align:center}
+.glabel{font-size:11px;font-weight:800;letter-spacing:.8px;color:var(--ink2);text-transform:uppercase;display:block;margin:13px 0 5px}
+.gerr{color:var(--red);font-size:12.5px;font-weight:700;min-height:18px;margin:10px 0 0}
+.gload{text-align:center;padding:26px 0;color:var(--ink2);font-weight:700}
+.gload .gk{font-size:42px;color:var(--blue);font-family:var(--fj);font-weight:800;animation:blink 1.4s infinite;display:block;margin-bottom:8px}
+.pillout{border:none;background:rgba(37,43,71,.08);border-radius:99px;width:22px;height:22px;display:grid;place-items:center;cursor:pointer;color:var(--ink);padding:0;margin-left:2px}
+.pillout:hover{background:var(--red);color:#fff}
+.pillout .ic{width:12px;height:12px}
+.live-badge{background:#E9EFFC;border-color:var(--blue);color:var(--blue);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.35}}
+</style>`);
+
+ICONS.out='<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>';
+
+/* ---------- 1) SINKRONISASI PROGRES KE AWAN ---------- */
+let cloudSaveT=null;
+function progressPayload(){
+  return {name:store.name,xp:store.xp,streak:store.streak,lastDay:store.lastDay,
+    known:[...store.known],kwords:[...store.kwords],plan:store.plan,best:store.best};
+}
+async function pushProgress(){
+  if(!supa||!ME)return;
+  try{await supa.from('progress').upsert({user_id:ME.id,data:progressPayload(),updated_at:new Date().toISOString()});}catch(e){}
+}
+function applyProgress(d){
+  if(typeof d.name==='string'&&d.name)store.name=d.name;
+  if(Number.isFinite(d.xp))store.xp=d.xp;
+  if(Number.isFinite(d.streak))store.streak=d.streak;
+  if(typeof d.lastDay==='string')store.lastDay=d.lastDay;
+  if(Array.isArray(d.known))store.known=new Set(d.known);
+  if(Array.isArray(d.kwords))store.kwords=new Set(d.kwords);
+  if(Array.isArray(d.plan)&&d.plan.length===7)store.plan=d.plan;
+  if(Number.isFinite(d.best))store.best=d.best;
+  ['name','xp','streak','lastDay','plan','best'].forEach(k=>_sv(k,store[k]));
+  _sv('known',[...store.known]);_sv('kwords',[...store.kwords]);
+}
+async function pullProgress(){
+  if(!supa||!ME)return;
+  const {data}=await supa.from('progress').select('data').eq('user_id',ME.id).maybeSingle();
+  if(data&&data.data&&Object.keys(data.data).length)applyProgress(data.data);
+  else await pushProgress(); /* login pertama: progres lokal lama diangkat ke awan */
+}
+function scheduleCloudSave(){
+  if(!supa||!ME)return;
+  clearTimeout(cloudSaveT);
+  cloudSaveT=setTimeout(pushProgress,1200);
+}
+const _sv=sv;
+sv=function(k,v){_sv(k,v);scheduleCloudSave();};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pushProgress();});
+window.addEventListener('beforeunload',()=>pushProgress());
+
+/* ---------- 2) GATE LOGIN (layar penuh sebelum masuk aplikasi) ---------- */
+const gateEl=document.createElement('div');gateEl.id='gate';document.body.appendChild(gateEl);
+let appReady=false;
+function gateSkeleton(){
+  gateEl.classList.add('show');
+  gateEl.innerHTML=`
+    <div class="gwrap">
+      <div class="gbrand">
+        <div class="brand-mark">べ</div>
+        <div style="text-align:left"><div class="brand-name">BENKYOU</div><div class="brand-sub">べんきょう · Belajar Bahasa Jepang</div></div>
+      </div>
+      <div class="gcard" id="gbody"></div>
+      <p class="gfoot">Satu akun untuk semua progres — kana, kotoba, sprint & multiplayer.</p>
+    </div>`;
+}
+function gateLoading(){
+  gateSkeleton();
+  gateEl.querySelector('#gbody').innerHTML=`<div class="gload"><span class="gk">かな</span>Menyiapkan…</div>`;
+}
+function gateSetup(){
+  gateSkeleton();
+  gateEl.querySelector('#gbody').innerHTML=`
+    <h3 style="font-family:var(--fj);font-size:19px;margin-bottom:8px">${ic('target')} Setup Supabase Dulu</h3>
+    <ol class="mp-hint" style="padding-left:18px;display:grid;gap:8px;margin:10px 0 14px">
+      <li>Buka <b>supabase.com</b> → New Project (gratis).</li>
+      <li><b>SQL Editor</b> → jalankan SQL "BENKYOU V2" lalu "BENKYOU V2.1".</li>
+      <li><b>Project Settings → API</b> → salin Project URL & anon key.</li>
+      <li>Di file HTML, isi <b>SB_URL</b> & <b>SB_KEY</b> di modul V2.</li>
+      <li><b>Authentication → Providers → Email</b> → matikan "Confirm email".</li>
+    </ol>
+    <p class="mp-hint">Setelah diisi, refresh halaman — layar ini berubah jadi form login.</p>`;
+}
+async function enterApp(){
+  if(appReady)return;appReady=true;
+  try{
+    await mpLoadMe();updateUserPill();
+    try{await pullProgress();}catch(e){}
+    updateHeader();renderView();
+    try{lbLoad();lbSubscribe();}catch(e){}
+    gateEl.classList.remove('show');gateEl.innerHTML='';
+    toast('Selamat datang, '+esc(ME.username)+'!');
+  }catch(e){appReady=false;throw e;}
+}
+function showGate(mode='login'){
+  gateSkeleton();
+  const g=gateEl.querySelector('#gbody');
+  g.innerHTML=`
+    <div class="subtabs" style="width:100%;margin-bottom:16px">
+      <button data-t="login" class="${mode==='login'?'active':''}" style="flex:1">Masuk</button>
+      <button data-t="daftar" class="${mode==='daftar'?'active':''}" style="flex:1">Daftar</button>
+    </div>
+    <form id="gform">
+      ${mode==='daftar'?`<label class="glabel">Nama pemain (unik)</label><input class="mp-inp" name="u" maxlength="16" required placeholder="mis. udin_gamer">`:''}
+      <label class="glabel">Email</label><input class="mp-inp" name="e" type="email" required placeholder="email@contoh.com">
+      <label class="glabel">Password (min. 6 karakter)</label><input class="mp-inp" name="p" type="password" required minlength="6">
+      <p class="gerr" id="gerr"></p>
+      <button class="btn red wfull" type="submit" style="margin-top:6px">${mode==='login'?'MASUK':'DAFTAR SEKARANG'}</button>
+    </form>`;
+  g.querySelectorAll('.subtabs button').forEach(b=>b.onclick=()=>showGate(b.dataset.t));
+  g.querySelector('#gform').onsubmit=async ev=>{
+    ev.preventDefault();
+    const f=ev.target,err=g.querySelector('#gerr'),btn=f.querySelector('button[type=submit]');
+    err.textContent='';btn.disabled=true;
+    try{
+      if(mode==='login'){
+        const {error}=await supa.auth.signInWithPassword({email:f.e.value.trim(),password:f.p.value});
+        if(error)throw new Error(error.message==='Invalid login credentials'?'Email atau password salah':error.message);
+        await enterApp();
+      }else{
+        const {error}=await supa.auth.signUp({email:f.e.value.trim(),password:f.p.value,options:{data:{username:f.u.value.trim()}}});
+        if(error)throw new Error(/Database error|profiles|duplicate/i.test(error.message)?'Username sudah dipakai, coba yang lain':error.message);
+        const {data:s2}=await supa.auth.getSession();
+        if(!s2?.session){err.textContent='Daftar berhasil — silakan masuk.';btn.disabled=false;return;}
+        await enterApp();
+      }
+    }catch(ex){err.textContent=ex.message;btn.disabled=false;}
+  };
+}
+
+/* ---------- 3) PIL USER DI HEADER + TOMBOL KELUAR ---------- */
+function updateUserPill(){
+  const hs=document.querySelector('.hstats');if(!hs)return;
+  let p=document.getElementById('pill-user');
+  if(!ME){if(p)p.remove();return;}
+  if(!p){p=document.createElement('div');p.className='pill';p.id='pill-user';hs.prepend(p);}
+  p.innerHTML=`${ic('user')}<b>${esc(ME.username)}</b><button class="pillout" id="btn-logout" title="Keluar akun">${ic('out')}</button>`;
+  const b=document.getElementById('btn-logout');
+  if(b)b.onclick=async e=>{e.stopPropagation();await supa.auth.signOut();};
+}
+
+/* ---------- 4) LEADERBOARD GLOBAL REAL-TIME ---------- */
+let LBCH=null,LBDATA=[],LBTOTAL=0;
+function myRankText(){
+  const i=LBDATA.findIndex(r=>r.user_id===ME.id);
+  return i>=0?`Peringkat kamu: #${i+1} dari ${LBTOTAL} pemain`:'Belum ada skor tercatat';
+}
+function fillLB(el){
+  const rows=LBDATA.slice(0,10);
+  el.innerHTML=rows.length?rows.map((e,i)=>`
+    <div class="lbrow ${e.user_id===ME.id?'me':''}">
+      <div class="lbrank">${i+1}</div>
+      <b class="lbname">${esc(e.username)}${e.user_id===ME.id?' (kamu)':''}</b>
+      <span class="lbdots"></span><b>${e.best}</b>
+    </div>`).join(''):`<p class="muted" style="padding:8px 0">Belum ada skor — jadilah yang pertama!</p>`;
+}
+async function lbLoad(){
+  if(!supa||!ME)return;
+  try{
+    const {data,count}=await supa.from('leaderboard').select('user_id,username,best',{count:'exact'})
+      .order('best',{ascending:false}).limit(100);
+    LBDATA=data||[];LBTOTAL=count||LBDATA.length;
+    const el=document.getElementById('lb');if(el)fillLB(el);
+    const meta=document.getElementById('lbmeta');if(meta)meta.textContent=myRankText();
+  }catch(e){}
+}
+function lbSubscribe(){
+  if(!supa)return;
+  if(LBCH){try{supa.removeChannel(LBCH);}catch(e){}}
+  LBCH=supa.channel('benkyou-live-lb')
+    .on('postgres_changes',{event:'*',schema:'public',table:'leaderboard'},()=>lbLoad())
+    .subscribe();
+}
+async function lbSubmit(score){
+  if(!supa||!ME||!Number.isFinite(score)||score<=0)return;
+  try{
+    const {data:row}=await supa.from('leaderboard').select('best').eq('user_id',ME.id).maybeSingle();
+    if(row&&row.best>=score)return;
+    await supa.from('leaderboard').upsert({user_id:ME.id,username:ME.username,best:score,updated_at:new Date().toISOString()});
+  }catch(e){}
+}
+
+/* ---------- 5) SPRINT SELESAI → KIRIM KE PAPAN GLOBAL (tanpa bot) ---------- */
+function endSprint(){
+  if(!sp||sp.done)return;
+  sp.done=true;clearInterval(sp.timer);
+  const xp=Math.floor(sp.score/2);
+  const prevBest=store.best;
+  if(sp.score>store.best){store.best=sp.score;sv('best',store.best);}
+  if(xp>0)addXP(xp);
+  lbSubmit(sp.score).then(()=>lbLoad());
+  showModal(`
+    <div class="rstamp">しゅうりょう</div>
+    <div class="rbig">${sp.score}<small> poin</small></div>
+    <p class="rsub">${sp.ok} benar · ${sp.ng} salah · combo terbaik ×${sp.maxMult}${sp.score>prevBest?' · <b style="color:var(--blue)">REKOR BARU!</b>':''}</p>
+    <div class="rxp">${ic('zap')} +${xp} XP</div>
+    <div class="rrank" id="mprank">${ic('trophy')} Menyimpan ke papan peringkat global…</div>
+    <div class="mrow">
+      <button class="btn red" id="magain">${ic('re')} Main lagi</button>
+      <button class="btn" id="mclose">Tutup</button>
+    </div>`);
+  document.getElementById('magain').onclick=()=>{closeModal();startSprint();};
+  document.getElementById('mclose').onclick=()=>{closeModal();renderView();};
+}
+
+/* ---------- 6) KOMPETISI: PAPAN LIVE MENGGANTIKAN BOT ---------- */
+function renderLB(w){const el=w.querySelector('#lb');if(el)fillLB(el);}
+function renderKyousou(w){
+  w.innerHTML=vhead('きょうそう','Kompetisi','きょうそう','Sprint 60 detik: pilih sumber soal, jawab sebanyak mungkin, dan rebut posisi di papan peringkat global yang update secara live.')+`
+  <div class="ky-grid">
+    <div class="panel" id="spbox"></div>
+    <div>
+      <div class="panel">
+        <h3>${ic('trophy')} Papan Peringkat Global <span class="mp-badge live-badge">● LIVE</span></h3>
+        <div id="lbmeta" class="muted" style="margin-bottom:6px">${ME?myRankText():''}</div>
+        <div id="lb"></div>
+      </div>
+      <p class="kynote">Papan ini <b>real-time</b>: begitu ada pemain lain menyelesaikan sprint dengan skor lebih tinggi, urutan langsung berubah tanpa refresh. Rekor sprint-mu otomatis tercatat di sini.</p>
+    </div>
+  </div>`;
+  renderLB(w);
+  renderSprintIdle(w);
+}
+VIEWS.kyousou.render=renderKyousou; /* ganti tampilan tab Kompetisi dengan versi live */
+
+/* ---------- 7) BOOT: CEK SESI → GATE ATAU MASUK ---------- */
+(async function bootGate(){
+  if(!supa){gateSetup();return;}
+  gateLoading();
+  try{
+    const {data}=await supa.auth.getSession();
+    if(data?.session?.user)await enterApp();else showGate('login');
+  }catch(e){showGate('login');}
+  supa.auth.onAuthStateChange(ev=>{
+    if(ev==='SIGNED_OUT'){appReady=false;ME=null;updateUserPill();showGate('login');}
+  });
+})();
+</script>
+  
+  
 </body>
 </html>
