@@ -2456,6 +2456,113 @@ VIEWS.profile={jp:'ぷろふ',label:'Profil',render:renderProfile};
 buildNav();
 updateUserPill();
 </script>
+
+  <!-- ===== PATCH: NAMA PERSISTEN + MOBILE UI ===== -->
+<style>
+@media(max-width:900px){
+  .brand-sub{display:none}
+  .brand-name{font-size:14px;letter-spacing:1px;white-space:nowrap}
+  .brand-mark{width:36px;height:36px;font-size:17px}
+  .hwrap{padding:10px 12px 6px;gap:8px;flex-wrap:wrap}
+  .hstats{width:100%;justify-content:flex-start;gap:6px}
+  .pill{padding:4px 10px;font-size:11.5px}
+  .pill b{max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pill .plab{display:none}
+  .xpbar{width:42px;height:6px}
+  .ntab{padding:7px 11px 9px}
+  .ntab .nk{font-size:12px}.ntab .nl{font-size:10px}
+  main{padding:20px 14px 48px}
+  .vhead{margin-bottom:18px}
+  .vhead h1{font-size:clamp(23px,6.4vw,32px)}
+  .vhead .vj{font-size:12px}
+  .vhead p{font-size:13px}
+  .watermark{top:-34px;font-size:clamp(36px,13vw,64px);right:0}
+  .panel{padding:15px 13px;border-radius:12px}
+  .panel h3{font-size:16.5px}
+  .subtabs{width:100%;margin-bottom:16px}
+  .subtabs button{flex:1;padding:8px;font-size:11.5px;white-space:nowrap}
+  .stat{flex:1 1 46%;padding:11px 12px}
+  .stat b{font-size:19px}
+  .btn{padding:10px 15px;font-size:13px}
+  .btn.sm{padding:6px 11px;font-size:12px}
+  .hinomaru{width:110px;height:110px}
+  .hinomaru span{font-size:10px;letter-spacing:2px}
+  .hero h2{font-size:clamp(22px,6.6vw,30px)}
+  .kana-grid{gap:6px}
+  .kcell .c{font-size:21px}
+  .kana-grid.g3 .kcell .c{font-size:18px}
+  .detail{padding:16px 14px}
+  .dc{font-size:64px}
+  .fbig{font-size:clamp(44px,13vw,64px)}
+  .qbig{min-height:100px}
+  .qbig .kq{font-size:clamp(40px,12vw,60px)}
+  .qopt{padding:12px 8px;font-size:13.5px}
+  .qopt.mnc{font-size:19px}
+  .spq{min-height:64px}
+  .sptimer{font-size:32px}
+  .mp-grid{grid-template-columns:1fr}
+  .mp-code{letter-spacing:6px}
+  .mp-pod .p{width:70px}
+  .mp-pod .p1{height:96px}.mp-pod .p2{height:82px}.mp-pod .p3{height:70px}
+  .lesson{gap:10px}
+  .lnum{width:38px;height:38px;font-size:16px}
+  .pj{font-size:16.5px}
+  .mbox{padding:22px 16px}
+  .foot{font-size:11.5px;padding:20px 14px 34px}
+  .mp-inp{font-size:16px}
+}
+@media(max-width:480px){
+  .krow{gap:8px;padding:10px 4px}
+  .kjp{min-width:0;flex:1 1 100%}
+  .krom{min-width:0}
+  .kid{flex:1 1 100%;order:5}
+  .blocks{gap:7px}
+  .blk{padding:6px 10px;font-size:13px}
+  .mp-pod .p{width:64px}
+  .qopts{gap:9px}
+}
+</style>
+<script>
+/* ===== PATCH: ganti nama tersimpan ke akun (profiles + metadata + progres) ===== */
+async function setDisplayName(v){
+  v=(v||'').trim(); if(!v) return;
+  store.name=v;
+  try{localStorage.setItem('bk_name',JSON.stringify(v))}catch(e){}
+  if(window.supa&&ME){
+    ME.username=v;
+    try{await supa.auth.updateUser({data:{username:v}});}catch(e){}
+    try{
+      const {error}=await supa.from('profiles').update({username:v}).eq('id',ME.id);
+      if(error)toast('Nama tampilan diubah, tapi username peringkat gagal: '+(error.code==='23505'?'nama sudah dipakai orang':error.message));
+    }catch(e){}
+    if(typeof pushProgress==='function')pushProgress();
+    updateUserPill();
+  }
+  if(typeof updateHeader==='function')updateHeader();
+  toast('Nama diubah menjadi '+v);
+}
+/* Wrapper: sinkronkan nama tampilan -> pill setiap kali pill digambar */
+if(typeof updateUserPill==='function'){
+  const _oldPill=updateUserPill;
+  updateUserPill=function(){
+    if(ME&&store.name&&store.name!=='Pelajar')ME.username=store.name;
+    _oldPill();
+  };
+}
+/* Intersep tombol pensil di Beranda (fase capture = jalan sebelum handler lama) */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('#editname');if(!b)return;
+  e.stopImmediatePropagation();e.preventDefault();
+  const h2=b.closest('h2'),span=h2?h2.querySelector('.nm'):null;
+  if(!span)return;
+  const inp=document.createElement('input');
+  inp.className='namein';inp.maxLength=16;inp.value=store.name;
+  span.replaceWith(inp);b.style.display='none';inp.focus();inp.select();
+  const done=()=>{const v=inp.value.trim();if(v){setDisplayName(v);if(typeof renderView==='function')renderView();}};
+  inp.onblur=done;
+  inp.onkeydown=ev=>{if(ev.key==='Enter')inp.blur();};
+},true);
+</script>
   
   
 </body>
