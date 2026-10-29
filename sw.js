@@ -1,7 +1,7 @@
 /* Benkyou Service Worker
    Kalau nanti update aplikasi, ganti 'benkyou-v1' jadi 'benkyou-v2'
    biar cache lama otomatis kehapus */
-const CACHE = 'benkyou-v1';
+const CACHE = 'benkyou-v3';
 const CORE = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', (e) => {
