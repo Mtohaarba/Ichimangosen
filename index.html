@@ -6657,5 +6657,65 @@ endSprint=function(){
 };
 })();
 </script>
+  <script>
+/* ============ PATCH: MUSIK TAMPIL UNTUK SEMUA AKUN ============ */
+(function(){
+  if(typeof muRowToSong!=='function'||typeof muPush!=='function'||typeof muRenderList!=='function')return;
+
+  /* 1) Baca pemilik lagu dari data cloud */
+  const _muRowToSong=muRowToSong;
+  muRowToSong=function(r,local){
+    const s=_muRowToSong(r,local);
+    s.user_id=r.user_id||'';
+    s.owner=r.username||'';
+    return s;
+  };
+
+  /* 2) Simpan nama pengunggah setelah lagu tersinkron ke akun */
+  const _muPush=muPush;
+  muPush=async function(s){
+    const ok=await _muPush(s);
+    if(ok&&typeof supa!=='undefined'&&supa&&window.ME){
+      try{await supa.from('songs').update({username:(window.ME.username||'')}).eq('id',s.id);}catch(e){}
+    }
+    return ok;
+  };
+
+  /* 3) Daftar lagu: label "oleh X" untuk lagu orang lain,
+        tombol Edit/Hapus hanya muncul di lagu milik sendiri */
+  const _muRenderList=muRenderList;
+  muRenderList=function(){
+    _muRenderList();
+    try{
+      const el=muEl('mu-list');if(!el)return;
+      el.querySelectorAll('.mu-item').forEach(it=>{
+        const s=muSong(it.dataset.id);if(!s)return;
+        const mine=!s.user_id||s.user_id===(window.ME&&window.ME.id);
+        if(!mine){
+          it.querySelectorAll('[data-act="edit"],[data-act="del"]').forEach(b=>b.remove());
+          const im=it.querySelector('.mu-im');
+          if(im&&!im.querySelector('.mu-owner')){
+            const t=document.createElement('span');
+            t.className='mu-owner';
+            t.style.cssText='display:block;font-size:10.5px;font-weight:800;color:var(--ink2);opacity:.75;margin-top:2px';
+            t.textContent='oleh '+(s.owner||'pemain lain');
+            im.appendChild(t);
+          }
+        }
+      });
+    }catch(e){}
+  };
+
+  /* 4) Pengaman: lagu orang lain tidak bisa dihapus */
+  const _muRemove=muRemove;
+  muRemove=async function(id){
+    const s=muSong(id);
+    if(s&&s.user_id&&s.user_id!==(window.ME&&window.ME.id)){
+      toast('Lagu ini milik '+(s.owner||'pemain lain')+' — tidak bisa dihapus');return;
+    }
+    return _muRemove(id);
+  };
+})();
+  </script>
 </body>
 </html>
