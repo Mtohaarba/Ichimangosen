@@ -5,7 +5,7 @@
    Jadi setiap edit langsung di GitHub → tinggal refresh → langsung tampil.
    Kalau nanti update sw.js ini lagi, selalu NAIKKAN angka versinya.
    ============================================================ */
-const VER = 'benkyou-v20';
+const VER = 'benkyou-v21';
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './intro-hp.mp4', './intro-laptop.mp4'];
 
 self.addEventListener('install', (e) => {
