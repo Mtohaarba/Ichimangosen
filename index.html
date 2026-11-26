@@ -9552,7 +9552,7 @@ if(window.__saib)return;window.__saib=1;
    Mau ganti key/model/bahasa bawaan? Ubah di sini, terus sebarkan ulang filenya.
    Catatan jujur: key di file statis bisa diekstrak orang yang paling ngerti —
    pantau kuota di AI Studio dan rotasi key kalau perlu. */
-var CFG_BAWAAN={prov:'gemini',key:'AQ.Ab8RN6LMSM1K5rhNv4BXo1gPedTl7wi0cIVnXCGHpuxQoym74g',model:'gemini-flash-lite-latest',bahasa:'id'};
+var CFG_BAWAAN={prov:'gemini',key:'AIzaSyDrfLnoN8uXwAmOFBUK9F4I-merRg9RGtk',model:'gemini-flash-lite-latest',bahasa:'id'};
 var cfg={prov:'gemini',key:'',model:'',base:'https://openrouter.ai/api/v1'};
 try{Object.assign(cfg,JSON.parse(localStorage.getItem('saib-cfg')||'{}'));}catch(e){}
 function saveCfg(){try{localStorage.setItem('saib-cfg',JSON.stringify(cfg));}catch(e){}}
@@ -9564,13 +9564,13 @@ var hist=[];
 
 var SYS='Kamu "Sensei AI", tutor bahasa Jepang di aplikasi belajar "Ichimangosen" untuk pelajar Indonesia (level N5-N3).\n'+
 'Gaya jawaban:\n'+
-'- Bahasa Indonesia santai tapi jelas, seperti kakak kelas yang sabar.\n'+
+'- Bahasa Indonesia santai tapi juga tegas,bisa juga bilang bahasa kasar dalam jepang juga di artikan ke indonesia.\n'+
 '- Kalau menulis bahasa Jepang, sertakan kanji + kana + romaji, contoh: 食べる (たべる, taberu) = makan.\n'+
 '- Jelaskan istilah teknis secara sederhana; analogi boleh dipakai.\n'+
-'- Kalau user menulis bahasa Jepang dan ada yang salah, koreksi dengan sopan: tunjukkan versi benar + alasan singkat.\n'+
+'- Kalau user menulis bahasa Jepang dan ada yang salah, koreksi dengan sopan/kasar (kalo salah berklai kali): tunjukkan versi benar + alasan singkat.\n'+
 '- Jawaban terstruktur dan ringkas: pakai poin/daftar kalau cocok, jangan bertele-tele, tapi lengkap.\n'+
 '- Kalau diminta membuat soal, tulis soalnya dulu, lalu kunci jawaban + pembahasan di bagian bawah dengan judul "Kunci Jawaban".\n'+
-'- Kalau dibawa ke topik di luar belajar bahasa Jepang/budaya Jepang, alihkan dengan santai kembali ke belajar.\n'+
+'- Kalau dibawa ke topik di luar belajar bahasa Jepang/budaya Jepang,tanya dulu enak nya mau ngobrol atau ngobrol dulu.\n'+
 'Info app: tab-nya Kana (hiragana/katakana), Kotoba (kosakata per level), Verba (konjugasi), Kanji (494 kanji + animasi goresan), Bunpou (grammar), Kaiwa, Kompetisi, Modul, Musik.';
 
 function sysBahasa(k){
@@ -9658,7 +9658,7 @@ function addMsg(role,text,who){
   msgs.appendChild(d);scrollEnd();return d;
 }
 function welcome(){
-  addMsg('a','Halo! Aku **Sensei AI** — tutor bahasa Jepang-Indonesia lu di app ini. **AI-nya udah aktif bawaan** — gak perlu setel apa-apa, langsung tanya aja: jelasin bunpou, bikin soal latihan, perbaiki kalimat, tips hafal kanji, cerita pendek N5.\nMau ganti bahasa jawaban (English / 日本語 / otomatis)? Buka ⚙ Pengaturan → **Bahasa jawaban**.');
+  addMsg('a','Halo! gua**Sensei AI** — tutor bahasa Jepang-Indonesia lu di app ini. **AI-nya udah aktif bawaan** — gak perlu setel apa-apa, langsung tanya aja: jelasin bunpou, bikin soal latihan, perbaiki kalimat, tips hafal kanji, cerita pendek N5.\nMau ganti bahasa jawaban (English / 日本語 / otomatis)? Buka ⚙ Pengaturan → **Bahasa jawaban**.');
 }
 var CHIPS=['Bikin 5 soal latihan N5','Jelaskan beda wa dan ga','Tips hafal kanji cepat','Cerita pendek level N5','Perbaiki kalimatku'];
 CHIPS.forEach(function(c){
